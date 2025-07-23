@@ -31,18 +31,18 @@ def flowShopSolver(processing_time_matrix,order):
     Makespan = completion_time_matrix[totalJobs-1][totalMachines-1]
     return [TFT, Makespan]
 
-processing_time_matrix = [[5,3,8,4],
-              [6,2,6,3],
-              [8,8,4,7],
-              [9,3,4,1],
-              [6,4,8,3]]
+processing_time_matrix = [  [5,3,8,4],
+                            [6,2,6,3],
+                            [8,8,4,7],
+                            [9,3,4,1],
+                            [6,4,8,3]]
 
-# order = [1,4,0,3,2]
+order = [1,4,0,3,2]
 
 
-# l = flowShopSolver(processing_time_matrix, order)
+l = flowShopSolver(processing_time_matrix, order)
 
-# print(f"Makespan: {l[1]} || Total Flow Time: {l[0]}")
+print(f"Makespan: {l[1]} || Total Flow Time: {l[0]}")
 
 
 
