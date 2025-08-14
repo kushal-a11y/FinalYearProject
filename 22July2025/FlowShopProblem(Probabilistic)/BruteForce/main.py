@@ -37,12 +37,12 @@ processing_time_matrix = [  [5,3,8,4],
                             [9,3,4,1],
                             [6,4,8,3]]
 
-order = [1,4,0,3,2]
+order = [0, 4, 2, 1, 3]
 
 
 l = flowShopSolver(processing_time_matrix, order)
 
-print(f"Makespan: {l[1]} || Total Flow Time: {l[0]}")
+# print(f"Makespan: {l[1]} || Total Flow Time: {l[0]}")
 
 
 
