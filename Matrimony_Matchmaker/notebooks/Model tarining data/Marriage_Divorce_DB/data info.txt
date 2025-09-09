@@ -1,0 +1,72 @@
+1. Age Gap [0–10]
+    A. Source: abs(age_male - age_female) (years).
+    B. Formula: paper range 0–10 — 
+       use age_gap = min(abs(a1-a2), 10) so it matches dataset. If you want similarity rather than gap: age_similarity = 100 * (1 - (age_gap/10)). But paper lists Age Gap as [0 10] (gap), so store gap.
+    C. Input: ages.
+
+2. Education [1–5]
+    A. Source: map both educations to 1–5 (see Education_Level mapping).
+    B. For pair usage: you can store either both or compute similarity:
+    edu_diff = abs(e1 - e2)
+    edu_similarity = 100 * (1 - (edu_diff / 4)) → 100 if same; 0 if one is School and other is PhD.
+    C. Input: degree level (choose from list).
+
+3. Economic Similarity [1–100]
+    A. Source: use numeric incomes if available; else infer income from profession + education.
+    B. Formula (recommended):
+    convert incomes to log scale (to reduce skew): Ilog = log(1 + income)
+    econ_sim = 100 * (1 - abs(Ilog1 - Ilog2) / max_Ilog_diff)
+    where max_Ilog_diff is observed across your user base (or set as log(1+max_income) e.g., max_income = ₹5,000,000). Clip 0–100.
+    If incomes absent: estimate income_est = median_income_by_profession[profession] then apply same formula.
+    C. Input: numerical income preferred; else profession+education.
+
+4. Social Similarities [1–100]
+    A. Source: proxy by matching: education similarity, profession match, urban_rural match, and social class proxy (income level).
+    B. Formula (weighted sum):
+    edu_sim = 1 - abs(e1-e2)/4    # in [0,1]
+    prof_sim = 1 if same profession_family else 0
+    urban_sim = 1 if same urban_rural else 0
+    income_sim = 1 - abs(Ilog1-Ilog2)/max_Ilog_diff
+    social_sim = 100 * (0.4*edu_sim + 0.3*prof_sim + 0.2*income_sim + 0.1*urban_sim)
+    Tune weights to your domain.
+    C. Input: profession, education, income, urban_rural.
+
+5. Cultural Similarities [1–100]
+    A. Source: mother_tongue, state/region, caste/community, festival/ritual preferences (if available).
+    B. Formula (weighted):
+    lang_sim = 1 if mother_tongue same else 0
+    region_sim = 1 if same state or same zone else 0.5 if neighboring states
+    caste_sim = 1 if same caste_group else 0
+    cultural_sim = 100 * (0.5*lang_sim + 0.3*caste_sim + 0.2*region_sim)
+    Alternate: include religion separately.
+    C. Input: mother tongue, state, caste/subcaste.
+
+6. Social Gap [1–100]
+    Paper lists Social Gap; assume it measures social distance (higher = larger gap). We can derive:
+    A. Source: inverse of Social Similarities.
+    B. Formula: social_gap = 100 - social_sim (or compute directly from education/income/profession distance).
+    C. Input: same as Social Similarities.
+
+7. Religion Compatibility [1–100]
+    A. Source: same/different religion; if you have sect information (Sunni/Shia, Hindu sect), increase granularity.
+    B. Formula (simple):
+    if same_religion: religion_compatibility = 100
+    elif both_religions_compatible_by_profile( e.g., interfaith-friendly flag): religion_compatibility = 50
+    else: religion_compatibility = 0 or low value like 10
+    If you have sect similarity mapping, you can assign intermediate scores (e.g., Hindu-Sikh: 60).
+    C. Input: religion and optional sect/sub-denomination; also interfaith_openness questionnaire (recommended).
+
+8. Independency [1–2]
+    A. Source: collect directly: Dependent / Independent or infer from living_with_parents + income_contribution.
+    B. Formula: map Dependent→1, Independent→2 (paper uses 1–2).
+    C. Input: a direct field in profile.
+
+9. Addiction [1–5]
+    A. Source: profile self-report: none/occasional/moderate/high/severe. Map to 1–5.
+
+10. Height Ratio [1–100]
+    A. Source: compute height ratio h_ratio = min(h1,h2)/max(h1,h2) then map to 1–100: 100 * h_ratio. If you need paper scaling, clip to 1..100.
+
+Target: Divorce Probability (target)
+    This is the dataset label. For your app you will train a model with computed features above and target from dataset. 
+    For your own data you can use compatibility score or predicted divorce probability as your compatibility proxy.
