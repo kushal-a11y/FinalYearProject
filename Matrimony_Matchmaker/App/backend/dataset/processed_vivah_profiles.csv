@@ -1,0 +1,301 @@
+Religion,Caste,Mother Tongue,Profession,Education,Age,Height in cm,Height_ft_in,Country,State,City,Gender,Income,Independency,Previous Marriage,Addiction
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Low,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Medium,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,High,0,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Low,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Medium,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,High,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Low,1,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Medium,0,Yes
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Low,0,Yes
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,High,1,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,Medium,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,High,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Low,0,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,High,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,High,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,Low,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Low,1,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,High,1,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Low,1,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,High,1,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Low,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,Low,1,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,High,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,High,1,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,High,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Medium,1,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,High,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,High,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,High,1,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Low,1,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Medium,0,Yes
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Low,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,Yes
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,High,0,Yes
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Low,1,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Low,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,High,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,High,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,High,1,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,High,0,Yes
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Low,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Medium,0,Yes
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Low,1,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Low,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Medium,1,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Low,1,Yes
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Low,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Low,0,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Medium,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Medium,0,Yes
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,High,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Medium,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Medium,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Medium,1,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Low,0,Yes
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Medium,1,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Low,0,Yes
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Low,0,Yes
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,High,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Low,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,High,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Medium,0,Yes
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,High,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,High,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Medium,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,High,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Medium,1,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,Medium,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Medium,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,High,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,High,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Low,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,Low,0,Yes
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Low,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,High,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,High,0,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Low,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Low,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,High,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,Yes
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,High,1,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,High,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,High,1,Yes
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,Low,0,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Low,1,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Low,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Medium,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,High,1,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,High,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,Low,0,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Low,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Low,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Medium,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Low,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Low,0,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,High,1,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,High,0,Yes
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Medium,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,High,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,1,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,High,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Low,1,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,Low,1,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,High,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,High,1,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Low,1,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,0,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Low,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Low,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,1,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,High,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Low,1,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,1,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,High,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,Medium,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,High,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Low,1,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Low,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Low,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,High,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,High,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,High,0,Yes
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Low,0,Yes
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,1,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,1,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Low,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,Medium,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,High,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Low,1,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Low,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,High,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,Medium,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Medium,0,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,High,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,High,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,0,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Male,Low,Low,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Low,0,Yes
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Medium,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,High,0,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Low,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,Medium,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Low,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Low,0,Yes
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,High,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Low,1,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Medium,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,High,0,Yes
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,High,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,High,1,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,High,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,High,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Low,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Female,High,High,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Female,Low,Low,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,Medium,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,High,0,Yes
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Female,Low,Low,0,Yes
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,High,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,Medium,0,Yes
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,High,1,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Low,0,Yes
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Female,Low,Low,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Female,High,High,1,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Female,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Male,Low,High,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Medium,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Low,1,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Male,Low,Medium,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Female,Low,High,0,No
+hindu,maratha,english,scientist,Postgraduate,26,162,5ft 4in,india,maharashtra,navi mumbai,Male,High,Medium,0,No
+muslim,hanafi,urdu,not working,Graduate,21,154,5ft 1in,india,telangana,hyderabad,Male,Low,Low,0,No
+hindu,brahmin himachali,hindi,not working,Graduate,35,162,5ft 4in,india,himachal pradesh,shimla,Male,Low,High,0,No
+hindu,koli,kannada,doctor,Postgraduate,30,162,5ft 4in,india,karnataka,bidar,Male,High,Low,0,No
+hindu,kuruba,kannada,admin/ front office,Graduate,30,162,5ft 4in,india,karnataka,bangalore,Male,Low,Medium,0,No
+hindu,brahmin,punjabi,not working,School,35,152,5ft 0in,india,delhi,new delhi,Female,Low,Low,0,No
+buddhist,buddhist,marathi,other,Other,33,157,5ft 2in,india,maharashtra,wardha,Male,Low,Low,0,No
+hindu,rajput,kumoani,consultant,Postgraduate,32,162,5ft 4in,india,uttar pradesh,greater noida,Female,Low,Medium,0,No
+hindu,vishwakarma,bhojpuri,chartered accountant,Graduate,35,152,5ft 0in,india,jharkhand,jamshedpur,Female,Low,Low,0,No
+hindu,brahmin gour,hindi,not working,Graduate,22,132,4ft 4in,india,odisha,cuttack,Male,Low,Low,0,Yes
