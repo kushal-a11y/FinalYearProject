@@ -1,0 +1,11 @@
+Feature,Test_Type,P_Value,Justifiable_Representative
+Age_at_Marriage,T-Test (Mean Comparison),0.3723,Yes (P >0.05)
+Gender,Chi-Square (Distribution),0.3107,Yes (P >0.05)
+Education_Level,Chi-Square (Distribution),0.6091,Yes (P >0.05)
+Caste_Match,Chi-Square (Distribution),0.3729,Yes (P >0.05)
+Religion,Chi-Square (Distribution),0.9689,Yes (P >0.05)
+Urban_Rural,Chi-Square (Distribution),0.2822,Yes (P >0.05)
+Income_Level,Chi-Square (Distribution),0.4548,Yes (P >0.05)
+Spouse_Working,Chi-Square (Distribution),0.8027,Yes (P >0.05)
+Inter-Caste,Chi-Square (Distribution),0.8757,Yes (P >0.05)
+Inter-Religion,Chi-Square (Distribution),0.8554,Yes (P >0.05)
