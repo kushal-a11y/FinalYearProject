@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard: User Profiles & Preferences</title>
+    <style>
+        /* General Body and Container Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        /* Profile Card Styling */
+        .profile-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-top: 5px solid #ff4560; /* Matrimony theme color */
+            transition: transform 0.2s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .profile-header h2 {
+            margin: 0;
+            color: #333;
+            font-size: 1.5em;
+        }
+
+        .profile-header .user-id {
+            font-size: 0.9em;
+            color: #777;
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .profile-details p {
+            margin: 5px 0;
+            font-size: 0.95em;
+            color: #555;
+            display: grid;
+            grid-template-columns: 100px 1fr;
+        }
+
+        .profile-details span {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Preference Section Styling (Hidden by Default) */
+        .preferences {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            background: #fff8f8; /* Light background for preference section */
+            padding: 15px;
+            border-radius: 8px;
+            display: none; /* KEY: Hidden by default */
+        }
+
+        .preferences h3 {
+            color: #ff4560;
+            margin-top: 0;
+            font-size: 1.1em;
+            border-bottom: 2px solid #ff4560;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .preferences p {
+            color: #444;
+            font-size: 0.9em;
+        }
+
+        /* Button Styling */
+        .toggle-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Dashboard - Inserted Profiles</h1>
+
+    <div class="dashboard-container" id="profileContainer">
+        {% for user in users %}
+            {% set profile = user %}
+            {% set prefs = user.preference %}
+
+            <div class="profile-card">
+                <div class="profile-header">
+                    <h2>{{ profile.gender or 'N/A' }} ({{ profile.age or 'N/A' }})</h2>
+                    <span class="user-id">ID: {{ profile.user_id }}</span>
+                </div>
+                <div class="profile-details">
+                    <p>Caste: <span>{{ profile.caste or 'N/A' }}</span></p>
+                    <p>Religion: <span>{{ profile.religion or 'N/A' }}</span></p>
+                    <p>Profession: <span>{{ profile.profession or 'N/A' }}</span></p>
+                    <p>Residence: <span>{{ profile.residence or 'N/A' }}</span></p>
+                    <p>Height: <span>{{ profile.height_cm | round(1) or 'N/A' }} cm</span></p>
+                </div>
+                
+                <div class="preferences" id="prefs-{{ profile.user_id }}">
+                    <h3>Partner Preferences</h3>
+                    {% if prefs %}
+                        <p>Pref. Age: <span>{{ prefs.age or 'N/A' }}</span></p>
+                        <p>Pref. Gender: <span>{{ prefs.gender or 'N/A' }}</span></p>
+                        <p>Pref. Education: <span>{{ prefs.education or 'N/A' }}</span></p>
+                        <p>Pref. Caste: <span>{{ prefs.caste or 'N/A' }}</span></p>
+                        <p>Pref. Profession: <span>{{ prefs.profession or 'N/A' }}</span></p>
+                    {% else %}
+                        <p>No preference data available for this user.</p>
+                    {% endif %}
+                </div>
+
+                <button class="toggle-btn" onclick="togglePreferences({{ profile.user_id }})">Show Preferences</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Function to toggle the visibility of the preferences section
+        function togglePreferences(userId) {
+            const prefsDiv = document.getElementById(`prefs-${userId}`);
+            const button = document.querySelector(`.profile-card button[onclick="togglePreferences(${userId})"]`);
+
+            if (prefsDiv.style.display === 'none' || prefsDiv.style.display === '') {
+                prefsDiv.style.display = 'block';
+                button.textContent = 'Hide Preferences';
+                button.style.backgroundColor = '#dc3545'; /* Red for 'Hide' */
+            } else {
+                prefsDiv.style.display = 'none';
+                button.textContent = 'Show Preferences';
+                button.style.backgroundColor = '#007bff'; /* Blue for 'Show' */
+            }
+        }
+    </script>
+
+</body>
+</html>
