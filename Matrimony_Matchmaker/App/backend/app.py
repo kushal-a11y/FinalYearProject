@@ -1,109 +1,37 @@
-from flask import Flask, request, jsonify
-from db import get_connection
+from flask import Flask,render_template
+from db import app, db
+from models.user_profile import UserProfile
+from models.preference_profile import PreferenceProfile
+from services.data_insertion import insert_user_profiles, insert_preference_profiles
 
-app = Flask(__name__)
+@app.route('/')
+def home():
+    return "💍 Matrimonial Matchmaking API is running!"
 
-@app.route("/api/Admin/profiles", methods=["GET"])
-def getProfiles():
-    conn = db.get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM profiles")
-    profiles = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return jsonify(profiles)
-
-@app.route("/api/profiles/search", methods=["POST",])
-def search_partner():
-    filters = request.json
-    query = "SELECT * from profiles where 1=1"
-    params = []
-
-    # Religion
-    if "Religion" in filters:
-        query += " AND religion = %s"
-        params.append(filters["Religion"])
-
-    # Caste
-    if "Caste" in filters:
-        query += " AND caste = %s"
-        params.append(filters["Caste"])
-
-    # Mother Tongue
-    if "Mother_Tongue" in filters:
-        query += " AND mother_tongue = %s"
-        params.append(filters["Mother_Tongue"])
-
-    # Profession
-    if "Profession" in filters:
-        query += " AND profession = %s"
-        params.append(filters["Profession"])
-
-    # Education
-    if "Education" in filters:
-        query += " AND education = %s"
-        params.append(filters["Education"])
-
-    # Age range
-    if "AgeMin" in filters and "AgeMax" in filters:
-        query += " AND age BETWEEN %s AND %s"
-        params.extend([filters["AgeMin"], filters["AgeMax"]])
-
-    # Height range (in cm)
-    if "HeightMin" in filters and "HeightMax" in filters:
-        query += " AND height_cm BETWEEN %s AND %s"
-        params.extend([filters["HeightMin"], filters["HeightMax"]])
-
-    # Country
-    if "Country" in filters:
-        query += " AND country = %s"
-        params.append(filters["Country"])
-
-    # State
-    if "State" in filters:
-        query += " AND state = %s"
-        params.append(filters["State"])
-
-    # City
-    if "City" in filters:
-        query += " AND city = %s"
-        params.append(filters["City"])
-
-    # Gender
-    if "Gender" in filters:
-        query += " AND gender = %s"
-        params.append(filters["Gender"])
-
-    # Income
-    if "Income" in filters:
-        query += " AND income = %s"
-        params.append(filters["Income"])
-
-    # Independency
-    if "Independency" in filters:
-        query += " AND independency = %s"
-        params.append(filters["Independency"])
-
-    # Previous Marriage
-    if "Previous_Marriage" in filters:
-        query += " AND previous_marriage = %s"
-        params.append(filters["Previous_Marriage"])
-
-    # Addiction
-    if "Addiction" in filters:
-        query += " AND addiction = %s"
-        params.append(filters["Addiction"])
-
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute(query,tuple(params))
-    results = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    
-    return jsonify(results) 
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    try:
+        all_users = db.session.execute(
+            db.select(UserProfile).options(db.joinedload(UserProfile.preference))
+        ).scalars().all()
+        
+        return render_template('admin_dashboard.html', users=all_users)
+        
+    except Exception as e:
+        # Simple error handling for database issues
+        return f"Database Error: Could not fetch data. Ensure tables are created and data is inserted. Error: {e}", 500
 
 
+@app.route('/init-db')
+def init_db():
+    db.create_all()
+    return "Tables created successfully!"
 
-if __name__ == "__main__":
+@app.route('/insert-data')
+def insert_data():
+    insert_user_profiles('D:/FinalYearProject/Matrimony_Matchmaker/App/backend/uploads/user_profiles.csv')
+    insert_preference_profiles('D:/FinalYearProject/Matrimony_Matchmaker/App/backend/uploads/user_preferences.csv')
+    return "Inserted 100 records from Excel files!"
+
+if __name__ == '__main__':
     app.run(debug=True)

@@ -4,3 +4,11 @@
 *.joblib
 *.h5
 *.pt
+
+venv/
+env/
+ENV/
+.venv/
+.pyenv/
+*.pyc
+__pycache__/
