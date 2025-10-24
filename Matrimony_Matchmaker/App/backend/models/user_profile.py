@@ -16,6 +16,12 @@ class UserProfile(db.Model):
     extras = db.Column('Extras', JSON)
     matches = db.Column('Matches', JSON)
 
+    #Applicable for user registration
+    name = db.Column('Name', db.String(100), nullable=True)
+    email = db.Column('Email', db.String(100), nullable=True)
+    password = db.Column('Password', db.String(255), nullable=True)
+    last_logged_in = db.Column('LastLoggedIn', db.DateTime, nullable=True)
+    
     preference = db.relationship('PreferenceProfile', backref='user', uselist=False, cascade="all, delete")
 
     def __repr__(self):
