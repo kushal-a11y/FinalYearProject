@@ -1,8 +1,15 @@
 from flask import Flask,render_template,jsonify, redirect, url_for
 from db import app, db
+import random, string
 from models.user_profile import UserProfile
+from datetime import datetime
+from wekzeug.security import generate_password_hash
 from models.preference_profile import PreferenceProfile
 from services.data_insertion import insert_user_profiles, insert_preference_profiles
+
+from routes.user_routes import user_bp
+
+app.register.blueprint(user_bp, url_prefix='/user')
 
 @app.route('/')
 def home():
@@ -20,7 +27,6 @@ def admin_dashboard():
     except Exception as e:
         # Simple error handling for database issues
         return f"Database Error: Could not fetch data. Ensure tables are created and data is inserted. Error: {e}", 500
-
 
 @app.route('/init-db')
 def init_db():
@@ -71,6 +77,8 @@ def update_religion():
     except Exception as e:
         db.session.rollback()
         return f"Error updating religions: {e}", 500
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
