@@ -8,20 +8,19 @@ from models.preference_profile import PreferenceProfile
 from services.data_insertion import insert_user_profiles, insert_preference_profiles
 
 from routes.user_routes import user_bp
+from routes.preference_routes import preference_bp
 
 app.register_blueprint(user_bp, url_prefix='/user')
+app.register_blueprint(preference_bp, url_prefix='/preference')
 
 @app.route('/')
 def home():
     return "💍 Matrimonial Matchmaking API is running!"
 
-@app.route('/registerMe')
+@app.route('/registerPage')
 def registerMe():
     return render_template('register.html')
 
-@app.route('/loginPage')
-def loginPage():
-    return render_template('login.html')
 
 @app.route('/complete_profile/<int:user_id>')
 def complete_profile(user_id):

@@ -23,6 +23,12 @@ class UserProfile(db.Model):
     last_logged_in = db.Column('LastLoggedIn', db.DateTime, nullable=True)
     
     preference = db.relationship('PreferenceProfile', backref='user', uselist=False, cascade="all, delete")
-
+    
+    @property
+    def profile_complete(self):
+        # Profile is complete if all these fields are filled
+        required_fields = ['name','age','gender','education','caste','profession','religion','residence','height_cm']
+        return all(getattr(self, f) for f in required_fields)
+        
     def __repr__(self):
         return f"<UserProfile(user_id={self.user_id}, gender={self.gender}, profession={self.profession})>"
