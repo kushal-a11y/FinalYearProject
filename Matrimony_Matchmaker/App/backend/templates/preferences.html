@@ -14,7 +14,7 @@
     .progress-text { font-size: 14px; color: #8b7d78; margin-bottom: 12px; font-weight: 500; }
     .progress-bar { width: 100%; height: 4px; background: #e8ddd8; border-radius: 2px; overflow: hidden; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, #d4526e, #c9445a); border-radius: 2px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-    .modal-wrapper { position: relative; height: 320px; display: flex; align-items: center; justify-content: center; }
+    .modal-wrapper { position: relative; height: 400px; display: flex; align-items: center; justify-content: center; }
     .modal { position: absolute; width: 100%; background: #ffffff; padding: 48px 32px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); text-align: center; opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
     .modal.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
     .modal.exit { opacity: 0; transform: translateY(-20px) scale(0.95); }
@@ -41,29 +41,30 @@
 <body>
 
 <div class="container">
-  <!-- Progress Section -->
   <div class="progress-section">
     <div class="progress-text">
-      <span id="current-field">1</span> of <span id="total-fields">5</span>
+      <span id="current-field">1</span> of <span id="total-fields">9</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill" id="progress-fill"></div>
     </div>
   </div>
 
-  <!-- Modal Container -->
   <div class="modal-wrapper" id="modal-container"></div>
 </div>
 
 <script>
   const userId = "{{ user_id }}";
-
   const preferenceFields = [
     { key: "preferred_age_min", label: "Minimum Age", type: "number", placeholder: "Enter minimum age" },
     { key: "preferred_age_max", label: "Maximum Age", type: "number", placeholder: "Enter maximum age" },
+    { key: "preferred_gender", label: "Preferred Gender", type: "select", options: ["Select Gender", "Male", "Female", "Other"] },
+    { key: "preferred_education", label: "Preferred Education", type: "text", placeholder: "Enter preferred education" },
+    { key: "preferred_profession", label: "Preferred Profession", type: "text", placeholder: "Enter preferred profession" },
     { key: "preferred_caste", label: "Preferred Caste", type: "text", placeholder: "Enter preferred caste" },
     { key: "preferred_religion", label: "Preferred Religion", type: "text", placeholder: "Enter preferred religion" },
-    { key: "preferred_residence", label: "Preferred City/Residence", type: "text", placeholder: "Enter preferred residence" }
+    { key: "preferred_residence", label: "Preferred Residence", type: "text", placeholder: "Enter preferred city/residence" },
+    { key: "preferred_height_cm", label: "Preferred Height (cm)", type: "number", placeholder: "Enter height in cm" }
   ];
 
   let currentIndex = 0;
@@ -83,7 +84,7 @@
     let inputHTML = '';
     if (field.type === "select") {
       inputHTML = `<select id="input-${field.key}">
-        ${field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+        ${field.options.map(opt => `<option value="${opt === 'Select Gender' ? '' : opt}">${opt}</option>`).join('')}
       </select>`;
     } else {
       inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}">`;
@@ -106,7 +107,6 @@
 
     const container = document.getElementById('modal-container');
     const existingModal = container.querySelector('.modal.active');
-
     if (existingModal) {
       existingModal.classList.remove('active');
       existingModal.classList.add('exit');
@@ -124,21 +124,17 @@
 
   function saveField(key) {
     const value = document.getElementById(`input-${key}`).value.trim();
-    formData[key] = value; // allow empty value for skipping
+    formData[key] = value; // allow skipping with empty
     proceedToNext();
   }
 
-  function skipField() {
-    proceedToNext();
-  }
+  function skipField() { proceedToNext(); }
 
   function proceedToNext() {
     if (currentIndex < preferenceFields.length - 1) {
       currentIndex++;
       renderModal(currentIndex);
-    } else {
-      submitPreferences();
-    }
+    } else { submitPreferences(); }
   }
 
   function showCompletion() {
@@ -157,12 +153,11 @@
   async function submitPreferences() {
     showCompletion();
     try {
-      const res = await fetch(`/preference/preferences/${userId}`, {
+      await fetch(`/preference/preferences/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
-      const data = await res.json();
       setTimeout(() => { window.location.href = `/user/dashboard/${userId}`; }, 2000);
     } catch (error) {
       console.error('Error:', error);
@@ -172,6 +167,5 @@
 
   renderModal(currentIndex);
 </script>
-
 </body>
 </html>

@@ -85,6 +85,17 @@
       padding: 32px 20px;
       overflow-y: auto;
       border-right: 1px solid var(--border);
+      /* Added flex properties for bottom placement */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* Space out top buttons and bottom button */
+    }
+
+    .sidebar-menu {
+        /* Wrapper to group top buttons */
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Allows the menu to take up available space */
     }
 
     .sidebar.open {
@@ -122,6 +133,37 @@
       color: white;
       transform: translateX(6px);
     }
+
+    /* ===== LOGOUT BUTTON STYLING (NEW) ===== */
+    .logout-btn-special {
+        /* Override default styles for a subtle bottom-aligned link */
+        width: 100%; /* Keep it full width */
+        margin-top: auto; /* Push to the bottom */
+        margin-bottom: 0;
+        border-top: 1px solid var(--border); /* Optional: separator line */
+        padding: 15px 14px; /* Slightly larger padding */
+        
+        /* Initial state: Red text, clear background */
+        color: var(--primary-dark) !important;
+        background: var(--white) !important;
+        font-weight: 600;
+        
+        /* Remove icon, only text desired */
+        justify-content: center;
+        gap: 0;
+        
+        /* Ensure it's not shifted or rounded at the bottom */
+        border-radius: 0 0 var(--radius) var(--radius);
+    }
+    
+    .logout-btn-special:hover {
+        /* Subtle hover: Change text color and a hint of background, NO shift */
+        background: var(--primary-light) !important; /* Subtle background color change */
+        color: var(--primary-dark) !important; /* Keep text color similar or darker */
+        transform: none !important; /* Crucial: Remove the translateX(6px) shift */
+        opacity: 0.9;
+    }
+
 
     /* ===== CONTENT ===== */
     .content {
@@ -258,24 +300,28 @@
 </head>
 
 <body>
-  <!-- ===== HEADER ===== -->
   <header>
     <span class="menu-icon" onclick="toggleSidebar()">☰</span>
     <h1>Matrimony Dashboard</h1>
   </header>
 
   <div class="container">
-    <!-- ===== SIDEBAR ===== -->
     <div class="sidebar" id="sidebar">
-      <h2>Hello, {{ user.name or user.email }}</h2>
-      <button onclick="openProfile()">👤 View Profile</button>
-      <button onclick="givePerferences()">💞 Find Matches</button>
-      <button onclick="alert('Settings page coming soon!')">⚙️ Settings</button>
-      <button onclick="alert('Messages coming soon!')">💬 Messages</button>
-      <button onclick="logout()">🚪 Logout</button>
+      <div class="sidebar-menu">
+        <h2>Hello, {{ user.name or user.email }}</h2>
+        <button onclick="openProfile()">👤 View Profile</button>
+        <button onclick="givePerferences()">💞 Find Matches</button>
+        <button onclick="alert('Settings page coming soon!')">⚙️ Settings</button>
+        <button onclick="alert('Messages coming soon!')">💬 Messages</button>
+      </div>
+      <button 
+        onclick="logout()" 
+        class="logout-btn-special"
+      >
+        Logout
+      </button>
     </div>
 
-    <!-- ===== CONTENT ===== -->
     <div class="content">
       <h2>Welcome, {{ user.name or user.email }}</h2>
       <p>
@@ -285,7 +331,6 @@
     </div>
   </div>
 
-  <!-- ===== PROFILE POPUP ===== -->
   <div class="overlay" id="overlay" onclick="closeProfile()"></div>
 
   <div class="profile-popup" id="profilePopup">
