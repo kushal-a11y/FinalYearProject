@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from flask_mail import Message
@@ -43,6 +43,10 @@ def register_user():
         'user_id': new_user.user_id
     }), 201
 
+@user_bp.route('/loginPage')
+def loginPage():
+    return render_template('login.html')
+
 
 @user_bp.route('/login', methods=['POST'])
 def login_user():
@@ -59,9 +63,17 @@ def login_user():
 
     return jsonify({
         'message': 'Login successful',
-        'user_id': user.user_id
+        'user_id': user.user_id,
+        'profile_complete': all([user.name, user.age, user.gender, user.education, user.caste, user.profession, user.religion, user.residence, user.height_cm])
     }), 200
 
+@user_bp.route('/complete-profile/<int:user_id>', methods=['GET'])
+def show_complete_profile(user_id):
+    user = UserProfile.query.get(user_id)
+    if not user:
+        return "User not found", 404
+
+    return render_template('complete_profile.html', user_id=user.user_id, user=user)
 
 @user_bp.route('/complete-profile/<int:user_id>', methods=['POST'])
 def complete_profile(user_id):
@@ -76,3 +88,10 @@ def complete_profile(user_id):
 
     db.session.commit()
     return jsonify({'message': 'Profile updated successfully'}), 200
+
+@user_bp.route('/dashboard/<int:user_id>')
+def dashboard(user_id):
+    user = UserProfile.query.get(user_id)
+    if not user:
+        return "User not found", 404
+    return render_template('dashboard.html', user=user)
