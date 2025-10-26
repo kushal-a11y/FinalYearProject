@@ -1,5 +1,6 @@
 from flask import Flask,render_template,jsonify, redirect, url_for
 from db import app, db
+from sqlalchemy.orm import joinedload
 import random, string
 from models.user_profile import UserProfile
 from datetime import datetime
@@ -18,20 +19,25 @@ def home():
 def registerMe():
     return render_template('register.html')
 
+@app.route('/loginPage')
+def loginPage():
+    return render_template('login.html')
 
+@app.route('/complete_profile/<int:user_id>')
+def complete_profile(user_id):
+    return render_template('complete_profile.html', user_id=user_id)
 
 @app.route('/admin/dashboard')
 def admin_dashboard():
     try:
-        all_users = db.session.execute(
-            db.select(UserProfile).options(db.load(UserProfile.preference))
-        ).scalars().all()
-        
+        all_users = (
+            db.session.query(UserProfile)
+            .options(joinedload(UserProfile.preference))
+            .all()
+        )
         return render_template('admin_dashboard.html', users=all_users)
-        
     except Exception as e:
-        # Simple error handling for database issues
-        return f"Database Error: Could not fetch data. Ensure tables are created and data is inserted. Error: {e}", 500
+        return f"Database Error: {e}", 500
 
 @app.route('/init-db')
 def init_db():

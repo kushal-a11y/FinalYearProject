@@ -182,7 +182,7 @@
             <p>Religion: <span>{{ user.religion or 'N/A' }}</span></p>
             <p>Profession: <span>{{ user.profession or 'N/A' }}</span></p>
             <p>Residence: <span>{{ user.residence or 'N/A' }}</span></p>
-            <p>Height: <span>{{ user.height_cm | round(1) or 'N/A' }} cm</span></p>
+            <p>Height: <span>{{ "%.1f"|format(user.height_cm) if user.height_cm is not none else 'N/A' }} cm</span></p>
         </div>
         <button class="toggle-btn" onclick="openModal('{{ user.user_id }}')">View Preferences</button>
     </div>
@@ -199,7 +199,7 @@
                 <p>Caste: <span>{{ user.preference.caste or 'N/A' }}</span></p>
                 <p>Profession: <span>{{ user.preference.profession or 'N/A' }}</span></p>
                 <p>Residence: <span>{{ user.preference.residence or 'N/A' }}</span></p>
-                <p>Height: <span>{{ user.preference.height_cm or 'N/A' }} cm</span></p>
+                <p>Height: <span>{{ "%.1f"|format(user.preference.height_cm|float) if user.preference.height_cm else 'N/A' }} cm</span></p>
             {% else %}
                 <p>No preference data available for this user.</p>
             {% endif %}

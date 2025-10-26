@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrimony Login</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff6b6b, #f7c59f);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .login-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 350px;
+    text-align: center;
+  }
+  h2 {
+    color: #ff4560;
+    margin-bottom: 20px;
+  }
+  input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  button {
+    width: 95%;
+    padding: 12px;
+    background-color: #ff4560;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  button:hover {
+    background-color: #e03e52;
+  }
+  .msg {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Matrimony MatchFinder</h2>
+    <input type="email" id="email" placeholder="Enter Email" required>
+    <input type="password" id="password" placeholder="Enter Password" required>
+    <button onclick="login()">Login</button>
+    <p class="msg" id="msg"></p>
+  </div>
+
+  <script>
+    async function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('/user/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email, password})
+      });
+
+      const data = await res.json();
+      const msg = document.getElementById('msg');
+
+      if (res.ok) {
+        msg.textContent = 'Login successful! Redirecting...';
+        msg.style.color = 'green';
+        setTimeout(() => {
+          window.location.href = `/complete_profile/${data.user_id}`;
+        }, 1200);
+      } else {
+        msg.textContent = data.error || 'Invalid credentials';
+        msg.style.color = 'red';
+      }
+    }
+  </script>
+</body>
+</html>

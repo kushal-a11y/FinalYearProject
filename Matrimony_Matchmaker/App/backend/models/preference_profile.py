@@ -15,7 +15,7 @@ class PreferenceProfile(db.Model):
     height_cm = db.Column('Height_cm', db.String(20))
     extras = db.Column('Extras', JSON)
 
-    user_id = db.Column('UserID', db.Integer, db.ForeignKey('user_profile.UserID', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column('UserID', db.Integer, db.ForeignKey('user_profile.UserID', ondelete='CASCADE'), nullable=False, unique=True)
 
     def __repr__(self):
         return f"<PreferenceProfile(preference_id={self.preference_id}, user_id={self.user_id})>"

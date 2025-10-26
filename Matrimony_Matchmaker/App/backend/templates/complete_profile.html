@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Your Profile</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffb6b9, #f7d9aa);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    text-align: center;
+    display: none;
+  }
+  .modal.active {
+    display: block;
+  }
+  input, select {
+    width: 85%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: #ff4560;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    margin: 10px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #e03e52;
+  }
+  h3 {
+    color: #ff4560;
+  }
+</style>
+</head>
+<body>
+
+<div id="modal-container"></div>
+
+<script>
+  const userId = "{{ user_id }}"; // passed from Flask
+  const profileFields = [
+    { key: "name", label: "Your Name", type: "text" },
+    { key: "age", label: "Your Age", type: "number" },
+    { key: "gender", label: "Gender", type: "select", options: ["Male", "Female", "Other"] },
+    { key: "education", label: "Education", type: "text" },
+    { key: "profession", label: "Profession", type: "text" },
+    { key: "caste", label: "Caste", type: "text" },
+    { key: "religion", label: "Religion", type: "text" },
+    { key: "residence", label: "Residence", type: "text" },
+    { key: "height_cm", label: "Height (cm)", type: "number" }
+  ];
+
+  let currentIndex = 0;
+  const formData = {};
+
+  function renderModal(index) {
+    const field = profileFields[index];
+    if (!field) return;
+
+    let inputHTML = '';
+    if (field.type === "select") {
+      inputHTML = `<select id="input-${field.key}">
+        ${field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+      </select>`;
+    } else {
+      inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.label}">`;
+    }
+
+    const modalHTML = `
+      <div class="modal active" id="modal-${field.key}">
+        <h3>${field.label}</h3>
+        ${inputHTML}
+        <div>
+          <button onclick="saveField('${field.key}')">${index === profileFields.length - 1 ? 'Submit' : 'Save & Next'}</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('modal-container').innerHTML = modalHTML;
+  }
+
+  function saveField(key) {
+    const value = document.getElementById(`input-${key}`).value.trim();
+    formData[key] = value;
+
+    if (currentIndex < profileFields.length - 1) {
+      currentIndex++;
+      renderModal(currentIndex);
+    } else {
+      submitProfile();
+    }
+  }
+
+  async function submitProfile() {
+    const res = await fetch(`/user/complete-profile/${userId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+    const data = await res.json();
+    alert(data.message || "Profile updated successfully!");
+    window.location.href = "/dashboard"; // redirect wherever you want next
+  }
+
+  renderModal(currentIndex);
+</script>
+
+</body>
+</html>
