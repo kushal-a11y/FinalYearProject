@@ -1,27 +1,17 @@
-#User registration, login, profile
-from flask import request, jsonify
+from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from flask_mail import Mail, Message
-from db import db, app
+from flask_mail import Message
+from db import db, mail
 from models.user_profile import UserProfile
 
-mail = Mail(app)
+user_bp = Blueprint('user', __name__)
 
-app.config.update(
-    MAIL_SERVER='smtp.gmail.com',
-    MAIL_PORT=587,
-    MAIL_USE_TLS=True,
-    MAIL_USERNAME='yourmail@gmail.com',
-    MAIL_PASSWORD='your_app_password'
-)
-mail = Mail(app)
+# Always use @user_bp.route instead of @app.route
 
-
-@app.route('/register', methods=['POST'])
+@user_bp.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()
-
     email = data.get('email')
     password = data.get('password')
 
@@ -37,15 +27,16 @@ def register_user():
     db.session.add(new_user)
     db.session.commit()
 
+    # Send confirmation email
     try:
         msg = Message(
             subject="Welcome to Matrimony Portal",
             recipients=[email],
-            body=f"Hello!\n\nYour Matrimony account has been created.\n\nUser ID: {new_user.user_id}\nPassword: {password}\n\nUse these credentials to log in and complete your profile."
+            body=f"Hello!\n\nYour Matrimony account has been created.\nUser ID: {new_user.user_id}\nPassword: {password}\n\nUse these credentials to log in and complete your profile."
         )
         mail.send(msg)
     except Exception as e:
-        print("Email sending failed:", e)
+        print("Email sending failed:", str(e))
 
     return jsonify({
         'message': 'Registration successful! Check your email for your User ID.',
@@ -53,7 +44,7 @@ def register_user():
     }), 201
 
 
-@app.route('/login', methods=['POST'])
+@user_bp.route('/login', methods=['POST'])
 def login_user():
     data = request.get_json()
     email = data.get('email')
@@ -61,7 +52,7 @@ def login_user():
 
     user = UserProfile.query.filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password):
-        return jsonify({'error': 'Invalid email or password'}), 401
+        return jsonify({'error': 'Invalid credentials'}), 401
 
     user.last_logged_in = datetime.utcnow()
     db.session.commit()
@@ -72,15 +63,13 @@ def login_user():
     }), 200
 
 
-@app.route('/complete-profile/<int:user_id>', methods=['POST'])
+@user_bp.route('/complete-profile/<int:user_id>', methods=['POST'])
 def complete_profile(user_id):
     user = UserProfile.query.get(user_id)
     if not user:
         return jsonify({'error': 'User not found'}), 404
 
     data = request.get_json()
-
-    # Only update non-null fields
     for key in ['name', 'age', 'gender', 'education', 'caste', 'profession', 'religion', 'residence', 'height_cm']:
         if key in data:
             setattr(user, key, data[key])
