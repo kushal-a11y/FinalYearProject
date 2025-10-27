@@ -69,6 +69,28 @@ def login_user():
         'profile_complete': all([user.name, user.age, user.gender, user.education, user.caste, user.profession, user.religion, user.residence, user.height_cm])
     }), 200
 
+@user_bp.route('/profile/<int:user_id>', methods=['GET'])
+def get_user_profile(user_id):
+    """Return candidate profile details as JSON for modal display."""
+    user = UserProfile.query.filter_by(user_id=user_id).first()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    data = {
+        "user_id": user.user_id,
+        "name": user.name,
+        "age": user.age,
+        "gender": user.gender,
+        "education": user.education,
+        "profession": user.profession,
+        "caste": user.caste,
+        "religion": user.religion,
+        "residence": user.residence,
+        "height_cm": user.height_cm
+    }
+    return jsonify(data), 200
+
+
 @user_bp.route('/complete-profile/<int:user_id>', methods=['GET'])
 def show_complete_profile(user_id):
     user = UserProfile.query.get(user_id)

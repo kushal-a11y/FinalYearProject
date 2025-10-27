@@ -6,12 +6,7 @@
   <title>Complete Your Profile</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #faf8f6 0%, #f5f0ed 100%);
@@ -21,237 +16,127 @@
       align-items: center;
       padding: 20px;
     }
+    .container { width: 100%; max-width: 500px; }
+    .progress-section { margin-bottom: 40px; text-align: center; }
+    .progress-text { font-size: 14px; color: #8b7d78; margin-bottom: 12px; font-weight: 500; }
+    .progress-bar { width: 100%; height: 4px; background: #e8ddd8; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #d4526e, #c9445a); border-radius: 2px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
 
-    .container {
-      width: 100%;
-      max-width: 500px;
-    }
-
-    /* <CHANGE> Progress indicator at top */
-    .progress-section {
-      margin-bottom: 40px;
-      text-align: center;
-    }
-
-    .progress-text {
-      font-size: 14px;
-      color: #8b7d78;
-      margin-bottom: 12px;
-      font-weight: 500;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 4px;
-      background: #e8ddd8;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #d4526e, #c9445a);
-      border-radius: 2px;
-      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* <CHANGE> Modal styling with smooth animations */
-    .modal-wrapper {
-      position: relative;
-      height: 320px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .modal-wrapper { position: relative; height: 320px; display: flex; align-items: center; justify-content: center; }
     .modal {
-      position: absolute;
+      position: absolute; width: 100%; background: #ffffff; padding: 48px 32px;
+      border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      text-align: center; opacity: 0; transform: translateY(20px) scale(0.95);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none;
+    }
+    .modal.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .modal.exit { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    .modal h3 { font-family: 'Playfair Display', serif; font-size: 28px; color: #2d2520; margin-bottom: 8px; font-weight: 600; }
+    .modal .subtitle { font-size: 13px; color: #a89f9a; margin-bottom: 28px; font-weight: 500; }
+
+    input, select {
+      width: 100%; padding: 14px 16px; margin-bottom: 24px;
+      border: 1.5px solid #e8ddd8; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 15px;
+      color: #2d2520; background: #fafaf9; transition: all 0.3s ease;
+      appearance: none; -webkit-appearance: none; -moz-appearance: none;
+      background-image: none;
+    }
+    input:focus, select:focus {
+      outline: none; border-color: #d4526e; background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(212, 82, 110, 0.1);
+    }
+    input::placeholder { color: #c9bfb8; }
+
+    /* Custom styled dropdown for gender */
+    .custom-select-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    .custom-select-wrapper select {
+      background-color: #fafaf9;
+      border: 1.5px solid #e8ddd8;
+      border-radius: 10px;
+      padding: 14px 40px 14px 16px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      color: #2d2520;
+      cursor: pointer;
       width: 100%;
-      background: #ffffff;
-      padding: 48px 32px;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px) scale(0.95);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      background-image: linear-gradient(135deg, #faf8f6 0%, #f5f0ed 100%);
+    }
+    .custom-select-wrapper::after {
+      content: "▼";
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #d4526e;
       pointer-events: none;
     }
 
-    .modal.active {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-
-    .modal.exit {
-      opacity: 0;
-      transform: translateY(-20px) scale(0.95);
-    }
-
-    .modal h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: #2d2520;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    .modal .subtitle {
-      font-size: 13px;
-      color: #a89f9a;
-      margin-bottom: 28px;
-      font-weight: 500;
-    }
-
-    /* <CHANGE> Premium input styling */
-    input, select {
-      width: 100%;
-      padding: 14px 16px;
-      margin-bottom: 24px;
-      border: 1.5px solid #e8ddd8;
-      border-radius: 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      color: #2d2520;
-      background: #fafaf9;
-      transition: all 0.3s ease;
-      appearance: none;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: #d4526e;
-      background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(212, 82, 110, 0.1);
-    }
-
-    input::placeholder {
-      color: #c9bfb8;
-    }
-
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23d4526e' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-      padding-right: 40px;
-    }
-
-    /* <CHANGE> Button styling with hover effects */
-    .button-group {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-    }
-
+    .button-group { display: flex; gap: 12px; justify-content: center; }
     button {
-      padding: 12px 32px;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      letter-spacing: 0.3px;
+      padding: 12px 32px; border: none; border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.3px;
     }
-
     .btn-primary {
       background: linear-gradient(135deg, #d4526e, #c9445a);
-      color: #ffffff;
-      flex: 1;
-      min-width: 140px;
+      color: #ffffff; flex: 1; min-width: 140px;
     }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212, 82, 110, 0.3); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-skip { background: #f0ebe7; color: #8b7d78; padding: 12px 24px; }
+    .btn-skip:hover { background: #e8ddd8; color: #6b6560; }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(212, 82, 110, 0.3);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn-skip {
-      background: #f0ebe7;
-      color: #8b7d78;
-      padding: 12px 24px;
-    }
-
-    .btn-skip:hover {
-      background: #e8ddd8;
-      color: #6b6560;
-    }
-
-    /* <CHANGE> Completion message */
-    .completion-message {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .completion-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
-
-    .completion-message h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: #2d2520;
-      margin-bottom: 8px;
-    }
-
-    .completion-message p {
-      color: #8b7d78;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+    .completion-message { text-align: center; padding: 40px 20px; }
+    .completion-icon { font-size: 48px; margin-bottom: 16px; }
+    .completion-message h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: #2d2520; margin-bottom: 8px; }
+    .completion-message p { color: #8b7d78; font-size: 14px; line-height: 1.6; }
 
     @media (max-width: 480px) {
-      .modal {
-        padding: 36px 24px;
-      }
-
-      .modal h3 {
-        font-size: 24px;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .btn-skip {
-        order: 2;
-      }
+      .modal { padding: 36px 24px; }
+      .modal h3 { font-size: 24px; }
+      .button-group { flex-direction: column; }
+      .btn-skip { order: 2; }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <!-- Progress Section -->
   <div class="progress-section">
     <div class="progress-text">
       <span id="current-field">1</span> of <span id="total-fields">9</span>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progress-fill"></div>
-    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
   </div>
 
-  <!-- Modal Container -->
   <div class="modal-wrapper" id="modal-container"></div>
 </div>
 
 <script>
   const userId = "{{ user_id }}";
+
+  const casteList = ["Brahmin","SC","OBC","Baisya","Kayastha","Banerjee","General","Tili",
+    "Barujibi","Kumbhakar","Swarnakar","Napit","Namasudra","Sunni","Sadgop","Goala","Kandi",
+    "Tambuli","Mukherjee","Roy","Biswas","Chatterjee","Dutta","Banik","Ganguly","Bhattacharya",
+    "Aguri","Malakar","Yadav"];
+  const educationList = ["B.Tech MBA","MBA","B.Tech","BSc","BA","MA B.Ed","MA","MSC B.Ed",
+    "BA B.Ed","PhD","Bcom","LLB","LLM"];
+  const professionList = ["20LPA","12LPA","15LPA","MNC-IT","IT","Research-Scholar-germany",
+    "Business","Bank","Pharma Co B'loe","Law Firm","Hospital Nurse","Advocate","College lecturer",
+    "Digital Marketing B'lore"];
+
   const profileFields = [
     { key: "name", label: "Your Name", type: "text", placeholder: "Enter your full name" },
     { key: "age", label: "Your Age", type: "number", placeholder: "Enter your age" },
     { key: "gender", label: "Gender", type: "select", options: ["Select Gender", "Male", "Female", "Other"] },
-    { key: "education", label: "Education", type: "text", placeholder: "e.g., Bachelor's in Engineering" },
-    { key: "profession", label: "Profession", type: "text", placeholder: "e.g., Software Engineer" },
-    { key: "caste", label: "Caste", type: "text", placeholder: "Enter your caste" },
+    { key: "education", label: "Education", type: "hybrid", list: educationList, placeholder: "Type or select education" },
+    { key: "profession", label: "Profession", type: "hybrid", list: professionList, placeholder: "Type or select profession" },
+    { key: "caste", label: "Caste", type: "hybrid", list: casteList, placeholder: "Type or select caste" },
     { key: "religion", label: "Religion", type: "text", placeholder: "Enter your religion" },
     { key: "residence", label: "Residence", type: "text", placeholder: "Enter your city/residence" },
     { key: "height_cm", label: "Height (cm)", type: "number", placeholder: "Enter height in cm" }
@@ -264,114 +149,80 @@
     const progress = ((currentIndex + 1) / profileFields.length) * 100;
     document.getElementById('progress-fill').style.width = progress + '%';
     document.getElementById('current-field').textContent = currentIndex + 1;
-    document.getElementById('total-fields').textContent = profileFields.length;
   }
 
   function renderModal(index) {
     const field = profileFields[index];
     if (!field) return;
-
     let inputHTML = '';
+
     if (field.type === "select") {
-      inputHTML = `<select id="input-${field.key}">
-        ${field.options.map(opt => `<option value="${opt === 'Select Gender' ? '' : opt}">${opt}</option>`).join('')}
-      </select>`;
+      inputHTML = `
+        <div class="custom-select-wrapper">
+          <select id="input-${field.key}">
+            ${field.options.map(opt => `<option value="${opt === field.options[0] ? '' : opt}">${opt}</option>`).join('')}
+          </select>
+        </div>`;
+    } else if (field.type === "hybrid") {
+      inputHTML = `
+        <input list="list-${field.key}" id="input-${field.key}" placeholder="${field.placeholder}">
+        <datalist id="list-${field.key}">
+          ${field.list.map(opt => `<option value="${opt}"></option>`).join('')}
+        </datalist>`;
     } else {
       inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}">`;
     }
 
-    const isLastField = index === profileFields.length - 1;
-    const buttonText = isLastField ? 'Complete Profile' : 'Save & Next';
-
+    const isLast = index === profileFields.length - 1;
     const modalHTML = `
-      <div class="modal active" id="modal-${field.key}">
+      <div class="modal active">
         <h3>${field.label}</h3>
         <div class="subtitle">Step ${index + 1} of ${profileFields.length}</div>
         ${inputHTML}
         <div class="button-group">
-          <button class="btn-primary" onclick="saveField('${field.key}')">${buttonText}</button>
-          ${!isLastField ? `<button class="btn-skip" onclick="skipField()">Skip</button>` : ''}
+          <button class="btn-primary" onclick="saveField('${field.key}')">${isLast ? 'Complete Profile' : 'Save & Next'}</button>
+          ${!isLast ? `<button class="btn-skip" onclick="skipField()">Skip</button>` : ''}
         </div>
-      </div>
-    `;
-    
-    const container = document.getElementById('modal-container');
-    const existingModal = container.querySelector('.modal.active');
-    
-    if (existingModal) {
-      existingModal.classList.remove('active');
-      existingModal.classList.add('exit');
-    }
-
-    container.innerHTML = modalHTML;
+      </div>`;
+    document.getElementById('modal-container').innerHTML = modalHTML;
     updateProgress();
-
-    setTimeout(() => {
-      const newModal = document.getElementById(`modal-${field.key}`);
-      if (newModal) newModal.classList.add('active');
-      document.getElementById(`input-${field.key}`).focus();
-    }, 50);
   }
 
   function saveField(key) {
     const value = document.getElementById(`input-${key}`).value.trim();
-    if (!value) {
-      alert('Please fill in this field');
-      return;
-    }
+    if (!value) return alert("Please fill in this field");
     formData[key] = value;
-    proceedToNext();
+    proceed();
   }
-
-  function skipField() {
-    proceedToNext();
-  }
-
-  function proceedToNext() {
-    if (currentIndex < profileFields.length - 1) {
-      currentIndex++;
-      renderModal(currentIndex);
-    } else {
-      submitProfile();
-    }
+  function skipField() { proceed(); }
+  function proceed() {
+    if (currentIndex < profileFields.length - 1) { currentIndex++; renderModal(currentIndex); }
+    else submitProfile();
   }
 
   function showCompletion() {
-    const container = document.getElementById('modal-container');
-    const completionHTML = `
+    document.getElementById('modal-container').innerHTML = `
       <div class="modal active">
         <div class="completion-message">
           <div class="completion-icon">✓</div>
           <h2>Profile Complete!</h2>
           <p>Your profile has been successfully updated. Redirecting to dashboard...</p>
         </div>
-      </div>
-    `;
-    container.innerHTML = completionHTML;
+      </div>`;
   }
 
   async function submitProfile() {
     showCompletion();
-    
     try {
-      const res = await fetch(`/user/complete-profile/${userId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      await fetch(`/user/complete-profile/${userId}`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
-      const data = await res.json();
-      
-      setTimeout(() => {
-        window.location.href = `/user/complete-profile/${data.user_id}`;
-      }, 2000);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error updating profile. Please try again.');
-    }
+      setTimeout(() => window.location.href = `/user/dashboard/${userId}`, 2000);
+    } catch (e) { console.error(e); alert("Error updating profile"); }
   }
 
   renderModal(currentIndex);
 </script>
-
 </body>
 </html>

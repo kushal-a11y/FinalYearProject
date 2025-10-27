@@ -22,7 +22,33 @@ def preferences_page(user_id):
     else:
         pref_data = {}
 
-    return render_template('preferences.html', user_id=user_id, preferences=pref_data)
+    # lists for autocomplete
+    castes = list({
+        "Brahmin","SC","OBC","Baisya","Kayastha","Banerjee","General","Tili",
+        "Barujibi","Kumbhakar","Swarnakar","Napit","Namasudra","Sunni","Sadgop",
+        "Goala","Kandi","Tambuli","Mukherjee","Roy","Biswas","Chatterjee",
+        "Dutta","Banik","Ganguly","Bhattacharya","Aguri","Malakar","Yadav"
+    })
+
+    degrees = list({
+        'B.Tech MBA','MBA','B.Tech','BSc','BA','MA B.Ed','MA','MSC B.Ed',
+        'BA B.Ed','PhD','Bcom','LLB','LLM'
+    })
+
+    professions = list({
+        '20LPA','12LPA','15LPA','MNC-IT','IT','Research-Scholar-germany',
+        'Business','Bank','Pharma Co B\'loe','Law Firm','Hospital Nurse',
+        'Advocate','College lecturer','Digital Marketing B\'lore'
+    })
+
+    return render_template(
+        'preferences.html',
+        user_id=user_id,
+        preferences=pref_data,
+        castes=castes,
+        degrees=degrees,
+        professions=professions
+    )
 
 
 @preference_bp.route('/preferences/<int:user_id>', methods=['POST'])

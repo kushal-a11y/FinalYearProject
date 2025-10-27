@@ -6,14 +6,13 @@
   <title>Set Your Preferences</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* === Keep the same styles as Complete Profile page === */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #faf8f6 0%, #f5f0ed 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
     .container { width: 100%; max-width: 500px; }
     .progress-section { margin-bottom: 40px; text-align: center; }
     .progress-text { font-size: 14px; color: #8b7d78; margin-bottom: 12px; font-weight: 500; }
     .progress-bar { width: 100%; height: 4px; background: #e8ddd8; border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, #d4526e, #c9445a); border-radius: 2px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #d4526e, #c9445a); border-radius: 2px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
     .modal-wrapper { position: relative; height: 400px; display: flex; align-items: center; justify-content: center; }
     .modal { position: absolute; width: 100%; background: #ffffff; padding: 48px 32px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); text-align: center; opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
     .modal.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
@@ -56,6 +55,10 @@
 <script>
   const userId = "{{ user_id }}";
   const existingPreferences = {{ preferences|tojson|safe }};
+  const casteList = {{ castes | tojson | safe }};
+  const degreeList = {{ degrees | tojson | safe }};
+  const professionList = {{ professions | tojson | safe }};
+  
   const preferenceFields = [
     { key: "preferred_age_min", label: "Minimum Age", type: "number", placeholder: "Enter minimum age" },
     { key: "preferred_age_max", label: "Maximum Age", type: "number", placeholder: "Enter maximum age" },
@@ -71,15 +74,35 @@
   let currentIndex = 0;
   const formData = {};
 
-  // Auto skip all if all preferences already exist
   document.addEventListener("DOMContentLoaded", () => {
     if (existingPreferences && Object.keys(existingPreferences).length > 0) {
-      showMatchTypeModal();
+      showPreferenceChoiceModal();
     } else {
       renderModal(currentIndex);
     }
   });
 
+  function showPreferenceChoiceModal() {
+    const container = document.getElementById('modal-container');
+    container.innerHTML = `
+      <div class="modal active">
+        <h3>Existing Preferences Found</h3>
+        <div class="subtitle">Would you like to use your saved preferences or set new ones?</div>
+        <div class="button-group" style="flex-direction: column; gap: 16px;">
+          <button class="btn-primary" onclick="useExistingPreferences()">Use Existing Preferences</button>
+          <button class="btn-skip" onclick="setNewPreferences()">Set New Preferences</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function useExistingPreferences() {
+    showMatchTypeModal();
+  }
+
+  function setNewPreferences() {
+    renderModal(currentIndex);
+  }
 
   function updateProgress() {
     const progress = ((currentIndex + 1) / preferenceFields.length) * 100;
@@ -97,15 +120,36 @@
       existingValue = existingPreferences[field.key.replace("preferred_", "")];
     }
 
+    let dataListId = null;
+    let optionsHTML = "";
+
+    if (field.key === "preferred_caste") {
+      dataListId = "casteOptions";
+      optionsHTML = casteList.map(opt => `<option value="${opt}">`).join('');
+    } else if (field.key === "preferred_education") {
+      dataListId = "degreeOptions";
+      optionsHTML = degreeList.map(opt => `<option value="${opt}">`).join('');
+    } else if (field.key === "preferred_profession") {
+      dataListId = "professionOptions";
+      optionsHTML = professionList.map(opt => `<option value="${opt}">`).join('');
+    }
+
     let inputHTML = '';
     if (field.type === "select") {
-      inputHTML = `<select id="input-${field.key}">
-        ${field.options.map(opt => {
-          const value = opt === 'Select Gender' ? '' : opt;
-          const selected = value === existingValue ? 'selected' : '';
-          return `<option value="${value}" ${selected}>${opt}</option>`;
-        }).join('')}
-      </select>`;
+      inputHTML = `
+        <select id="input-${field.key}">
+          ${field.options.map(opt => {
+            const value = opt === 'Select Gender' ? '' : opt;
+            const selected = value === existingValue ? 'selected' : '';
+            return `<option value="${value}" ${selected}>${opt}</option>`;
+          }).join('')}
+        </select>
+      `;
+    } else if (dataListId) {
+      inputHTML = `
+        <input list="${dataListId}" type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}" value="${existingValue || ''}">
+        <datalist id="${dataListId}">${optionsHTML}</datalist>
+      `;
     } else {
       inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}" value="${existingValue || ''}">`;
     }
@@ -133,29 +177,20 @@
 
   function saveField(key) {
     const value = document.getElementById(`input-${key}`).value.trim();
-    formData[key] = value; // allow skipping with empty
+    formData[key] = value;
     proceedToNext();
   }
 
   function skipField() { proceedToNext(); }
 
   function proceedToNext() {
-    // skip fields already filled in existing preferences
     if (currentIndex < preferenceFields.length - 1) {
       currentIndex++;
-      const nextKey = preferenceFields[currentIndex].key.replace("preferred_", "");
-      if (existingPreferences && existingPreferences[nextKey]) {
-        // auto-fill and skip
-        formData[preferenceFields[currentIndex].key] = existingPreferences[nextKey];
-        proceedToNext();  // recursively skip
-      } else {
-        renderModal(currentIndex);
-      }
+      renderModal(currentIndex);
     } else {
       submitPreferences();
     }
   }
-
 
   function showCompletion() {
     const container = document.getElementById('modal-container');
@@ -164,7 +199,7 @@
         <div class="completion-message">
           <div class="completion-icon">✓</div>
           <h2>Preferences Saved!</h2>
-          <p>Your preferences have been successfully updated. Redirecting to dashboard...</p>
+          <p>Your preferences have been successfully updated. Redirecting to match selection...</p>
         </div>
       </div>
     `;
@@ -178,7 +213,7 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
-      setTimeout(() => { showMatchTypeModal(); }, 1500); // show next modal
+      setTimeout(() => { showMatchTypeModal(); }, 1500);
     } catch (error) {
       console.error('Error:', error);
       alert('Error saving preferences. Please try again.');
@@ -201,7 +236,6 @@
 
   function goNonWeighted() {
     showLoadingModal("Fetching your matches...");
-    // Redirect to flat-match results page
     setTimeout(() => {
       window.location.href = `/user/flatmatch-results/${userId}`;
     }, 1000);
@@ -224,7 +258,6 @@
       </div>
     `;
   }
-
 </script>
 </body>
 </html>
