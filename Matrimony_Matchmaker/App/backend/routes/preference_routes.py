@@ -6,13 +6,24 @@ preference_bp = Blueprint('preference', __name__)
 
 @preference_bp.route('/preferences/<int:user_id>', methods=['GET'])
 def preferences_page(user_id):
-    # Fetch existing preferences if any
     pref = PreferenceProfile.query.filter_by(user_id=user_id).first()
-    return render_template('preferences.html', user_id=user_id, preferences=pref)
 
-from flask import Blueprint, request, jsonify
-from db import db
-from models.preference_profile import PreferenceProfile
+    if pref:
+        pref_data = {
+            "age": pref.age,
+            "gender": pref.gender,
+            "education": pref.education,
+            "caste": pref.caste,
+            "profession": pref.profession,
+            "residence": pref.residence,
+            "religion": pref.religion,
+            "height_cm": pref.height_cm
+        }
+    else:
+        pref_data = {}
+
+    return render_template('preferences.html', user_id=user_id, preferences=pref_data)
+
 
 @preference_bp.route('/preferences/<int:user_id>', methods=['POST'])
 def save_preferences(user_id):

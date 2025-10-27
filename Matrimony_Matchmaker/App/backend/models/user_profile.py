@@ -14,7 +14,7 @@ class UserProfile(db.Model):
     residence = db.Column('Residence', db.String(50))
     height_cm = db.Column('Height_cm', db.Float)
     extras = db.Column('Extras', JSON)
-    matches = db.Column('Matches', JSON)
+    matches = db.Column('Matches', JSON, default=list)
 
     #Applicable for user registration
     name = db.Column('Name', db.String(100), nullable=True)
