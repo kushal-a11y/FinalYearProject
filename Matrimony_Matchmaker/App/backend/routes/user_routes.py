@@ -4,6 +4,8 @@ from datetime import datetime
 from flask_mail import Message
 from db import db, mail
 from models.user_profile import UserProfile
+from services.flat_match import mutual_flat_match
+
 
 user_bp = Blueprint('user', __name__)
 
@@ -95,3 +97,17 @@ def dashboard(user_id):
     if not user:
         return "User not found", 404
     return render_template('dashboard.html', user=user)
+
+@user_bp.route('/flat-match/<int:user_id>', methods=['GET'])
+def get_flat_match(user_id):
+    try:
+        result = mutual_flat_match(user_id)
+        return jsonify(result), 200
+    except Exception as e:
+        print("Flat match error:", e)
+        return jsonify({'error': str(e)}), 500
+
+@user_bp.route('/flatmatch-results/<int:user_id>')
+def flatmatch_results(user_id):
+    return render_template('flatmatch_results.html', user_id=user_id)
+

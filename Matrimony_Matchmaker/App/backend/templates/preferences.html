@@ -55,6 +55,7 @@
 
 <script>
   const userId = "{{ user_id }}";
+  const existingPreferences = {{ preferences|tojson|safe }};
   const preferenceFields = [
     { key: "preferred_age_min", label: "Minimum Age", type: "number", placeholder: "Enter minimum age" },
     { key: "preferred_age_max", label: "Maximum Age", type: "number", placeholder: "Enter maximum age" },
@@ -70,6 +71,16 @@
   let currentIndex = 0;
   const formData = {};
 
+  // Auto skip all if all preferences already exist
+  document.addEventListener("DOMContentLoaded", () => {
+    if (existingPreferences && Object.keys(existingPreferences).length > 0) {
+      showMatchTypeModal();
+    } else {
+      renderModal(currentIndex);
+    }
+  });
+
+
   function updateProgress() {
     const progress = ((currentIndex + 1) / preferenceFields.length) * 100;
     document.getElementById('progress-fill').style.width = progress + '%';
@@ -81,13 +92,22 @@
     const field = preferenceFields[index];
     if (!field) return;
 
+    let existingValue = "";
+    if (existingPreferences && existingPreferences[field.key.replace("preferred_", "")]) {
+      existingValue = existingPreferences[field.key.replace("preferred_", "")];
+    }
+
     let inputHTML = '';
     if (field.type === "select") {
       inputHTML = `<select id="input-${field.key}">
-        ${field.options.map(opt => `<option value="${opt === 'Select Gender' ? '' : opt}">${opt}</option>`).join('')}
+        ${field.options.map(opt => {
+          const value = opt === 'Select Gender' ? '' : opt;
+          const selected = value === existingValue ? 'selected' : '';
+          return `<option value="${value}" ${selected}>${opt}</option>`;
+        }).join('')}
       </select>`;
     } else {
-      inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}">`;
+      inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}" value="${existingValue || ''}">`;
     }
 
     const isLastField = index === preferenceFields.length - 1;
@@ -106,20 +126,9 @@
     `;
 
     const container = document.getElementById('modal-container');
-    const existingModal = container.querySelector('.modal.active');
-    if (existingModal) {
-      existingModal.classList.remove('active');
-      existingModal.classList.add('exit');
-    }
-
     container.innerHTML = modalHTML;
     updateProgress();
-
-    setTimeout(() => {
-      const newModal = document.getElementById(`modal-${field.key}`);
-      if (newModal) newModal.classList.add('active');
-      document.getElementById(`input-${field.key}`)?.focus();
-    }, 50);
+    document.getElementById(`input-${field.key}`)?.focus();
   }
 
   function saveField(key) {
@@ -131,11 +140,22 @@
   function skipField() { proceedToNext(); }
 
   function proceedToNext() {
+    // skip fields already filled in existing preferences
     if (currentIndex < preferenceFields.length - 1) {
       currentIndex++;
-      renderModal(currentIndex);
-    } else { submitPreferences(); }
+      const nextKey = preferenceFields[currentIndex].key.replace("preferred_", "");
+      if (existingPreferences && existingPreferences[nextKey]) {
+        // auto-fill and skip
+        formData[preferenceFields[currentIndex].key] = existingPreferences[nextKey];
+        proceedToNext();  // recursively skip
+      } else {
+        renderModal(currentIndex);
+      }
+    } else {
+      submitPreferences();
+    }
   }
+
 
   function showCompletion() {
     const container = document.getElementById('modal-container');
@@ -158,14 +178,53 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
-      setTimeout(() => { window.location.href = `/user/dashboard/${userId}`; }, 2000);
+      setTimeout(() => { showMatchTypeModal(); }, 1500); // show next modal
     } catch (error) {
       console.error('Error:', error);
       alert('Error saving preferences. Please try again.');
     }
   }
 
-  renderModal(currentIndex);
+  function showMatchTypeModal() {
+    const container = document.getElementById('modal-container');
+    container.innerHTML = `
+      <div class="modal active">
+        <h3>Choose Matching Mode</h3>
+        <div class="subtitle">How would you like to find your matches?</div>
+        <div class="button-group" style="flex-direction: column; gap: 16px;">
+          <button class="btn-primary" onclick="goNonWeighted()">Non-Weighted (Flat Match)</button>
+          <button class="btn-skip" onclick="goWeighted()">Weighted (Coming Soon)</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function goNonWeighted() {
+    showLoadingModal("Fetching your matches...");
+    // Redirect to flat-match results page
+    setTimeout(() => {
+      window.location.href = `/user/flatmatch-results/${userId}`;
+    }, 1000);
+  }
+
+  function goWeighted() {
+    alert("Weighted matching is coming soon!");
+    window.location.href = `/user/dashboard/${userId}`;
+  }
+
+  function showLoadingModal(message) {
+    const container = document.getElementById('modal-container');
+    container.innerHTML = `
+      <div class="modal active">
+        <div class="completion-message">
+          <div class="completion-icon">⏳</div>
+          <h2>${message}</h2>
+          <p>Please wait while we prepare your matches...</p>
+        </div>
+      </div>
+    `;
+  }
+
 </script>
 </body>
 </html>

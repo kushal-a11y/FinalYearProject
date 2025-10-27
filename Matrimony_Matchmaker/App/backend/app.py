@@ -15,10 +15,10 @@ app.register_blueprint(preference_bp, url_prefix='/preference')
 
 @app.route('/')
 def home():
-    return "💍 Matrimonial Matchmaking API is running!"
+    return redirect(url_for('registerPage'))
 
 @app.route('/registerPage')
-def registerMe():
+def registerPage():
     return render_template('register.html')
 
 
