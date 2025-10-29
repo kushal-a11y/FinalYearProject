@@ -3,11 +3,18 @@ from db import db
 from models.user_profile import UserProfile
 from models.preference_profile import PreferenceProfile
 
+# ---------- USER PROFILE INSERTION ----------
 def insert_user_profiles(filepath):
-    df = pd.read_csv(filepath).head(100)
+    # Load and clean CSV
+    df = pd.read_csv(filepath)
     df.replace(['', 'N/A', 'n/a', '-', ' '], pd.NA, inplace=True)
     df = df.where(pd.notna(df), None)
-    for _, row in df.iterrows():
+
+    # Select first 200 rows
+    batch_df = df.head(200)
+
+    # Insert into database
+    for _, row in batch_df.iterrows():
         user = UserProfile(
             age=row['Age'],
             gender=row['Gender'],
@@ -21,16 +28,28 @@ def insert_user_profiles(filepath):
             matches=[]
         )
         db.session.add(user)
+
     db.session.commit()
-    print("100 User Profiles inserted successfully!")
+    print("200 User Profiles inserted successfully!")
+
+    # Remove inserted rows from CSV
+    remaining_df = df.iloc[200:]
+    remaining_df.to_csv(filepath, index=False)
+    print("First 200 rows deleted from the CSV file.")
 
 
+# ---------- PREFERENCE PROFILE INSERTION ----------
 def insert_preference_profiles(filepath):
-    df = pd.read_csv(filepath).head(100)
+    # Load and clean CSV
+    df = pd.read_csv(filepath)
     df.replace(['', 'N/A', 'n/a', '-', ' '], pd.NA, inplace=True)
     df = df.where(pd.notna(df), None)
 
-    for _, row in df.iterrows():
+    # Select first 200 rows
+    batch_df = df.head(200)
+
+    # Insert into database
+    for _, row in batch_df.iterrows():
         pref = PreferenceProfile(
             age=row['Age'],
             gender=row['Gender'],
@@ -44,5 +63,11 @@ def insert_preference_profiles(filepath):
             user_id=row['userID']
         )
         db.session.add(pref)
+
     db.session.commit()
-    print("100 Preference Profiles inserted successfully!")
+    print("200 Preference Profiles inserted successfully!")
+
+    # Remove inserted rows from CSV
+    remaining_df = df.iloc[200:]
+    remaining_df.to_csv(filepath, index=False)
+    print("First 200 rows deleted from the CSV file.")
