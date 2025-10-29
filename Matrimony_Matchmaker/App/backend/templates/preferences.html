@@ -97,7 +97,7 @@
   }
 
   function useExistingPreferences() {
-    showMatchTypeModal();
+    showPriorityModal();
   }
 
   function setNewPreferences() {
@@ -199,7 +199,7 @@
         <div class="completion-message">
           <div class="completion-icon">✓</div>
           <h2>Preferences Saved!</h2>
-          <p>Your preferences have been successfully updated. Redirecting to match selection...</p>
+          <p>Your preferences have been successfully updated.</p>
         </div>
       </div>
     `;
@@ -213,22 +213,21 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
-      setTimeout(() => { showMatchTypeModal(); }, 1500);
+      setTimeout(() => { showPriorityModal(); }, 1500);
     } catch (error) {
       console.error('Error:', error);
       alert('Error saving preferences. Please try again.');
     }
   }
-
-  function showMatchTypeModal() {
+  function showPriorityModal() {
     const container = document.getElementById('modal-container');
     container.innerHTML = `
       <div class="modal active">
-        <h3>Choose Matching Mode</h3>
-        <div class="subtitle">How would you like to find your matches?</div>
+        <h3>Set Priority?</h3>
+        <div class="subtitle">Would you like to assign priority to your preferences?</div>
         <div class="button-group" style="flex-direction: column; gap: 16px;">
-          <button class="btn-primary" onclick="goNonWeighted()">Non-Weighted (Flat Match)</button>
-          <button class="btn-skip" onclick="goWeighted()">Weighted (Coming Soon)</button>
+          <button class="btn-primary" onclick="goWeighted()">Yes, Set Priority</button>
+          <button class="btn-skip" onclick="goNonWeighted()">Skip for Now</button>
         </div>
       </div>
     `;
@@ -242,8 +241,11 @@
   }
 
   function goWeighted() {
-    alert("Weighted matching is coming soon!");
-    window.location.href = `/user/dashboard/${userId}`;
+    showLoadingModal("Opening weighted match setup...");
+    setTimeout(() => {
+      alert('This page is coming soon');
+      // window.location.href = `/user/weighted-setup/${userId}`;
+    }, 1000);
   }
 
   function showLoadingModal(message) {
@@ -253,7 +255,7 @@
         <div class="completion-message">
           <div class="completion-icon">⏳</div>
           <h2>${message}</h2>
-          <p>Please wait while we prepare your matches...</p>
+          <p>Please wait...</p>
         </div>
       </div>
     `;

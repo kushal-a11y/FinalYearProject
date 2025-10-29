@@ -22,8 +22,10 @@ def parse_age_range(age_str):
 
 def satisfies_preference(candidate, preference, threshold=2):
     """
-    Return True if candidate satisfies at least 'threshold' preference conditions.
-    Handles None safely.
+    Returns True if candidate satisfies at least 'threshold' number of preference conditions.
+    - Handles None safely.
+    - Converts all string comparisons to lowercase.
+    - Allows partial matches for education, profession, and caste (e.g., 'MNC' in 'MBA MNC').
     """
     if not candidate or not preference:
         return False  # Missing data
@@ -41,24 +43,35 @@ def satisfies_preference(candidate, preference, threshold=2):
         match_count += 1
 
     # --- RELIGION ---
-    if preference.religion and candidate.religion and preference.religion == candidate.religion:
-        match_count += 1
+    if preference.religion and candidate.religion:
+        if preference.religion.strip().lower() == candidate.religion.strip().lower():
+            match_count += 1
 
-    # --- CASTE ---
-    if preference.caste and candidate.caste and preference.caste == candidate.caste:
-        match_count += 1
+    # --- CASTE (partial match allowed) ---
+    if preference.caste and candidate.caste:
+        pref_caste = preference.caste.strip().lower()
+        cand_caste = candidate.caste.strip().lower()
+        if pref_caste in cand_caste or cand_caste in pref_caste:
+            match_count += 1
 
-    # --- EDUCATION ---
-    if preference.education and candidate.education and preference.education == candidate.education:
-        match_count += 1
+    # --- EDUCATION (partial match allowed) ---
+    if preference.education and candidate.education:
+        pref_edu = preference.education.strip().lower()
+        cand_edu = candidate.education.strip().lower()
+        if pref_edu in cand_edu or cand_edu in pref_edu:
+            match_count += 1
 
-    # --- PROFESSION ---
-    if preference.profession and candidate.profession and preference.profession == candidate.profession:
-        match_count += 1
+    # --- PROFESSION (partial match allowed) ---
+    if preference.profession and candidate.profession:
+        pref_prof = preference.profession.strip().lower()
+        cand_prof = candidate.profession.strip().lower()
+        if pref_prof in cand_prof or cand_prof in pref_prof:
+            match_count += 1
 
     # --- RESIDENCE ---
-    if preference.residence and candidate.residence and preference.residence == candidate.residence:
-        match_count += 1
+    if preference.residence and candidate.residence:
+        if preference.residence.strip().lower() == candidate.residence.strip().lower():
+            match_count += 1
 
     return match_count >= threshold
 
@@ -93,7 +106,7 @@ def mutual_score(profile, pref):
     if pref.residence and pref.residence == profile.residence:
         score += 1
 
-    return round((score / total) * 100, 2)
+    return score
 
 
 def mutual_flat_match(seeker_id):
@@ -131,7 +144,7 @@ def mutual_flat_match(seeker_id):
         if seeker_likes_candidate and candidate_likes_seeker:
             seeker_score = mutual_score(candidate, seeker_pref)
             candidate_score = mutual_score(seeker_profile, candidate_pref)
-            mutual_percent = round((seeker_score + candidate_score) / 2, 2)
+            mutual_percent = round((seeker_score + candidate_score) * 100/ 12 , 2)
 
             matches.append({
                 "seeker_id": seeker_id,

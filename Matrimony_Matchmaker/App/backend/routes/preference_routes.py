@@ -4,6 +4,25 @@ from models.preference_profile import PreferenceProfile
 
 preference_bp = Blueprint('preference', __name__)
 
+@preference_bp.route('/preferences/json/<int:user_id>', methods=['GET'])
+def get_preferences_json(user_id):
+    pref = PreferenceProfile.query.filter_by(user_id=user_id).first()
+    if not pref:
+        return jsonify({}), 404
+
+    pref_data = {
+        "age": pref.age,
+        "gender": pref.gender,
+        "education": pref.education,
+        "caste": pref.caste,
+        "profession": pref.profession,
+        "residence": pref.residence,
+        "religion": pref.religion,
+        "height_cm": pref.height_cm
+    }
+    return jsonify(pref_data), 200
+
+
 @preference_bp.route('/preferences/<int:user_id>', methods=['GET'])
 def preferences_page(user_id):
     pref = PreferenceProfile.query.filter_by(user_id=user_id).first()
@@ -32,13 +51,18 @@ def preferences_page(user_id):
 
     degrees = list({
         'B.Tech MBA','MBA','B.Tech','BSc','BA','MA B.Ed','MA','MSC B.Ed',
-        'BA B.Ed','PhD','Bcom','LLB','LLM'
+        'BA B.Ed','PhD','Bcom','LLB','LLM','MBBS','M.Tech','PHD','M.Tech',
+        'M.SC','B.com','IIT','NIT'
     })
 
     professions = list({
-        '20LPA','12LPA','15LPA','MNC-IT','IT','Research-Scholar-germany',
-        'Business','Bank','Pharma Co B\'loe','Law Firm','Hospital Nurse',
-        'Advocate','College lecturer','Digital Marketing B\'lore'
+        'B.Tech 10LPA', 'MBA 12LPA', 'B.Tech 15LPA', 'MBA 35LPA', 'MNC 18LPA', 'MNC 9LPA',
+        'Working at Indian Oil 14LPA', 'Project Manager at IBM-35LPA', 'B.Tech MBA Pvt 10LPA',
+        'M.Teach 14LPA', 'MNC-IT', 'MNC', 'IT', 'Researcg-Scholar-germany', 'Business', 'Bank',
+        "Pharma Co B'loe", 'Law Firm', 'Advocate', 'College lecturer', "Digital Marketting B'lore",
+        'Officer in Central Govt.', 'Asst Professor', 'Asst Professor in Govt College', 'Working at TCS',
+        'MBA-10LPA', 'IT Engineer(U.K.)', 'Professor', 'Working IN U.S.', 'Railway Asst. Engineer',
+        'Govt job', 'Bank Manager'
     })
 
     return render_template(

@@ -96,7 +96,7 @@
       transform: translateY(-2px);
     }
 
-    /* ===== Overlay + Profile Modal (same as dashboard) ===== */
+    /* ===== Overlay + Dual Profile Modal ===== */
     .overlay {
       position: fixed;
       top: 0; left: 0;
@@ -122,9 +122,11 @@
       padding: 40px;
       border-radius: 16px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      width: 90%;
-      max-width: 480px;
-      text-align: left;
+      width: 95%;
+      max-width: 900px;
+      display: flex;
+      gap: 32px;
+      justify-content: space-between;
       transition: all var(--transition);
       opacity: 0;
       pointer-events: none;
@@ -137,12 +139,23 @@
       pointer-events: auto;
     }
 
+    .profile-section {
+      flex: 1;
+      border-right: 1px solid var(--border);
+      padding-right: 24px;
+    }
+
+    .preference-section {
+      flex: 1;
+      padding-left: 24px;
+    }
+
     .profile-popup h3 {
       font-family: 'Playfair Display', serif;
       color: var(--primary);
       margin-bottom: 20px;
       text-align: center;
-      font-size: 24px;
+      font-size: 22px;
     }
 
     .profile-grid {
@@ -182,19 +195,30 @@
       color: var(--primary);
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 800px) {
+      .profile-popup {
+        flex-direction: column;
+        padding: 28px;
+        gap: 24px;
+      }
+      .profile-section {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 24px;
+      }
+      .preference-section {
+        padding-left: 0;
+      }
       .profile-grid {
         grid-template-columns: 1fr;
-      }
-      .profile-popup {
-        padding: 28px;
       }
     }
   </style>
 </head>
 
 <body>
-  <h1>💞 Your Flat Match Results</h1>
+  <h1>💞 Your Matches</h1>
 
   <div class="results-container" id="results-container">
     <div class="no-matches" id="no-matches">Loading matches...</div>
@@ -202,13 +226,24 @@
 
   <a href="/user/dashboard/{{ user_id }}" class="back-btn">← Back to Dashboard</a>
 
-  <!-- Overlay + Popup -->
+  <!-- Overlay + Dual Popup -->
   <div class="overlay" id="overlay" onclick="closeProfile()"></div>
+
   <div class="profile-popup" id="profilePopup">
     <button class="close-btn" onclick="closeProfile()">&times;</button>
-    <h3>Candidate Profile</h3>
-    <div class="profile-grid" id="profileDetails">
-      <p style="grid-column: span 2; text-align:center;">Loading profile...</p>
+
+    <div class="profile-section">
+      <h3>Candidate Profile</h3>
+      <div class="profile-grid" id="profileDetails">
+        <p style="grid-column: span 2; text-align:center;">Loading profile...</p>
+      </div>
+    </div>
+
+    <div class="preference-section">
+      <h3>Candidate Preferences</h3>
+      <div class="profile-grid" id="preferenceDetails">
+        <p style="grid-column: span 2; text-align:center;">Loading preferences...</p>
+      </div>
     </div>
   </div>
 
@@ -217,6 +252,7 @@
     const overlay = document.getElementById("overlay");
     const profilePopup = document.getElementById("profilePopup");
     const profileDetails = document.getElementById("profileDetails");
+    const preferenceDetails = document.getElementById("preferenceDetails");
 
     // === Fetch Matches ===
     async function fetchMatches() {
@@ -239,9 +275,8 @@
           card.className = "match-card";
           card.innerHTML = `
             <h3>Candidate ID: ${m.candidate_id}</h3>
-            <p><strong>Mutual Match %:</strong> ${m.mutual_match_percent}%</p>
-            <p><strong>You → Candidate:</strong> ${m.seeker_to_candidate}%</p>
-            <p><strong>Candidate → You:</strong> ${m.candidate_to_seeker}%</p>
+            <p><strong>You → Candidate:</strong> ${m.seeker_to_candidate}out of 6 features</p>
+            <p><strong>Candidate → You:</strong> ${m.candidate_to_seeker}out of 6 features</p>
           `;
           card.addEventListener("click", () => openProfile(m.candidate_id));
           container.appendChild(card);
@@ -252,39 +287,72 @@
       }
     }
 
-    // === Open Profile Modal ===
+    // === Open Profile + Preferences Side by Side ===
     async function openProfile(candidateId) {
       overlay.classList.add("show");
       profilePopup.classList.add("show");
+
       profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Loading profile...</p>`;
+      preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Loading preferences...</p>`;
 
       try {
-        const res = await fetch(`/user/profile/${candidateId}`);
-        const data = await res.json();
+        // Fetch profile
+        const [profileRes, prefRes] = await Promise.all([
+          fetch(`/user/profile/${candidateId}`),
+          fetch(`/preference/preferences/json/${candidateId}`)
+        ]);
 
-        if (!data || Object.keys(data).length === 0) {
-          profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">No details available.</p>`;
-          return;
+        const [profileData, prefHTML] = await Promise.all([
+          profileRes.json(),
+          prefRes.text()
+        ]);
+
+        // === PROFILE DATA ===
+        if (!profileData || Object.keys(profileData).length === 0) {
+          profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">No profile details.</p>`;
+        } else {
+          profileDetails.innerHTML = `
+            <div class="profile-item"><label>Name</label><p>${profileData.name || "N/A"}</p></div>
+            <div class="profile-item"><label>Age</label><p>${profileData.age || "N/A"}</p></div>
+            <div class="profile-item"><label>Gender</label><p>${profileData.gender || "N/A"}</p></div>
+            <div class="profile-item"><label>Education</label><p>${profileData.education || "N/A"}</p></div>
+            <div class="profile-item"><label>Profession</label><p>${profileData.profession || "N/A"}</p></div>
+            <div class="profile-item"><label>Caste</label><p>${profileData.caste || "N/A"}</p></div>
+            <div class="profile-item"><label>Religion</label><p>${profileData.religion || "N/A"}</p></div>
+            <div class="profile-item"><label>Residence</label><p>${profileData.residence || "N/A"}</p></div>
+            <div class="profile-item"><label>Height</label><p>${profileData.height_cm ? profileData.height_cm + " cm" : "N/A"}</p></div>
+          `;
         }
 
-        profileDetails.innerHTML = `
-          <div class="profile-item"><label>Name</label><p>${data.name || "N/A"}</p></div>
-          <div class="profile-item"><label>Age</label><p>${data.age || "N/A"}</p></div>
-          <div class="profile-item"><label>Gender</label><p>${data.gender || "N/A"}</p></div>
-          <div class="profile-item"><label>Education</label><p>${data.education || "N/A"}</p></div>
-          <div class="profile-item"><label>Profession</label><p>${data.profession || "N/A"}</p></div>
-          <div class="profile-item"><label>Caste</label><p>${data.caste || "N/A"}</p></div>
-          <div class="profile-item"><label>Religion</label><p>${data.religion || "N/A"}</p></div>
-          <div class="profile-item"><label>Residence</label><p>${data.residence || "N/A"}</p></div>
-          <div class="profile-item"><label>Height</label><p>${data.height_cm ? data.height_cm + " cm" : "N/A"}</p></div>
-        `;
+        // === PREFERENCE DATA ===
+        // Instead of rendering template, get JSON version (you can create a `/preference/json/<id>` route)
+        try {
+          const prefJSON = JSON.parse(prefHTML);
+          if (!prefJSON || Object.keys(prefJSON).length === 0) {
+            preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">No preferences set.</p>`;
+          } else {
+            preferenceDetails.innerHTML = `
+              <div class="profile-item"><label>Age Preference</label><p>${prefJSON.age || "N/A"}</p></div>
+              <div class="profile-item"><label>Gender</label><p>${prefJSON.gender || "N/A"}</p></div>
+              <div class="profile-item"><label>Education</label><p>${prefJSON.education || "N/A"}</p></div>
+              <div class="profile-item"><label>Profession</label><p>${prefJSON.profession || "N/A"}</p></div>
+              <div class="profile-item"><label>Caste</label><p>${prefJSON.caste || "N/A"}</p></div>
+              <div class="profile-item"><label>Religion</label><p>${prefJSON.religion || "N/A"}</p></div>
+              <div class="profile-item"><label>Residence</label><p>${prefJSON.residence || "N/A"}</p></div>
+              <div class="profile-item"><label>Height</label><p>${prefJSON.height_cm ? prefJSON.height_cm + " cm" : "N/A"}</p></div>
+            `;
+          }
+        } catch {
+          preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">No preferences found.</p>`;
+        }
+
       } catch (error) {
         console.error(error);
-        profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Error loading profile.</p>`;
+        profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Error loading data.</p>`;
+        preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Error loading preferences.</p>`;
       }
     }
 
-    // === Close Modal ===
     function closeProfile() {
       overlay.classList.remove("show");
       profilePopup.classList.remove("show");
