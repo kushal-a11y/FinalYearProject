@@ -1,175 +1,154 @@
 from db import db
 from models.user_profile import UserProfile
 from models.preference_profile import PreferenceProfile
+from models.preference_priority import PreferencePriority
+
 
 def parse_age_range(age_str):
-    """Convert '23-34' or '28' to (min_age, max_age)."""
     if not age_str or not isinstance(age_str, str):
         return None, None
     try:
-        parts = age_str.split('-')
-        parts = [p.strip() for p in parts if p.strip().isdigit()]
+        parts = [p.strip() for p in age_str.replace("–", "-").split("-") if p.strip().isdigit()]
         if len(parts) == 2:
             return int(parts[0]), int(parts[1])
         elif len(parts) == 1:
             val = int(parts[0])
             return val, val
-        else:
-            return None, None
+        return None, None
     except Exception:
         return None, None
 
 
-def satisfies_preference(candidate, preference, threshold=2):
-    """
-    Returns True if candidate satisfies at least 'threshold' number of preference conditions.
-    - Handles None safely.
-    - Converts all string comparisons to lowercase.
-    - Allows partial matches for education, profession, and caste (e.g., 'MNC' in 'MBA MNC').
-    """
-    if not candidate or not preference:
-        return False  # Missing data
+def has_common_term(a, b):
+    if not a or not b:
+        return False
+    a_tokens = [x.strip().lower() for x in a.replace("/", ",").split(",") if x.strip()]
+    b_tokens = [x.strip().lower() for x in b.replace("/", ",").split(",") if x.strip()]
+    return any(p in q or q in p for p in a_tokens for q in b_tokens)
 
-    match_count = 0
 
-    # --- AGE ---
-    min_age, max_age = parse_age_range(preference.age)
+def feature_match_count(profile, pref):
+    """Return how many features (0–6) match flatly."""
+    count = 0
+    min_age, max_age = parse_age_range(pref.age)
+
     try:
-        cand_age = int(candidate.age) if candidate.age else None
-    except ValueError:
-        cand_age = None
+        age = int(profile.age)
+    except Exception:
+        age = None
 
-    if cand_age and min_age and max_age and (min_age <= cand_age <= max_age):
-        match_count += 1
+    if age and min_age and max_age and (min_age <= age <= max_age):
+        count += 1
+    if pref.religion and profile.religion and pref.religion.lower() == profile.religion.lower():
+        count += 1
+    if pref.caste and profile.caste and (pref.caste.lower() in profile.caste.lower() or profile.caste.lower() in pref.caste.lower()):
+        count += 1
+    if has_common_term(pref.education, profile.education):
+        count += 1
+    if has_common_term(pref.profession, profile.profession):
+        count += 1
+    if pref.residence and profile.residence and pref.residence.lower() == profile.residence.lower():
+        count += 1
 
-    # --- RELIGION ---
-    if preference.religion and candidate.religion:
-        if preference.religion.strip().lower() == candidate.religion.strip().lower():
-            match_count += 1
-
-    # --- CASTE (partial match allowed) ---
-    if preference.caste and candidate.caste:
-        pref_caste = preference.caste.strip().lower()
-        cand_caste = candidate.caste.strip().lower()
-        if pref_caste in cand_caste or cand_caste in pref_caste:
-            match_count += 1
-
-    # --- EDUCATION (partial match allowed) ---
-    if preference.education and candidate.education:
-        pref_edu = preference.education.strip().lower()
-        cand_edu = candidate.education.strip().lower()
-        if pref_edu in cand_edu or cand_edu in pref_edu:
-            match_count += 1
-
-    # --- PROFESSION (partial match allowed) ---
-    if preference.profession and candidate.profession:
-        pref_prof = preference.profession.strip().lower()
-        cand_prof = candidate.profession.strip().lower()
-        if pref_prof in cand_prof or cand_prof in pref_prof:
-            match_count += 1
-
-    # --- RESIDENCE ---
-    if preference.residence and candidate.residence:
-        if preference.residence.strip().lower() == candidate.residence.strip().lower():
-            match_count += 1
-
-    return match_count >= threshold
+    return count
 
 
-def mutual_score(profile, pref):
-    """Calculate mutual compatibility (0–100%) safely."""
-    if not profile or not pref:
+def weighted_score(profile, pref, priority):
+    """Weighted 0–100 score."""
+    if not profile or not pref or not priority:
         return 0
 
-    total = 6
-    score = 0
+    weights = {
+        "age": priority.age_priority or 1,
+        "religion": priority.religion_priority or 1,
+        "caste": priority.caste_priority or 1,
+        "education": priority.education_priority or 1,
+        "profession": priority.profession_priority or 1,
+        "residence": priority.residence_priority or 1,
+    }
+    total_weight = sum(weights.values())
+    matched_weight = 0
 
-    # --- AGE ---
+    # Use feature match logic but with weights
     min_age, max_age = parse_age_range(pref.age)
     try:
-        user_age = int(profile.age) if profile.age else None
-    except ValueError:
-        user_age = None
+        age = int(profile.age)
+    except Exception:
+        age = None
 
-    if user_age and min_age and max_age and (min_age <= user_age <= max_age):
-        score += 1
+    if age and min_age and max_age and (min_age <= age <= max_age):
+        matched_weight += weights["age"]
+    if pref.religion and profile.religion and pref.religion.lower() == profile.religion.lower():
+        matched_weight += weights["religion"]
+    if pref.caste and profile.caste and (pref.caste.lower() in profile.caste.lower() or profile.caste.lower() in pref.caste.lower()):
+        matched_weight += weights["caste"]
+    if has_common_term(pref.education, profile.education):
+        matched_weight += weights["education"]
+    if has_common_term(pref.profession, profile.profession):
+        matched_weight += weights["profession"]
+    if pref.residence and profile.residence and pref.residence.lower() == profile.residence.lower():
+        matched_weight += weights["residence"]
 
-    # --- OTHER ATTRIBUTES ---
-    if pref.religion and pref.religion == profile.religion:
-        score += 1
-    if pref.caste and pref.caste == profile.caste:
-        score += 1
-    if pref.education and pref.education == profile.education:
-        score += 1
-    if pref.profession and pref.profession == profile.profession:
-        score += 1
-    if pref.residence and pref.residence == profile.residence:
-        score += 1
+    return round((matched_weight / total_weight) * 100, 2)
 
-    return score
+
+def satisfies_preference(profile, pref, threshold=2):
+    """Return True if at least threshold features match."""
+    return feature_match_count(profile, pref) >= threshold
 
 
 def mutual_flat_match(seeker_id):
-    """
-    Finds mutual flat matches safely, skipping users with missing preferences.
-    """
     seeker_profile = UserProfile.query.filter_by(user_id=seeker_id).first()
     seeker_pref = PreferenceProfile.query.filter_by(user_id=seeker_id).first()
+    seeker_priority = PreferencePriority.query.filter_by(user_id=seeker_id).first()
 
     if not seeker_profile or not seeker_pref:
-        return {"user_id": seeker_id, "error": "Incomplete seeker data", "matches": []}
+        return {"user_id": seeker_id, "error": "Incomplete data", "matches": []}
 
-    # Fetch opposite gender users
-    if seeker_profile.gender == "Female":
-        candidates = UserProfile.query.filter_by(gender="Male").all()
-    else:
-        candidates = UserProfile.query.filter_by(gender="Female").all()
+    candidates = (
+        UserProfile.query.filter_by(gender="Male").all()
+        if seeker_profile.gender == "Female"
+        else UserProfile.query.filter_by(gender="Female").all()
+    )
 
     matches = []
-    seeker_matches = []
 
-    for candidate in candidates:
-        candidate_pref = PreferenceProfile.query.filter_by(user_id=candidate.user_id).first()
-
-        # Skip candidates without preferences
-        if not candidate_pref:
+    for cand in candidates:
+        cand_pref = PreferenceProfile.query.filter_by(user_id=cand.user_id).first()
+        cand_priority = PreferencePriority.query.filter_by(user_id=cand.user_id).first()
+        if not cand_pref:
             continue
 
-        try:
-            seeker_likes_candidate = satisfies_preference(candidate, seeker_pref)
-            candidate_likes_seeker = satisfies_preference(seeker_profile, candidate_pref)
-        except Exception:
-            continue  # Skip any malformed entry
+        if not (satisfies_preference(cand, seeker_pref) and satisfies_preference(seeker_profile, cand_pref)):
+            continue
 
-        if seeker_likes_candidate and candidate_likes_seeker:
-            seeker_score = mutual_score(candidate, seeker_pref)
-            candidate_score = mutual_score(seeker_profile, candidate_pref)
-            mutual_percent = round((seeker_score + candidate_score) * 100/ 12 , 2)
+        seeker_features = feature_match_count(cand, seeker_pref)
+        candidate_features = feature_match_count(seeker_profile, cand_pref)
 
-            matches.append({
-                "seeker_id": seeker_id,
-                "candidate_id": candidate.user_id,
-                "seeker_to_candidate": seeker_score,
-                "candidate_to_seeker": candidate_score,
-                "mutual_match_percent": mutual_percent
-            })
+        # Weighted percentage (if either has priorities)
+        is_weighted = bool(seeker_priority or cand_priority)
+        if is_weighted:
+            seeker_percent = weighted_score(cand, seeker_pref, seeker_priority or PreferencePriority())
+            candidate_percent = weighted_score(seeker_profile, cand_pref, cand_priority or PreferencePriority())
+            mutual_percent = round((seeker_percent + candidate_percent) / 2, 2)
+        else:
+            seeker_percent = round((seeker_features / 6) * 100, 2)
+            candidate_percent = round((candidate_features / 6) * 100, 2)
+            mutual_percent = round((seeker_percent + candidate_percent) / 2, 2)
 
-            # Update match lists safely
-            seeker_profile.matches = (seeker_profile.matches or [])
-            candidate.matches = (candidate.matches or [])
-
-            if candidate.user_id not in seeker_profile.matches:
-                seeker_profile.matches.append(candidate.user_id)
-            if seeker_profile.user_id not in candidate.matches:
-                candidate.matches.append(seeker_profile.user_id)
-
-            seeker_matches.append(candidate.user_id)
-
-    db.session.commit()
+        matches.append({
+            "candidate_id": cand.user_id,
+            "candidate_name": cand.name or f"User {cand.user_id}",
+            "seeker_to_candidate": seeker_features,
+            "candidate_to_seeker": candidate_features,
+            "seeker_to_candidate_percent": seeker_percent,
+            "candidate_to_seeker_percent": candidate_percent,
+            "mutual_match_percent": mutual_percent,
+            "match_type": "weighted" if is_weighted else "flat",
+        })
 
     return {
         "user_id": seeker_id,
         "total_matches": len(matches),
-        "match_ids": seeker_matches,
-        "matches": sorted(matches, key=lambda x: x["mutual_match_percent"], reverse=True)
+        "matches": sorted(matches, key=lambda x: x["mutual_match_percent"], reverse=True),
     }
