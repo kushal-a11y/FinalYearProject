@@ -5,8 +5,9 @@ from flask_mail import Message
 from db import db, mail
 from models.user_profile import UserProfile
 from services.flat_match import mutual_flat_match
+from models.preference_priority import PreferencePriority
 
-
+priority_bp = Blueprint("priority", __name__)
 user_bp = Blueprint('user', __name__)
 
 # Always use @user_bp.route instead of @app.route
@@ -119,6 +120,57 @@ def dashboard(user_id):
     if not user:
         return "User not found", 404
     return render_template('dashboard.html', user=user)
+
+@priority_bp.route("/get-priority/<int:user_id>", methods=["GET"])
+def get_priority(user_id):
+    user = UserProfile.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    priority = PreferencePriority.query.filter_by(user_id=user_id).first()
+    if not priority:
+        # Return default priorities if none exist
+        default_priorities = {
+            "user_id": user_id,
+            "age_priority": 1,
+            "religion_priority": 1,
+            "caste_priority": 1,
+            "education_priority": 1,
+            "profession_priority": 1,
+            "residence_priority": 1
+        }
+        return jsonify(default_priorities), 200
+
+    return jsonify(priority.to_dict()), 200
+
+@priority_bp.route("/set-priority/<int:user_id>", methods=["POST"])
+def set_priority(user_id):
+    user = UserProfile.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    data = request.get_json() or {}
+    priority = PreferencePriority.query.filter_by(user_id=user_id).first()
+
+    if not priority:
+        priority = PreferencePriority(user_id=user_id)
+        db.session.add(priority)
+
+    # Update values (default = 5)
+    for field in [
+        "age_priority",
+        "religion_priority",
+        "caste_priority",
+        "education_priority",
+        "profession_priority",
+        "residence_priority",
+    ]:
+        setattr(priority, field, int(data.get(field, 5)))
+
+    db.session.commit()
+    return jsonify({"message": "Priorities saved successfully"}), 200
+
+
 
 @user_bp.route('/flat-match/<int:user_id>', methods=['GET'])
 def get_flat_match(user_id):

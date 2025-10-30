@@ -7,10 +7,11 @@ from datetime import datetime
 from models.preference_profile import PreferenceProfile
 from services.data_insertion import insert_user_profiles, insert_preference_profiles
 
-from routes.user_routes import user_bp
+from routes.user_routes import user_bp,priority_bp
 from routes.preference_routes import preference_bp
 
 app.register_blueprint(user_bp, url_prefix='/user')
+app.register_blueprint(priority_bp, url_prefix="/priority")
 app.register_blueprint(preference_bp, url_prefix='/preference')
 
 @app.route('/')

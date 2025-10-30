@@ -4,37 +4,335 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Set Your Preferences</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #faf8f6 0%, #f5f0ed 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-    .container { width: 100%; max-width: 500px; }
-    .progress-section { margin-bottom: 40px; text-align: center; }
-    .progress-text { font-size: 14px; color: #8b7d78; margin-bottom: 12px; font-weight: 500; }
-    .progress-bar { width: 100%; height: 4px; background: #e8ddd8; border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, #d4526e, #c9445a); border-radius: 2px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
-    .modal-wrapper { position: relative; height: 400px; display: flex; align-items: center; justify-content: center; }
-    .modal { position: absolute; width: 100%; background: #ffffff; padding: 48px 32px; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); text-align: center; opacity: 0; transform: translateY(20px) scale(0.95); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
-    .modal.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-    .modal.exit { opacity: 0; transform: translateY(-20px) scale(0.95); }
-    .modal h3 { font-family: 'Playfair Display', serif; font-size: 28px; color: #2d2520; margin-bottom: 8px; font-weight: 600; }
-    .modal .subtitle { font-size: 13px; color: #a89f9a; margin-bottom: 28px; font-weight: 500; }
-    input, select { width: 100%; padding: 14px 16px; margin-bottom: 24px; border: 1.5px solid #e8ddd8; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 15px; color: #2d2520; background: #fafaf9; transition: all 0.3s ease; appearance: none; }
-    input:focus, select:focus { outline: none; border-color: #d4526e; background: #ffffff; box-shadow: 0 0 0 3px rgba(212,82,110,0.1); }
-    input::placeholder { color: #c9bfb8; }
-    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23d4526e' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
-    .button-group { display: flex; gap: 12px; justify-content: center; }
-    button { padding: 12px 32px; border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.3px; }
-    .btn-primary { background: linear-gradient(135deg, #d4526e, #c9445a); color: #ffffff; flex: 1; min-width: 140px; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(212,82,110,0.3); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-skip { background: #f0ebe7; color: #8b7d78; padding: 12px 24px; }
-    .btn-skip:hover { background: #e8ddd8; color: #6b6560; }
-    .completion-message { text-align: center; padding: 40px 20px; }
-    .completion-icon { font-size: 48px; margin-bottom: 16px; }
-    .completion-message h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: #2d2520; margin-bottom: 8px; }
-    .completion-message p { color: #8b7d78; font-size: 14px; line-height: 1.6; }
-    @media (max-width: 480px) { .modal { padding: 36px 24px; } .modal h3 { font-size: 24px; } .button-group { flex-direction: column; } .btn-skip { order: 2; } }
+    
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: linear-gradient(135deg, #f8f7f5 0%, #f3f1ed 50%, #f8f7f5 100%);
+      min-height: 100vh; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(107, 114, 128, 0.04) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(107, 114, 128, 0.04) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    .container { 
+      width: 100%; 
+      max-width: 450px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .progress-section { 
+      margin-bottom: 32px; 
+      text-align: center; 
+    }
+    
+    .progress-text { 
+      font-size: 12px; 
+      color: #6b7280;
+      margin-bottom: 12px; 
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    .progress-bar { 
+      width: 100%; 
+      height: 4px; 
+      background: #e5e7eb;
+      border-radius: 10px; 
+      overflow: hidden;
+    }
+    
+    .progress-fill { 
+      height: 100%; 
+      background: linear-gradient(90deg, #6b7280, #9ca3af);
+      border-radius: 10px; 
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .modal-wrapper { 
+      position: relative; 
+      height: 420px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+    }
+    
+    .modal { 
+      position: absolute; 
+      width: 100%; 
+      max-width: 380px;
+      background: #ffffff;
+      padding: 36px 32px; 
+      border-radius: 16px; 
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08),
+                  0 0 1px rgba(0, 0, 0, 0.05);
+      text-align: center; 
+      opacity: 0; 
+      transform: translateY(20px) scale(0.95); 
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+      pointer-events: none; 
+    }
+    
+    .modal.active { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+      pointer-events: auto; 
+    }
+    
+    .modal.exit { 
+      opacity: 0; 
+      transform: translateY(-20px) scale(0.95); 
+    }
+    
+    .modal h3 { 
+      font-family: 'Playfair Display', serif; 
+      font-size: 26px; 
+      color: #1f2937;
+      margin-bottom: 8px; 
+      font-weight: 700;
+    }
+    
+    .modal .subtitle { 
+      font-size: 13px; 
+      color: #6b7280;
+      margin-bottom: 28px; 
+      font-weight: 400;
+      line-height: 1.5;
+    }
+    
+    input, select { 
+      width: 100%; 
+      padding: 12px 14px; 
+      margin-bottom: 20px; 
+      border: 1px solid #d1d5db;
+      border-radius: 8px; 
+      font-family: 'Poppins', sans-serif; 
+      font-size: 14px; 
+      color: #1f2937;
+      background: #ffffff;
+      transition: all 0.3s ease;
+      appearance: none;
+    }
+    
+    input:focus, select:focus { 
+      outline: none; 
+      border-color: #6b7280;
+      box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+    }
+    
+    input::placeholder { 
+      color: #9ca3af; 
+    }
+    
+    select { 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); 
+      background-repeat: no-repeat; 
+      background-position: right 14px center; 
+      padding-right: 36px; 
+    }
+    
+    .button-group { 
+      display: flex; 
+      gap: 12px; 
+      justify-content: center; 
+    }
+    
+    button { 
+      padding: 11px 28px; 
+      border: none; 
+      border-radius: 8px; 
+      font-family: 'Poppins', sans-serif; 
+      font-size: 13px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: all 0.3s ease; 
+      letter-spacing: 0.3px;
+    }
+    
+    .btn-primary { 
+      background: #6b7280;
+      color: #ffffff; 
+      flex: 1; 
+      min-width: 120px;
+      border: 1px solid #6b7280;
+    }
+    
+    .btn-primary:hover { 
+      background: #4b5563;
+      border-color: #4b5563;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(107, 114, 128, 0.2);
+    }
+    
+    .btn-primary:active { 
+      transform: translateY(0); 
+    }
+    
+    .btn-skip { 
+      background: #f3f4f6;
+      color: #6b7280;
+      padding: 11px 24px;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .btn-skip:hover { 
+      background: #e5e7eb;
+      color: #374151;
+      border-color: #d1d5db;
+    }
+    
+    .completion-message { 
+      text-align: center; 
+      padding: 30px 20px; 
+    }
+    
+    .completion-icon { 
+      font-size: 48px; 
+      margin-bottom: 16px;
+      animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    
+    .completion-message h2 { 
+      font-family: 'Playfair Display', serif; 
+      font-size: 24px; 
+      color: #1f2937;
+      margin-bottom: 8px; 
+    }
+    
+    .completion-message p { 
+      color: #6b7280;
+      font-size: 13px; 
+      line-height: 1.5; 
+    }
+    
+    /* Modern minimal slider styling - thin line with small dot */
+    .slider-container {
+      margin: 32px 0 28px 0;
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      border: none;
+    }
+    
+    .slider-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    
+    .slider-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 16px;
+    }
+    
+    input[type="range"] {
+      width: 100%;
+      height: 3px;
+      border-radius: 10px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      padding: 0;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #6b7280;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(107, 114, 128, 0.25);
+      border: 2px solid #ffffff;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: #4b5563;
+      box-shadow: 0 4px 12px rgba(107, 114, 128, 0.35);
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:active {
+      transform: scale(1.1);
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #6b7280;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(107, 114, 128, 0.25);
+      border: 2px solid #ffffff;
+    }
+    
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.15);
+      background: #4b5563;
+      box-shadow: 0 4px 12px rgba(107, 114, 128, 0.35);
+    }
+    
+    input[type="range"]::-moz-range-track {
+      background: transparent;
+      border: none;
+    }
+    
+    input[type="range"]::-moz-range-progress {
+      background: #6b7280;
+      border-radius: 10px;
+      height: 3px;
+    }
+    
+    @media (max-width: 480px) { 
+      .modal { 
+        padding: 28px 24px; 
+        max-width: 100%;
+      } 
+      .modal h3 { 
+        font-size: 22px; 
+      } 
+      .button-group { 
+        flex-direction: column; 
+      } 
+      .btn-skip { 
+        order: 2; 
+      }
+    }
   </style>
 </head>
 <body>
@@ -58,7 +356,7 @@
   const casteList = {{ castes | tojson | safe }};
   const degreeList = {{ degrees | tojson | safe }};
   const professionList = {{ professions | tojson | safe }};
-  
+
   const preferenceFields = [
     { key: "preferred_age_min", label: "Minimum Age", type: "number", placeholder: "Enter minimum age" },
     { key: "preferred_age_max", label: "Maximum Age", type: "number", placeholder: "Enter maximum age" },
@@ -86,23 +384,18 @@
     const container = document.getElementById('modal-container');
     container.innerHTML = `
       <div class="modal active">
-        <h3>Existing Preferences Found</h3>
+        <h3>Existing Preferences</h3>
         <div class="subtitle">Would you like to use your saved preferences or set new ones?</div>
-        <div class="button-group" style="flex-direction: column; gap: 16px;">
-          <button class="btn-primary" onclick="useExistingPreferences()">Use Existing Preferences</button>
-          <button class="btn-skip" onclick="setNewPreferences()">Set New Preferences</button>
+        <div class="button-group" style="flex-direction: column; gap: 12px; margin-top: 24px;">
+          <button class="btn-primary" onclick="useExistingPreferences()">Use Existing</button>
+          <button class="btn-skip" onclick="setNewPreferences()">Set New</button>
         </div>
       </div>
     `;
   }
 
-  function useExistingPreferences() {
-    showPriorityModal();
-  }
-
-  function setNewPreferences() {
-    renderModal(currentIndex);
-  }
+  function useExistingPreferences() { showPriorityModal(); }
+  function setNewPreferences() { renderModal(currentIndex); }
 
   function updateProgress() {
     const progress = ((currentIndex + 1) / preferenceFields.length) * 100;
@@ -122,7 +415,6 @@
 
     let dataListId = null;
     let optionsHTML = "";
-
     if (field.key === "preferred_caste") {
       dataListId = "casteOptions";
       optionsHTML = casteList.map(opt => `<option value="${opt}">`).join('');
@@ -143,22 +435,21 @@
             const selected = value === existingValue ? 'selected' : '';
             return `<option value="${value}" ${selected}>${opt}</option>`;
           }).join('')}
-        </select>
-      `;
+        </select>`;
     } else if (dataListId) {
       inputHTML = `
         <input list="${dataListId}" type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}" value="${existingValue || ''}">
-        <datalist id="${dataListId}">${optionsHTML}</datalist>
-      `;
+        <datalist id="${dataListId}">${optionsHTML}</datalist>`;
     } else {
       inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}" value="${existingValue || ''}">`;
     }
 
     const isLastField = index === preferenceFields.length - 1;
-    const buttonText = isLastField ? 'Save Preferences' : 'Save & Next';
+    const buttonText = isLastField ? 'Save Preferences' : 'Next';
 
-    const modalHTML = `
-      <div class="modal active" id="modal-${field.key}">
+    const container = document.getElementById('modal-container');
+    container.innerHTML = `
+      <div class="modal active">
         <h3>${field.label}</h3>
         <div class="subtitle">Step ${index + 1} of ${preferenceFields.length}</div>
         ${inputHTML}
@@ -166,13 +457,8 @@
           <button class="btn-primary" onclick="saveField('${field.key}')">${buttonText}</button>
           ${!isLastField ? `<button class="btn-skip" onclick="skipField()">Skip</button>` : ''}
         </div>
-      </div>
-    `;
-
-    const container = document.getElementById('modal-container');
-    container.innerHTML = modalHTML;
+      </div>`;
     updateProgress();
-    document.getElementById(`input-${field.key}`)?.focus();
   }
 
   function saveField(key) {
@@ -180,9 +466,7 @@
     formData[key] = value;
     proceedToNext();
   }
-
   function skipField() { proceedToNext(); }
-
   function proceedToNext() {
     if (currentIndex < preferenceFields.length - 1) {
       currentIndex++;
@@ -193,16 +477,14 @@
   }
 
   function showCompletion() {
-    const container = document.getElementById('modal-container');
-    container.innerHTML = `
+    document.getElementById('modal-container').innerHTML = `
       <div class="modal active">
         <div class="completion-message">
           <div class="completion-icon">✓</div>
           <h2>Preferences Saved!</h2>
           <p>Your preferences have been successfully updated.</p>
         </div>
-      </div>
-    `;
+      </div>`;
   }
 
   async function submitPreferences() {
@@ -219,18 +501,89 @@
       alert('Error saving preferences. Please try again.');
     }
   }
+
   function showPriorityModal() {
-    const container = document.getElementById('modal-container');
-    container.innerHTML = `
+    document.getElementById('modal-container').innerHTML = `
       <div class="modal active">
         <h3>Set Priority?</h3>
         <div class="subtitle">Would you like to assign priority to your preferences?</div>
-        <div class="button-group" style="flex-direction: column; gap: 16px;">
-          <button class="btn-primary" onclick="goWeighted()">Yes, Set Priority</button>
+        <div class="button-group" style="flex-direction: column; gap: 12px; margin-top: 24px;">
+          <button class="btn-primary" onclick="openPrioritySetup()">Yes, Set Priority</button>
           <button class="btn-skip" onclick="goNonWeighted()">Skip for Now</button>
         </div>
-      </div>
-    `;
+      </div>`;
+  }
+
+  function openPrioritySetup() {
+    const features = ["age", "religion", "caste", "education", "profession", "residence"];
+    const levels = ["Very Low", "Low", "Medium", "High", "Very High"];
+    const priorities = {};
+    let currentIndex = 0;
+  
+    const container = document.getElementById("modal-container");
+  
+    function renderFeatureModal(index) {
+      const f = features[index];
+      container.innerHTML = `
+        <div class="modal active">
+          <h3>${f.charAt(0).toUpperCase() + f.slice(1)} Priority</h3>
+          <div class="subtitle">How important is ${f} to you?</div>
+          <div class="slider-container">
+            <div class="slider-label">Importance Level</div>
+            <div class="slider-value" id="priority_label">Medium</div>
+            <input
+              type="range"
+              id="priority_slider"
+              min="1"
+              max="5"
+              step="1"
+              value="3"
+            >
+          </div>
+        
+          <div class="button-group" style="margin-top: 28px;">
+            <button class="btn-primary" id="nextBtn">${index === features.length - 1 ? "Save All" : "Next"}</button>
+          </div>
+        </div>
+      `;
+      
+      const slider = document.getElementById("priority_slider");
+      const label = document.getElementById("priority_label");
+      
+      slider.addEventListener("input", () => {
+        const val = parseInt(slider.value);
+        label.textContent = levels[val - 1];
+      });
+    
+      document.getElementById("nextBtn").onclick = () => {
+        priorities[`${f}_priority`] = parseInt(slider.value);
+        if (index < features.length - 1) {
+          renderFeatureModal(index + 1);
+        } else {
+          saveAllPriorities();
+        }
+      };
+    }
+
+    async function saveAllPriorities() {
+      showLoadingModal("Saving priorities...");
+      try {
+        await fetch(`/priority/set-priority/${userId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(priorities),
+        });
+        showLoadingModal("Calculating weighted matches...");
+        setTimeout(() => {
+          window.location.href = `/user/flatmatch-results/${userId}`;
+        }, 1200);
+      } catch (err) {
+        console.error(err);
+        alert("Error saving priorities");
+      }
+    }
+
+    renderFeatureModal(currentIndex);
   }
 
   function goNonWeighted() {
@@ -240,25 +593,15 @@
     }, 1000);
   }
 
-  function goWeighted() {
-    showLoadingModal("Opening weighted match setup...");
-    setTimeout(() => {
-      alert('This page is coming soon');
-      // window.location.href = `/user/weighted-setup/${userId}`;
-    }, 1000);
-  }
-
   function showLoadingModal(message) {
-    const container = document.getElementById('modal-container');
-    container.innerHTML = `
+    document.getElementById('modal-container').innerHTML = `
       <div class="modal active">
         <div class="completion-message">
           <div class="completion-icon">⏳</div>
           <h2>${message}</h2>
           <p>Please wait...</p>
         </div>
-      </div>
-    `;
+      </div>`;
   }
 </script>
 </body>
