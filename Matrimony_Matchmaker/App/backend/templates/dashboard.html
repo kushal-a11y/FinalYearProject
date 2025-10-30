@@ -13,7 +13,7 @@
       --primary-light: #f9c4cd;
       --background: #fafafa;
       --text-dark: #1e1e1e;
-      --text-muted: #555;
+      --text-muted: #666;
       --white: #fff;
       --border: #e5e5e5;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -31,17 +31,18 @@
       background: var(--background);
       color: var(--text-dark);
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
     /* ===== HEADER ===== */
     header {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
-      padding: 18px 28px;
+      padding: 16px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 16px rgba(212, 82, 110, 0.15);
       position: fixed;
       width: 100%;
       top: 0;
@@ -50,52 +51,58 @@
 
     header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
+      font-size: 24px;
+      font-weight: 700;
       letter-spacing: -0.5px;
     }
 
     .menu-icon {
-      font-size: 28px;
+      font-size: 24px;
       cursor: pointer;
-      transition: transform var(--transition);
+      transition: all var(--transition);
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
     }
 
     .menu-icon:hover {
-      transform: scale(1.1);
+      transform: scale(1.15);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     /* ===== LAYOUT ===== */
     .container {
       display: flex;
       transition: margin-left var(--transition);
-      padding-top: 70px;
+      padding-top: 64px;
     }
 
     /* ===== SIDEBAR ===== */
     .sidebar {
       position: fixed;
-      top: 70px;
+      top: 64px;
       left: -260px;
       width: 260px;
-      height: calc(100vh - 70px);
+      height: calc(100vh - 64px);
       background: var(--white);
-      box-shadow: 4px 0 16px rgba(0, 0, 0, 0.08);
+      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
       transition: left var(--transition);
       z-index: 1000;
-      padding: 32px 20px;
+      padding: 28px 16px;
       overflow-y: auto;
       border-right: 1px solid var(--border);
-      /* Added flex properties for bottom placement */
       display: flex;
       flex-direction: column;
-      justify-content: space-between; /* Space out top buttons and bottom button */
+      justify-content: space-between;
     }
 
     .sidebar-menu {
-        /* Wrapper to group top buttons */
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1; /* Allows the menu to take up available space */
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: 6px;
     }
 
     .sidebar.open {
@@ -106,69 +113,73 @@
       text-align: center;
       font-family: 'Playfair Display', serif;
       color: var(--primary);
-      font-size: 20px;
-      margin-bottom: 30px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 24px;
       border-bottom: 2px solid var(--border);
-      padding-bottom: 10px;
+      padding-bottom: 14px;
+      word-break: break-word;
+      line-height: 1.4;
     }
 
+    /* Refined button styling with better visual feedback and spacing */
     .sidebar button {
       display: flex;
       align-items: center;
       gap: 12px;
       width: 100%;
-      margin-bottom: 12px;
       padding: 12px 14px;
       border: none;
       border-radius: var(--radius);
-      background: var(--background);
-      font-size: 15px;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 500;
       color: var(--text-dark);
       cursor: pointer;
       transition: all var(--transition);
+      position: relative;
     }
 
     .sidebar button:hover {
-      background: var(--primary);
-      color: white;
-      transform: translateX(6px);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      transform: translateX(4px);
     }
 
-    /* ===== LOGOUT BUTTON STYLING (NEW) ===== */
+    .sidebar button:active {
+      transform: translateX(2px);
+    }
+
+    /* Enhanced logout button with better visual separation */
     .logout-btn-special {
-        /* Override default styles for a subtle bottom-aligned link */
-        width: 100%; /* Keep it full width */
-        margin-top: auto; /* Push to the bottom */
-        margin-bottom: 0;
-        border-top: 1px solid var(--border); /* Optional: separator line */
-        padding: 15px 14px; /* Slightly larger padding */
-        
-        /* Initial state: Red text, clear background */
-        color: var(--primary-dark) !important;
-        background: var(--white) !important;
-        font-weight: 600;
-        
-        /* Remove icon, only text desired */
-        justify-content: center;
-        gap: 0;
-        
-        /* Ensure it's not shifted or rounded at the bottom */
-        border-radius: 0 0 var(--radius) var(--radius);
+      margin-top: auto;
+      margin-bottom: 0;
+      border-top: 2px solid var(--border);
+      padding: 16px 14px;
+      color: var(--primary-dark) !important;
+      background: transparent !important;
+      font-weight: 600;
+      font-size: 14px;
+      justify-content: center;
+      gap: 0;
+      border-radius: 0;
+      margin-left: -16px;
+      margin-right: -16px;
+      margin-bottom: -28px;
+      padding-left: 30px;
+      padding-right: 30px;
     }
     
     .logout-btn-special:hover {
-        /* Subtle hover: Change text color and a hint of background, NO shift */
-        background: var(--primary-light) !important; /* Subtle background color change */
-        color: var(--primary-dark) !important; /* Keep text color similar or darker */
-        transform: none !important; /* Crucial: Remove the translateX(6px) shift */
-        opacity: 0.9;
+      background: var(--primary-light) !important;
+      color: var(--primary-dark) !important;
+      transform: none !important;
     }
-
 
     /* ===== CONTENT ===== */
     .content {
       flex: 1;
-      padding: 50px 40px;
+      padding: 52px 48px;
       margin-left: 0;
       transition: margin-left var(--transition);
       min-height: 100vh;
@@ -181,15 +192,17 @@
     .content h2 {
       font-family: 'Playfair Display', serif;
       color: var(--text-dark);
-      font-size: 30px;
-      margin-bottom: 10px;
+      font-size: 34px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: -0.5px;
     }
 
     .content p {
       color: var(--text-muted);
-      font-size: 16px;
-      line-height: 1.7;
-      max-width: 650px;
+      font-size: 15px;
+      line-height: 1.8;
+      max-width: 720px;
     }
 
     /* ===== PROFILE POPUP ===== */
@@ -199,12 +212,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
       opacity: 0;
       visibility: hidden;
       transition: all var(--transition);
       z-index: 1500;
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(4px);
     }
 
     .overlay.show {
@@ -212,6 +225,7 @@
       visibility: visible;
     }
 
+    /* Enhanced profile popup with refined spacing and shadow */
     .profile-popup {
       position: fixed;
       top: 50%;
@@ -222,7 +236,7 @@
       border-radius: 16px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
       width: 90%;
-      max-width: 480px;
+      max-width: 520px;
       z-index: 2000;
       text-align: left;
       transition: all var(--transition);
@@ -239,24 +253,26 @@
     .profile-popup h3 {
       font-family: 'Playfair Display', serif;
       color: var(--primary);
-      margin-bottom: 20px;
+      margin-bottom: 32px;
       text-align: center;
-      font-size: 24px;
+      font-size: 28px;
+      font-weight: 700;
     }
 
     .profile-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 24px;
     }
 
     .profile-item label {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 4px;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: 0.8px;
+      display: block;
     }
 
     .profile-item p {
@@ -267,33 +283,61 @@
 
     .close-btn {
       position: absolute;
-      top: 10px;
-      right: 15px;
+      top: 14px;
+      right: 14px;
       background: none;
       border: none;
-      font-size: 26px;
+      font-size: 28px;
       cursor: pointer;
       color: var(--text-muted);
-      transition: color var(--transition);
+      transition: all var(--transition);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
     }
 
     .close-btn:hover {
       color: var(--primary);
+      background: var(--primary-light);
     }
 
     @media (max-width: 768px) {
+      header {
+        padding: 14px 20px;
+      }
+
+      header h1 {
+        font-size: 20px;
+      }
+
       .sidebar {
         width: 240px;
         left: -240px;
+        padding: 24px 14px;
       }
+
       .sidebar.open ~ .content {
         margin-left: 0;
       }
+
       .profile-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
       }
+
       .content {
-        padding: 30px 20px;
+        padding: 36px 24px;
+      }
+
+      .content h2 {
+        font-size: 28px;
+      }
+
+      .profile-popup {
+        padding: 32px;
+        max-width: 90%;
       }
     }
   </style>
