@@ -6,6 +6,7 @@ from db import db, mail
 from models.user_profile import UserProfile
 from services.flat_match import mutual_flat_match
 from models.preference_priority import PreferencePriority
+from services.match_predictor import get_user_profile_helper,predict_match
 
 priority_bp = Blueprint("priority", __name__)
 user_bp = Blueprint('user', __name__)
@@ -170,8 +171,6 @@ def set_priority(user_id):
     db.session.commit()
     return jsonify({"message": "Priorities saved successfully"}), 200
 
-
-
 @user_bp.route('/flat-match/<int:user_id>', methods=['GET'])
 def get_flat_match(user_id):
     try:
@@ -184,4 +183,51 @@ def get_flat_match(user_id):
 @user_bp.route('/flatmatch-results/<int:user_id>')
 def flatmatch_results(user_id):
     return render_template('flatmatch_results.html', user_id=user_id)
+
+@user_bp.route('/get_user', methods=['GET'])
+def get_user():
+    identifier = (
+        request.args.get('id') or
+        request.args.get('username') or
+        request.args.get('email') or
+        request.args.get('input')
+    )
+
+    if not identifier:
+        return jsonify({"error": "Provide id, name, or email"}), 400
+
+    user = get_user_profile_helper(identifier)
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    user_data = {
+        "user_id": user.user_id,
+        "name": user.name,
+        "email": user.email,
+        "age": user.age,
+        "gender": user.gender,
+        "education": user.education,
+        "caste": user.caste,
+        "profession": user.profession,
+        "religion": user.religion,
+        "residence": user.residence,
+        "height_cm": user.height_cm,
+        "extras": user.extras,
+        "matches": user.matches
+    }
+
+    return jsonify(user_data)
+
+@user_bp.route('/predict_match', methods=['GET'])
+def predict_match_route():
+    """API endpoint to predict match between two users."""
+    user1 = request.args.get('user1')
+    user2 = request.args.get('user2')
+
+    if not user1 or not user2:
+        return jsonify({"error": "Please provide both user1 and user2 identifiers"}), 400
+
+    return predict_match(user1, user2)
+
 
