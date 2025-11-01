@@ -69,7 +69,6 @@ def weighted_score(profile, pref, priority):
     total_weight = sum(weights.values())
     matched_weight = 0
 
-    # Use feature match logic but with weights
     min_age, max_age = parse_age_range(pref.age)
     try:
         age = int(profile.age)
@@ -125,7 +124,6 @@ def mutual_flat_match(seeker_id):
         seeker_features = feature_match_count(cand, seeker_pref)
         candidate_features = feature_match_count(seeker_profile, cand_pref)
 
-        # Weighted percentage (if either has priorities)
         is_weighted = bool(seeker_priority or cand_priority)
         if is_weighted:
             seeker_percent = weighted_score(cand, seeker_pref, seeker_priority or PreferencePriority())
@@ -146,6 +144,25 @@ def mutual_flat_match(seeker_id):
             "mutual_match_percent": mutual_percent,
             "match_type": "weighted" if is_weighted else "flat",
         })
+
+    # === Update Matches in Database ===
+    if matches:
+        try:
+            # Update seeker's matches
+            seeker_profile.matches = [m["candidate_id"] for m in matches]
+
+            # Update reciprocal matches for each candidate
+            for m in matches:
+                cand = UserProfile.query.filter_by(user_id=m["candidate_id"]).first()
+                if cand:
+                    existing = set(cand.matches or [])
+                    existing.add(seeker_profile.user_id)
+                    cand.matches = list(existing)
+
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(f"[ERROR] Failed to update matches in DB: {e}")
 
     return {
         "user_id": seeker_id,
