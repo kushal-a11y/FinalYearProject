@@ -91,7 +91,7 @@ def weighted_score(profile, pref, priority):
     return round((matched_weight / total_weight) * 100, 2)
 
 
-def satisfies_preference(profile, pref, threshold=3):
+def satisfies_preference(profile, pref, threshold=2):
     """Return True if at least threshold features match."""
     return feature_match_count(profile, pref) >= threshold
 

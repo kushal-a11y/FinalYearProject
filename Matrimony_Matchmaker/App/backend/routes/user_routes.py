@@ -1,17 +1,20 @@
 from flask import Blueprint, request, jsonify,render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from dotenv import load_dotenv
 from flask_mail import Message
+import os
 from db import db, mail
 from models.user_profile import UserProfile
 from services.flat_match import mutual_flat_match
 from models.preference_priority import PreferencePriority
 from services.match_predictor import get_user_profile_helper,predict_match
 
+load_dotenv()
+
 priority_bp = Blueprint("priority", __name__)
 user_bp = Blueprint('user', __name__)
 
-# Always use @user_bp.route instead of @app.route
 
 @user_bp.route('/register', methods=['POST'])
 def register_user():
@@ -35,6 +38,7 @@ def register_user():
     try:
         msg = Message(
             subject="Welcome to Matrimony Portal",
+            sender=os.getenv('MAIL_USERNAME'),
             recipients=[email],
             body=f"Hello!\n\nYour Matrimony account has been created.\nUser ID: {new_user.user_id}\nPassword: {password}\n\nUse these credentials to log in and complete your profile."
         )
