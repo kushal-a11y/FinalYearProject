@@ -4,6 +4,7 @@
 *.joblib
 *.h5
 *.pt
+*.zip
 
 venv/
 env/
