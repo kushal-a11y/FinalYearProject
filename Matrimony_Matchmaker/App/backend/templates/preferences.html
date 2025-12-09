@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Set Your Preferences</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body { 
-      font-family: 'Poppins', sans-serif; 
-      background: linear-gradient(135deg, #f8f7f5 0%, #f3f1ed 50%, #f8f7f5 100%);
-      min-height: 100vh; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #FFF7F8 0%, #FEEFF1 50%, #FFF7F8 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
       padding: 20px;
       position: relative;
       overflow-x: hidden;
     }
-    
+
     body::before {
       content: '';
       position: fixed;
@@ -27,582 +34,489 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 20% 50%, rgba(107, 114, 128, 0.04) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(107, 114, 128, 0.04) 0%, transparent 50%);
+      background: radial-gradient(circle at 20% 50%, rgba(201, 122, 138, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(201, 122, 138, 0.06) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
-    
-    .container { 
-      width: 100%; 
-      max-width: 450px;
+
+    .container {
+      width: 100%;
+      max-width: 800px;
       position: relative;
       z-index: 1;
     }
-    
-    .progress-section { 
-      margin-bottom: 32px; 
-      text-align: center; 
-    }
-    
-    .progress-text { 
-      font-size: 12px; 
-      color: #6b7280;
-      margin-bottom: 12px; 
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    
-    .progress-bar { 
-      width: 100%; 
-      height: 4px; 
-      background: #e5e7eb;
-      border-radius: 10px; 
-      overflow: hidden;
-    }
-    
-    .progress-fill { 
-      height: 100%; 
-      background: linear-gradient(90deg, #6b7280, #9ca3af);
-      border-radius: 10px; 
-      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .modal-wrapper { 
-      position: relative; 
-      height: 420px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-    }
-    
-    .modal { 
-      position: absolute; 
-      width: 100%; 
-      max-width: 380px;
+
+    .card {
       background: #ffffff;
-      padding: 36px 32px; 
-      border-radius: 16px; 
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08),
-                  0 0 1px rgba(0, 0, 0, 0.05);
-      text-align: center; 
-      opacity: 0; 
-      transform: translateY(20px) scale(0.95); 
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-      pointer-events: none; 
+      padding: 28px;
+      border-radius: 16px;
+      border: 1px solid #f3dce1;
+      box-shadow: 0 10px 34px rgba(201, 122, 138, 0.15);
+      margin-bottom: 28px;
     }
-    
-    .modal.active { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
-      pointer-events: auto; 
-    }
-    
-    .modal.exit { 
-      opacity: 0; 
-      transform: translateY(-20px) scale(0.95); 
-    }
-    
-    .modal h3 { 
-      font-family: 'Playfair Display', serif; 
-      font-size: 26px; 
-      color: #1f2937;
-      margin-bottom: 8px; 
+
+    .card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #4A2E2F;
+      margin-bottom: 8px;
       font-weight: 700;
     }
-    
-    .modal .subtitle { 
-      font-size: 13px; 
-      color: #6b7280;
-      margin-bottom: 28px; 
-      font-weight: 400;
+
+    .subtitle {
+      font-size: 13px;
+      color: #7c5a5e;
+      margin-bottom: 20px;
       line-height: 1.5;
     }
-    
-    input, select { 
-      width: 100%; 
-      padding: 12px 14px; 
-      margin-bottom: 20px; 
-      border: 1px solid #d1d5db;
-      border-radius: 8px; 
-      font-family: 'Poppins', sans-serif; 
-      font-size: 14px; 
-      color: #1f2937;
-      background: #ffffff;
-      transition: all 0.3s ease;
-      appearance: none;
-    }
-    
-    input:focus, select:focus { 
-      outline: none; 
-      border-color: #6b7280;
-      box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
-    }
-    
-    input::placeholder { 
-      color: #9ca3af; 
-    }
-    
-    select { 
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); 
-      background-repeat: no-repeat; 
-      background-position: right 14px center; 
-      padding-right: 36px; 
-    }
-    
-    .button-group { 
-      display: flex; 
-      gap: 12px; 
-      justify-content: center; 
-    }
-    
-    button { 
-      padding: 11px 28px; 
-      border: none; 
-      border-radius: 8px; 
-      font-family: 'Poppins', sans-serif; 
-      font-size: 13px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      transition: all 0.3s ease; 
-      letter-spacing: 0.3px;
-    }
-    
-    .btn-primary { 
-      background: #6b7280;
-      color: #ffffff; 
-      flex: 1; 
-      min-width: 120px;
-      border: 1px solid #6b7280;
-    }
-    
-    .btn-primary:hover { 
-      background: #4b5563;
-      border-color: #4b5563;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(107, 114, 128, 0.2);
-    }
-    
-    .btn-primary:active { 
-      transform: translateY(0); 
-    }
-    
-    .btn-skip { 
-      background: #f3f4f6;
-      color: #6b7280;
-      padding: 11px 24px;
-      border: 1px solid #e5e7eb;
-    }
-    
-    .btn-skip:hover { 
-      background: #e5e7eb;
-      color: #374151;
-      border-color: #d1d5db;
-    }
-    
-    .completion-message { 
-      text-align: center; 
-      padding: 30px 20px; 
-    }
-    
-    .completion-icon { 
-      font-size: 48px; 
-      margin-bottom: 16px;
-      animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    
-    @keyframes scaleIn {
-      from { transform: scale(0); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-    
-    .completion-message h2 { 
-      font-family: 'Playfair Display', serif; 
-      font-size: 24px; 
-      color: #1f2937;
-      margin-bottom: 8px; 
-    }
-    
-    .completion-message p { 
-      color: #6b7280;
-      font-size: 13px; 
-      line-height: 1.5; 
-    }
-    
-    /* Modern minimal slider styling - thin line with small dot */
-    .slider-container {
-      margin: 32px 0 28px 0;
-      padding: 0;
-      background: transparent;
-      border-radius: 0;
-      border: none;
-    }
-    
-    .slider-label {
+
+    label {
+      display: block;
       font-size: 12px;
-      color: #6b7280;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      color: #7c5a5e;
+      margin-bottom: 8px;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
     }
-    
-    .slider-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 16px;
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
     }
-    
-    input[type="range"] {
+
+    input,
+    select {
       width: 100%;
-      height: 3px;
+      padding: 12px 14px;
+      border: 1px solid #e8c9d0;
       border-radius: 10px;
-      background: #d1d5db;
-      outline: none;
-      -webkit-appearance: none;
-      appearance: none;
-      padding: 0;
+      background: #ffffff;
+      font-size: 14px;
+      color: #4A2E2F;
+      transition: 0.3s ease;
     }
-    
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #C97A8A;
+      box-shadow: 0 0 0 3px rgba(201, 122, 138, 0.25);
+    }
+
+    input::placeholder {
+      color: #b9929a;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C97A8A' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #C97A8A;
+      color: #fff;
+      border: 1px solid #C97A8A;
+    }
+
+    .btn-primary:hover {
+      background: #B16476;
+      border-color: #B16476;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(201, 122, 138, 0.26);
+    }
+
+    .btn-muted {
+      background: #f7e9ec;
+      color: #7c5a5e;
+      border: 1px solid #e8c9d0;
+    }
+
+    .btn-muted:hover {
+      background: #f1d6db;
+      color: #4A2E2F;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+
+    #existingCard {
+      display: none;
+    }
+
+    /* Priority Panel */
+    #priorityOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 200;
+    }
+
+    #priorityPanel {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid #f3dce1;
+      box-shadow: 0 12px 40px rgba(201, 122, 138, 0.25);
+      width: 95%;
+      max-width: 820px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      position: relative;
+    }
+
+    .priority-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .priority-item {
+      background: #fff8f9;
+      border: 1px solid #f2d4db;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .priority-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #4A2E2F;
+      margin-bottom: 8px;
+    }
+
+    .slider-wrapper {
+      position: relative;
+    }
+
+    .slider-wrapper span {
+      position: absolute;
+      top: -24px;
+      font-weight: 700;
+      color: #4A2E2F;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #7c5a5e;
+      margin-top: 4px;
+    }
+
+    /* Thin black line */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+      /* allow real track to show */
+    }
+
+    /* The real visible slider line */
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 1px;
+      background: black;
+      border-radius: 1px;
+    }
+
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      appearance: none;
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: #6b7280;
+      background: #C97A8A;
+      border: none;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(107, 114, 128, 0.25);
-      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(201, 122, 138, 0.35);
+      margin-top: -7px;
+      transition: 0.2s ease;
     }
-    
+
     input[type="range"]::-webkit-slider-thumb:hover {
-      transform: scale(1.15);
-      background: #4b5563;
-      box-shadow: 0 4px 12px rgba(107, 114, 128, 0.35);
+      background: #B16476;
+      transform: scale(1.2);
     }
-    
-    input[type="range"]::-webkit-slider-thumb:active {
-      transform: scale(1.1);
-    }
-    
+
     input[type="range"]::-moz-range-thumb {
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: #6b7280;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(107, 114, 128, 0.25);
-      border: 2px solid #ffffff;
-    }
-    
-    input[type="range"]::-moz-range-thumb:hover {
-      transform: scale(1.15);
-      background: #4b5563;
-      box-shadow: 0 4px 12px rgba(107, 114, 128, 0.35);
-    }
-    
-    input[type="range"]::-moz-range-track {
-      background: transparent;
+      background: #C97A8A;
       border: none;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(201, 122, 138, 0.35);
+      transition: 0.2s ease;
     }
-    
-    input[type="range"]::-moz-range-progress {
-      background: #6b7280;
-      border-radius: 10px;
-      height: 3px;
+
+    input[type="range"]::-moz-range-thumb:hover {
+      background: #B16476;
+      transform: scale(1.2);
     }
-    
-    @media (max-width: 480px) { 
-      .modal { 
-        padding: 28px 24px; 
-        max-width: 100%;
-      } 
-      .modal h3 { 
-        font-size: 22px; 
-      } 
-      .button-group { 
-        flex-direction: column; 
-      } 
-      .btn-skip { 
-        order: 2; 
+
+    input[type="range"]::-ms-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #C97A8A;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(201, 122, 138, 0.35);
+      transition: 0.2s ease;
+    }
+
+    input[type="range"]::-ms-thumb:hover {
+      background: #B16476;
+      transform: scale(1.2);
+    }
+
+    #loadingOverlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      background: rgba(0, 0, 0, 0.35);
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+
+    #loadingBox {
+      background: #ffffff;
+      padding: 26px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      border: 1px solid #f3dce1;
+      box-shadow: 0 12px 32px rgba(201, 122, 138, 0.22);
+    }
+
+    @media(max-width:600px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
-<body>
 
-<div class="container">
-  <div class="progress-section">
-    <div class="progress-text">
-      <span id="current-field">1</span> of <span id="total-fields">9</span>
+<body>
+  <div class="container">
+    <div class="card">
+      <h2>Set Your Preferences</h2>
+      <div class="subtitle">Fill partner preferences in one page. After saving, you can assign importance values (1–10).
+      </div>
+      <form id="preferencesForm" onsubmit="event.preventDefault(); submitPreferences();">
+        <div class="grid-2">
+          <div><label for="preferred_age_min">Minimum Age</label><input type="number" id="preferred_age_min" min="18">
+          </div>
+          <div><label for="preferred_age_max">Maximum Age</label><input type="number" id="preferred_age_max" min="18">
+          </div>
+          <div><label for="preferred_gender">Preferred Gender</label>
+            <select id="preferred_gender">
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div><label for="preferred_height_cm">Preferred Height (cm)</label><input type="number"
+              id="preferred_height_cm" min="100"></div>
+          <div><label for="preferred_education">Preferred Education</label><input list="degreeOptions"
+              id="preferred_education"><datalist id="degreeOptions"></datalist></div>
+          <div><label for="preferred_profession">Preferred Profession</label><input list="professionOptions"
+              id="preferred_profession"><datalist id="professionOptions"></datalist></div>
+          <div><label for="preferred_caste">Preferred Caste</label><input list="casteOptions"
+              id="preferred_caste"><datalist id="casteOptions"></datalist></div>
+          <div><label for="preferred_religion">Preferred Religion</label><input type="text" id="preferred_religion">
+          </div>
+          <div style="grid-column:1/-1;"><label for="preferred_residence">Preferred Residence</label><input type="text"
+              id="preferred_residence"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn-muted" onclick="resetForm()">Reset</button>
+          <button type="submit" class="btn-primary">Save Preferences</button>
+        </div>
+      </form>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progress-fill"></div>
+
+    <div class="card" id="existingCard">
+      <h2>Saved Preferences Found</h2>
+      <div class="subtitle">Load or use your already saved preferences.</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-primary" onclick="useExistingPreferences()">Use Saved</button>
+        <button class="btn-muted" onclick="fillFormFromExisting()">Load into Form</button>
+      </div>
     </div>
   </div>
 
-  <div class="modal-wrapper" id="modal-container"></div>
-</div>
-
-<script>
-  const userId = "{{ user_id }}";
-  const existingPreferences = {{ preferences|tojson|safe }};
-  const casteList = {{ castes | tojson | safe }};
-  const degreeList = {{ degrees | tojson | safe }};
-  const professionList = {{ professions | tojson | safe }};
-
-  const preferenceFields = [
-    { key: "preferred_age_min", label: "Minimum Age", type: "number", placeholder: "Enter minimum age" },
-    { key: "preferred_age_max", label: "Maximum Age", type: "number", placeholder: "Enter maximum age" },
-    { key: "preferred_gender", label: "Preferred Gender", type: "select", options: ["Select Gender", "Male", "Female", "Other"] },
-    { key: "preferred_education", label: "Preferred Education", type: "text", placeholder: "Enter preferred education" },
-    { key: "preferred_profession", label: "Preferred Profession", type: "text", placeholder: "Enter preferred profession" },
-    { key: "preferred_caste", label: "Preferred Caste", type: "text", placeholder: "Enter preferred caste" },
-    { key: "preferred_religion", label: "Preferred Religion", type: "text", placeholder: "Enter preferred religion" },
-    { key: "preferred_residence", label: "Preferred Residence", type: "text", placeholder: "Enter preferred city/residence" },
-    { key: "preferred_height_cm", label: "Preferred Height (cm)", type: "number", placeholder: "Enter height in cm" }
-  ];
-
-  let currentIndex = 0;
-  const formData = {};
-
-  document.addEventListener("DOMContentLoaded", () => {
-    if (existingPreferences && Object.keys(existingPreferences).length > 0) {
-      showPreferenceChoiceModal();
-    } else {
-      renderModal(currentIndex);
-    }
-  });
-
-  function showPreferenceChoiceModal() {
-    const container = document.getElementById('modal-container');
-    container.innerHTML = `
-      <div class="modal active">
-        <h3>Existing Preferences</h3>
-        <div class="subtitle">Would you like to use your saved preferences or set new ones?</div>
-        <div class="button-group" style="flex-direction: column; gap: 12px; margin-top: 24px;">
-          <button class="btn-primary" onclick="useExistingPreferences()">Use Existing</button>
-          <button class="btn-skip" onclick="setNewPreferences()">Set New</button>
+  <div id="priorityOverlay">
+    <div id="priorityPanel">
+      <h2>Set Feature Priorities</h2>
+      <div class="subtitle">Set importance from 1 to 10 for each preference feature.</div>
+      <form id="priorityForm" onsubmit="event.preventDefault(); submitPriorities();">
+        <div class="priority-grid" id="priorityGrid"></div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button type="button" class="btn-muted" onclick="closePriorityPanel()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Priorities & Calculate Matches</button>
         </div>
-      </div>
-    `;
-  }
+      </form>
+    </div>
+  </div>
 
-  function useExistingPreferences() { showPriorityModal(); }
-  function setNewPreferences() { renderModal(currentIndex); }
+  <div id="loadingOverlay">
+    <div id="loadingBox">
+      <div style="font-size:42px;">⏳</div>
+      <h2 id="loadingTitle" style="font-family:'Playfair Display'; color:#4A2E2F;">Loading...</h2>
+      <p style="color:#7c5a5e;">Please wait...</p>
+    </div>
+  </div>
 
-  function updateProgress() {
-    const progress = ((currentIndex + 1) / preferenceFields.length) * 100;
-    document.getElementById('progress-fill').style.width = progress + '%';
-    document.getElementById('current-field').textContent = currentIndex + 1;
-    document.getElementById('total-fields').textContent = preferenceFields.length;
-  }
+  <script>
+    const userId = "{{ user_id }}";
+    const existingPreferences = {{ preferences| tojson | safe }};
+    const casteList = {{ castes | tojson | safe }};
+    const degreeList = {{ degrees | tojson | safe }};
+    const professionList = {{ professions | tojson | safe }};
 
-  function renderModal(index) {
-    const field = preferenceFields[index];
-    if (!field) return;
-
-    let existingValue = "";
-    if (existingPreferences && existingPreferences[field.key.replace("preferred_", "")]) {
-      existingValue = existingPreferences[field.key.replace("preferred_", "")];
+    const preferenceKeys = ["preferred_age_min", "preferred_age_max", "preferred_gender", "preferred_education", "preferred_profession", "preferred_caste", "preferred_religion", "preferred_residence", "preferred_height_cm"];
+    const priorityFeatures = [
+      { key: "age", label: "Age" }, { key: "religion", label: "Religion" },
+      { key: "caste", label: "Caste" }, { key: "education", label: "Education" }, { key: "profession", label: "Profession" },
+      { key: "height", label: "Height" }, { key: "residence", label: "Residence" }
+    ];
+    function resetForm(){
+      document.getElementById("preferencesForm").reset();  // clear form
     }
-
-    let dataListId = null;
-    let optionsHTML = "";
-    if (field.key === "preferred_caste") {
-      dataListId = "casteOptions";
-      optionsHTML = casteList.map(opt => `<option value="${opt}">`).join('');
-    } else if (field.key === "preferred_education") {
-      dataListId = "degreeOptions";
-      optionsHTML = degreeList.map(opt => `<option value="${opt}">`).join('');
-    } else if (field.key === "preferred_profession") {
-      dataListId = "professionOptions";
-      optionsHTML = professionList.map(opt => `<option value="${opt}">`).join('');
+    function populateDataLists() {
+      document.getElementById("casteOptions").innerHTML = casteList.map(x => `<option value="${x}">`).join('');
+      document.getElementById("degreeOptions").innerHTML = degreeList.map(x => `<option value="${x}">`).join('');
+      document.getElementById("professionOptions").innerHTML = professionList.map(x => `<option value="${x}">`).join('');
     }
+    function fillFormFromExisting() {
+      if (!existingPreferences || Object.keys(existingPreferences).length === 0) {
+        alert("No saved preferences found.");
+        return;
+      }
 
-    let inputHTML = '';
-    if (field.type === "select") {
-      inputHTML = `
-        <select id="input-${field.key}">
-          ${field.options.map(opt => {
-            const value = opt === 'Select Gender' ? '' : opt;
-            const selected = value === existingValue ? 'selected' : '';
-            return `<option value="${value}" ${selected}>${opt}</option>`;
-          }).join('')}
-        </select>`;
-    } else if (dataListId) {
-      inputHTML = `
-        <input list="${dataListId}" type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}" value="${existingValue || ''}">
-        <datalist id="${dataListId}">${optionsHTML}</datalist>`;
-    } else {
-      inputHTML = `<input type="${field.type}" id="input-${field.key}" placeholder="${field.placeholder}" value="${existingValue || ''}">`;
-    }
+      // --- FIX FOR AGE: split "28 - 29" ---
+      if (existingPreferences.age) {
+        const parts = existingPreferences.age.split("-").map(x => x.trim());
+        document.getElementById("preferred_age_min").value = parts[0] ?? "";
+        document.getElementById("preferred_age_max").value = parts[1] ?? "";
+      }
 
-    const isLastField = index === preferenceFields.length - 1;
-    const buttonText = isLastField ? 'Save Preferences' : 'Next';
+      // --- Fill the rest normally ---
+      preferenceKeys.forEach(id => {
+        if (id.startsWith("preferred_age")) return; // skip age, already handled
 
-    const container = document.getElementById('modal-container');
-    container.innerHTML = `
-      <div class="modal active">
-        <h3>${field.label}</h3>
-        <div class="subtitle">Step ${index + 1} of ${preferenceFields.length}</div>
-        ${inputHTML}
-        <div class="button-group">
-          <button class="btn-primary" onclick="saveField('${field.key}')">${buttonText}</button>
-          ${!isLastField ? `<button class="btn-skip" onclick="skipField()">Skip</button>` : ''}
-        </div>
-      </div>`;
-    updateProgress();
-  }
+        const el = document.getElementById(id);
+        if (!el) return;
 
-  function saveField(key) {
-    const value = document.getElementById(`input-${key}`).value.trim();
-    formData[key] = value;
-    proceedToNext();
-  }
-  function skipField() { proceedToNext(); }
-  function proceedToNext() {
-    if (currentIndex < preferenceFields.length - 1) {
-      currentIndex++;
-      renderModal(currentIndex);
-    } else {
-      submitPreferences();
-    }
-  }
+        const key = id.replace("preferred_", "");
 
-  function showCompletion() {
-    document.getElementById('modal-container').innerHTML = `
-      <div class="modal active">
-        <div class="completion-message">
-          <div class="completion-icon">✓</div>
-          <h2>Preferences Saved!</h2>
-          <p>Your preferences have been successfully updated.</p>
-        </div>
-      </div>`;
-  }
-
-  async function submitPreferences() {
-    showCompletion();
-    try {
-      await fetch(`/preference/preferences/${userId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        el.value = existingPreferences[id] ?? existingPreferences[key] ?? "";
       });
-      setTimeout(() => { showPriorityModal(); }, 1500);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error saving preferences. Please try again.');
     }
-  }
-
-  function showPriorityModal() {
-    document.getElementById('modal-container').innerHTML = `
-      <div class="modal active">
-        <h3>Set Priority?</h3>
-        <div class="subtitle">Would you like to assign priority to your preferences?</div>
-        <div class="button-group" style="flex-direction: column; gap: 12px; margin-top: 24px;">
-          <button class="btn-primary" onclick="openPrioritySetup()">Yes, Set Priority</button>
-          <button class="btn-skip" onclick="goNonWeighted()">Skip for Now</button>
-        </div>
-      </div>`;
-  }
-
-  function openPrioritySetup() {
-    const features = ["age", "religion", "caste", "education", "profession", "residence"];
-    const levels = ["Very Low", "Low", "Medium", "High", "Very High"];
-    const priorities = {};
-    let currentIndex = 0;
-  
-    const container = document.getElementById("modal-container");
-  
-    function renderFeatureModal(index) {
-      const f = features[index];
-      container.innerHTML = `
-        <div class="modal active">
-          <h3>${f.charAt(0).toUpperCase() + f.slice(1)} Priority</h3>
-          <div class="subtitle">How important is ${f} to you?</div>
-          <div class="slider-container">
-            <div class="slider-label">Importance Level</div>
-            <div class="slider-value" id="priority_label">Medium</div>
-            <input
-              type="range"
-              id="priority_slider"
-              min="1"
-              max="5"
-              step="1"
-              value="3"
-            >
-          </div>
-        
-          <div class="button-group" style="margin-top: 28px;">
-            <button class="btn-primary" id="nextBtn">${index === features.length - 1 ? "Save All" : "Next"}</button>
-          </div>
-        </div>
-      `;
-      
-      const slider = document.getElementById("priority_slider");
-      const label = document.getElementById("priority_label");
-      
-      slider.addEventListener("input", () => {
-        const val = parseInt(slider.value);
-        label.textContent = levels[val - 1];
+    function resetToExisting() { fillFormFromExisting(); }
+    function useExistingPreferences() { showLoading("Applying saved preferences..."); setTimeout(() => { hideLoading(); showPriorityChoiceOverlay(); }, 700); }
+    function showPriorityChoiceOverlay() {
+      const box = document.createElement("div"); box.className = "card"; box.style.maxWidth = "420px";
+      box.innerHTML = `<h2>Set Priority?</h2><div class="subtitle">Do you want to assign importance values now?</div><div style="display:flex; gap:10px; justify-content:center;"><button class="btn-primary" id="yes">Yes</button><button class="btn-muted" id="no">Skip</button></div>`;
+      const overlay = document.createElement("div"); overlay.style.position = "fixed"; overlay.style.inset = "0"; overlay.style.background = "rgba(0,0,0,0.45)"; overlay.style.display = "flex"; overlay.style.justifyContent = "center"; overlay.style.alignItems = "center"; overlay.style.zIndex = "300"; overlay.appendChild(box); document.body.appendChild(overlay);
+      box.querySelector("#yes").onclick = () => { overlay.remove(); openPriorityPanel(); };
+      box.querySelector("#no").onclick = () => { overlay.remove(); goNonWeighted(); };
+    }
+    async function submitPreferences() {
+      const formData = {};
+    
+      // ALWAYS include all fields, even if empty
+      preferenceKeys.forEach(id => {
+        const el = document.getElementById(id);
+        formData[id] = (el && el.value !== undefined) ? el.value : "";
       });
     
-      document.getElementById("nextBtn").onclick = () => {
-        priorities[`${f}_priority`] = parseInt(slider.value);
-        if (index < features.length - 1) {
-          renderFeatureModal(index + 1);
-        } else {
-          saveAllPriorities();
-        }
-      };
-    }
-
-    async function saveAllPriorities() {
-      showLoadingModal("Saving priorities...");
+      showLoading("Saving preferences...");
+    
       try {
-        await fetch(`/priority/set-priority/${userId}`, {
+        await fetch(`/preference/preferences/${userId}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(priorities),
+          body: JSON.stringify(formData)
         });
-        showLoadingModal("Calculating weighted matches...");
-        setTimeout(() => {
-          window.location.href = `/user/flatmatch-results/${userId}`;
-        }, 1200);
+      
+        hideLoading();
+        showPriorityChoiceOverlay();
       } catch (err) {
-        console.error(err);
-        alert("Error saving priorities");
+        hideLoading();
+        alert("Error saving preferences");
       }
     }
+    function openPriorityPanel() {
+      const g = document.getElementById("priorityGrid"); g.innerHTML = "";
+      priorityFeatures.forEach(f => {
+        const id = `prio_${f.key}`;
+        const item = document.createElement("div"); item.className = "priority-item";
+        item.innerHTML = `
+          <div class="priority-label">${f.label}</div>
+          <div class="slider-wrapper">
+            <span id="${id}_val">5</span>
+            <input type="range" id="${id}" min="1" max="10" value="5">
+          </div>`;
+        g.appendChild(item);
+        const slider = item.querySelector(`#${id}`);
+        const val = item.querySelector(`#${id}_val`);
+        function updateValue() { val.textContent = slider.value; val.style.left = `calc(${(slider.value - 1) / 9 * 100}% )`; }
+        slider.addEventListener("input", updateValue);
+        updateValue();
+      });
+      document.getElementById("priorityOverlay").style.display = "flex";
+    }
 
-    renderFeatureModal(currentIndex);
-  }
+    function closePriorityPanel() { document.getElementById("priorityOverlay").style.display = "none"; }
+    async function submitPriorities() {
+      const p = {}; priorityFeatures.forEach(f => { const el = document.getElementById(`prio_${f.key}`); if (el) p[`${f.key}_priority`] = parseInt(el.value); });
+      closePriorityPanel(); showLoading("Saving priorities...");
+      try {
+        await fetch(`/priority/set-priority/${userId}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) });
+        showLoading("Calculating weighted matches..."); setTimeout(() => window.location.href = `/user/flatmatch-results/${userId}`, 900);
+      } catch { hideLoading(); alert("Error saving priorities"); }
+    }
 
-  function goNonWeighted() {
-    showLoadingModal("Fetching your matches...");
-    setTimeout(() => {
-      window.location.href = `/user/flatmatch-results/${userId}`;
-    }, 1000);
-  }
+    function goNonWeighted() { showLoading("Fetching matches..."); setTimeout(() => window.location.href = `/user/flatmatch-results/${userId}`, 700); }
+    function showLoading(msg) { document.getElementById("loadingTitle").textContent = msg; document.getElementById("loadingOverlay").style.display = "flex"; }
+    function hideLoading() { document.getElementById("loadingOverlay").style.display = "none"; }
 
-  function showLoadingModal(message) {
-    document.getElementById('modal-container').innerHTML = `
-      <div class="modal active">
-        <div class="completion-message">
-          <div class="completion-icon">⏳</div>
-          <h2>${message}</h2>
-          <p>Please wait...</p>
-        </div>
-      </div>`;
-  }
-</script>
+    document.addEventListener("DOMContentLoaded", () => {
+      populateDataLists();
+      if (existingPreferences && Object.keys(existingPreferences).length > 0) { document.getElementById("existingCard").style.display = "block"; }
+      fillFormFromExisting();
+    });
+  </script>
 </body>
+
 </html>

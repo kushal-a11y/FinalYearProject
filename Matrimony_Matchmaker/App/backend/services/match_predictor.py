@@ -4,7 +4,7 @@ import numpy as np
 from flask import jsonify
 from models.user_profile import UserProfile
 
-model = joblib.load(r"C:\\Users\\Administrator\\OneDrive\\Desktop\\FYP-MODELS\\lightGBM_model.pkl")
+model = joblib.load(r"D:\FinalYearProject\Matrimony_Matchmaker\notebooks\Model-LightGBM\lightGBM_model.pkl")
 
 CLASS_MAP = {
     0: "High_No",
