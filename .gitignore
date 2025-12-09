@@ -12,4 +12,5 @@ ENV/
 .venv/
 .pyenv/
 *.pyc
-__pycache__/
+__pycache__/Matrimony_Matchmaker/data/IHDS-DATA/
+Matrimony_Matchmaker/data/IHDS-DATA/data1.csv
