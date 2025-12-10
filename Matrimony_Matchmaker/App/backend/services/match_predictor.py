@@ -7,12 +7,12 @@ from models.user_profile import UserProfile
 model = joblib.load(r"D:\FinalYearProject\Matrimony_Matchmaker\notebooks\Model-LightGBM\lightGBM_model.pkl")
 
 CLASS_MAP = {
-    0: "High_No",
-    1: "High_Yes",
-    2: "Low_No",
-    3: "Low_Yes",
-    4: "Medium_No",
-    5: "Medium_Yes"
+    0: "Very High",
+    1: "Worst",
+    2: "Medium",
+    3: "Bad",
+    4: "High",
+    5: "Very Bad"
 }
 FEATURES = [
     'Age_at_Marriage', 'Gender', 'Education_Level', 'Caste_Match', 'Religion',
