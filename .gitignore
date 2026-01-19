@@ -5,7 +5,7 @@
 *.h5
 *.pt
 *.zip
-
+data/
 venv/
 env/
 ENV/
