@@ -66,8 +66,8 @@
 
 ## ✅ Contributors
 - **Kushal Das** – Roll Number 11  
-- **Neepabeethi Ghosh** – Roll Number xx  
-- **Akash Mahato** – Roll Number xx  
+- **Neepabeethi Ghosh** – Roll Number 21  
+- **Akash Mahato** – Roll Number 35
 
 ---
 
