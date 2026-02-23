@@ -1,574 +1,564 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Flat Match Results</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Match Finder</title>
+
   <style>
-    :root {
-      --primary: #d4526e;
-      --primary-dark: #b8364f;
-      --success: #4ade80;
-      --warning: #fbbf24;
-      --background: #faf8f6;
-      --text-dark: #2d2520;
-      --text-muted: #7c706b;
-      --white: #fff;
-      --border: #e5e5e5;
-      --radius: 14px;
-      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #ff6b6b;
+      --primary-dark: #ff5252;
+      --secondary: #1a3a52;
+      --accent: #00d4ff;
+      --accent-light: #e0f7ff;
+      --background: #f8fafc;
+      --surface: #ffffff;
+      --text-primary: #1a1a2e;
+      --text-secondary: #6b7280;
+      --border: #e5e7eb;
+      --success: #10b981;
+    }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--background);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, var(--background) 0%, #f0f9fc 100%);
+      color: var(--text-primary);
       min-height: 100vh;
-      padding: 50px 20px;
-      color: var(--text-dark);
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      color: var(--primary);
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 16px;
-    }
-
-    .results-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-      max-width: 1400px;
-      margin: 0 auto 40px;
-    }
-
-    .match-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-      cursor: pointer;
-      transition: all var(--transition);
-      border: 2px solid transparent;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .match-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-      border-color: var(--primary);
-    }
-
-    .match-card::before {
-      content: '';
-      position: absolute;
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--secondary) 0%, #2a5a7f 100%);
+      color: white;
+      padding: 2rem 1rem;
+      box-shadow: 0 4px 20px rgba(26, 58, 82, 0.15);
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      z-index: 10;
     }
 
-    .candidate-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px;
-      color: var(--text-dark);
-      margin-bottom: 16px;
-      margin-top: 8px;
-    }
-
-    /* ===== MATCH METRICS DISPLAY ===== */
-    .match-metrics {
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .metric-row {
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 12px;
-      background: #f9f7f5;
-      border-radius: 10px;
-      border-left: 4px solid var(--primary);
+      align-items: center;
     }
 
-    .metric-label {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .metric-label-main {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    .metric-label-sub {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    .metric-value {
+    .header-title {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 0.75rem;
     }
 
-    .metric-number {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--primary);
-    }
-
-    .metric-unit {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    /* ===== MUTUAL MATCH SECTION ===== */
-    .mutual-match-section {
-      margin-top: 16px;
-      padding: 14px;
-      background: linear-gradient(135deg, rgba(212, 82, 110, 0.08), rgba(212, 82, 110, 0.04));
-      border-radius: 10px;
-      border: 2px solid rgba(212, 82, 110, 0.2);
-      text-align: center;
-    }
-
-    .mutual-match-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .mutual-match-display {
+    .header-title span {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      font-size: 1.4rem;
     }
 
-    .percentage-value {
-      font-size: 24px;
+    .header-title h1 {
+      font-size: 1.8rem;
       font-weight: 700;
-      color: var(--primary);
     }
 
-    .mutual-match-text {
-      text-align: left;
+    .user-info {
+      font-size: 0.95rem;
     }
 
-    .mutual-match-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
+    /* CONTAINER */
+    .container {
+      max-width: 1250px;   /* increase horizontal space */
+      margin: 2rem auto;
+      padding: 0 1rem;
     }
 
-    .mutual-match-desc {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    /* Reduce feature breakdown text size at bottom of card */
-    .feature-breakdown {
-      margin-top: 12px;
-      font-size: 9px;
-      color: var(--text-muted);
-    }
-
-    .breakdown-title {
+    .section-title {
+      font-size: 1.5rem;
       font-weight: 600;
-      font-size: 9px;
-      color: var(--text-dark);
-      margin-bottom: 4px;
-    }
-
-    .feature-dots {
+      margin-bottom: 1.5rem;
+      color: var(--secondary);
       display: flex;
-      gap: 4px;
-      margin-bottom: 8px;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    .feature-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #e5e5e5;
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      border-radius: 2px;
     }
 
-    .feature-dot.matched {
-      background: var(--success);
+    /* MATCH CARDS */
+    .matches-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
-    .no-matches {
-      text-align: center;
-      color: var(--text-muted);
-      margin-top: 80px;
-      font-size: 16px;
-      padding: 40px;
+    .match-card {
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s;
+      border: 1px solid var(--border);
     }
 
-    .no-matches-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
+    .match-card:hover {
+      box-shadow: 0 12px 32px rgba(255, 107, 107, 0.15);
+      transform: translateY(-2px);
+      border-color: var(--primary);
     }
 
-    .back-btn {
-      display: block;
-      width: fit-content;
-      margin: 40px auto 0;
-      text-decoration: none;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    .card-content {
+      display: grid;
+      grid-template-columns: auto 1fr max-content;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
       color: white;
-      padding: 12px 28px;
+      box-shadow: 0 4px 16px rgba(255, 107, 107, 0.2);
+    }
+
+    .candidate-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .candidate-info p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* METRICS */
+    .metrics-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .metric {
+      text-align: center;
+      padding: 1rem;
+      background: var(--background);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .metric.mutual .metric-value {
+      background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* BUTTON */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
       border-radius: 8px;
       font-weight: 600;
-      transition: all var(--transition);
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: var(--surface);
+      border-radius: 16px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--secondary) 0%, #2a5a7f 100%);
+      color: white;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 1.4rem;
+    }
+
+    .modal-close {
+      background: none;
       border: none;
+      color: white;
+      font-size: 1.5rem;
       cursor: pointer;
     }
 
-    .back-btn:hover {
-      box-shadow: 0 6px 16px rgba(212, 82, 110, 0.3);
-      transform: translateY(-2px);
-    }
-
-    /* ===== OVERLAY + DUAL PROFILE MODAL ===== */
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      opacity: 0;
-      visibility: hidden;
-      transition: all var(--transition);
-      z-index: 1000;
-      backdrop-filter: blur(2px);
-    }
-
-    .overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .profile-popup {
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(0.95);
-      background: var(--white);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      width: 95%;
-      max-width: 900px;
-      display: flex;
-      gap: 32px;
-      justify-content: space-between;
-      transition: all var(--transition);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 1500;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-
-    .profile-popup.show {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .profile-section {
-      flex: 1;
-      border-right: 1px solid var(--border);
-      padding-right: 24px;
-    }
-
-    .preference-section {
-      flex: 1;
-      padding-left: 24px;
-    }
-
-    .profile-popup h3 {
-      font-family: 'Playfair Display', serif;
-      color: var(--primary);
-      margin-bottom: 20px;
-      text-align: center;
-      font-size: 22px;
-    }
-
-    .profile-grid {
+    .modal-body {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .profile-card {
+      padding: 1.5rem;
+      background: var(--background);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .profile-item {
+      margin-bottom: 1rem;
     }
 
     .profile-item label {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-transform: uppercase;
       font-weight: 600;
-      margin-bottom: 4px;
-      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--text-secondary);
     }
 
     .profile-item p {
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--text-dark);
+      margin: 0;
+      color: var(--text-primary);
     }
 
-    .close-btn {
-      position: absolute;
-      top: 12px;
-      right: 16px;
-      background: none;
-      border: none;
-      font-size: 28px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: color var(--transition);
+    #predictionModal {
+      z-index: 200;
     }
 
-    .close-btn:hover {
-      color: var(--primary);
+    .btn-predict {
+      background: linear-gradient(135deg, #6c5ce7 0%, #00d2ff 100%);
+      color: white;
     }
 
-    @media (max-width: 800px) {
-      .profile-popup {
-        flex-direction: column;
-        padding: 28px;
-        gap: 24px;
-      }
-      .profile-section {
-        border-right: none;
-        padding-right: 0;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 24px;
-      }
-      .preference-section {
-        padding-left: 0;
-      }
-      .profile-grid {
-        grid-template-columns: 1fr;
-      }
-      .results-container {
-        grid-template-columns: 1fr;
-      }
-      .mutual-match-display {
-        flex-direction: column;
-        gap: 12px;
-      }
-      .mutual-match-text {
-        text-align: center;
-      }
+    .btn-predict:hover {
+      opacity: 0.9;
     }
   </style>
 </head>
 
 <body>
-  <div class="header">
-    <h1>💞 Your Matches</h1>
-    <p class="subtitle">Discover your perfect matches based on compatibility</p>
-  </div>
 
-  <div class="results-container" id="results-container">
-    <div class="no-matches" id="no-matches">
-      <div class="no-matches-icon">🔍</div>
-      <p>Loading matches...</p>
-    </div>
-  </div>
-
-  <button class="back-btn" onclick="window.history.back()">← Back to Dashboard</button>
-
-  <!-- Overlay + Dual Popup -->
-  <div class="overlay" id="overlay" onclick="closeProfile()"></div>
-
-  <div class="profile-popup" id="profilePopup">
-    <button class="close-btn" onclick="closeProfile()">&times;</button>
-
-    <div class="profile-section">
-      <h3>Candidate Profile</h3>
-      <div class="profile-grid" id="profileDetails">
-        <p style="grid-column: span 2; text-align:center;">Loading profile...</p>
+  <header>
+    <div class="header-content">
+      <div class="header-title">
+        <span>💝</span>
+        <h1>MatchFinder</h1>
+      </div>
+      <div class="user-info">
+        Welcome back, <strong id="currentUserName">User</strong>
       </div>
     </div>
+  </header>
 
-    <div class="preference-section">
-      <h3>Candidate Preferences</h3>
-      <div class="profile-grid" id="preferenceDetails">
-        <p style="grid-column: span 2; text-align:center;">Loading preferences...</p>
+  <div class="container">
+    <div class="section-title">Your Top Matches</div>
+    <div class="matches-grid" id="matchesContainer"></div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="detailsModal">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h2 id="modalTitle">Profile</h2>
+        <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
+
+      <div class="modal-body">
+
+        <div class="profile-card">
+          <h3>Profile Information</h3>
+          <div id="profileDetails"></div>
+        </div>
+
+        <div class="profile-card">
+          <h3>Their Preferences</h3>
+          <div id="preferenceDetails"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="predictionModal">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h2>Long-Term Compatibility Prediction</h2>
+        <button class="modal-close" onclick="closePredictionModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="profile-card" id="predictionResult">
+          Loading prediction...
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
     const userId = "{{ user_id }}";
-    const overlay = document.getElementById("overlay");
-    const profilePopup = document.getElementById("profilePopup");
-    const profileDetails = document.getElementById("profileDetails");
-    const preferenceDetails = document.getElementById("preferenceDetails");
-
-    // === Fetch Matches ===
+    async function loadCurrentUser() {
+      const res = await fetch(`/user/profile/${userId}`);
+      const data = await res.json();
+      document.getElementById("currentUserName").textContent = data.name || "User";
+    }
+    loadCurrentUser();
     async function fetchMatches() {
+      const res = await fetch(`/user/flat-match/${userId}`);
+      const data = await res.json();
+      const container = document.getElementById("matchesContainer");
+      container.innerHTML = "";
+
+      for (const m of data.matches) {
+
+        // 🔥 FETCH PROFILE JUST LIKE MODAL
+        let profile = {};
+        try {
+          const profileRes = await fetch(`/user/profile/${m.candidate_id}`);
+          profile = await profileRes.json();
+        } catch (err) {
+          console.error("Profile fetch failed:", err);
+        }
+
+        const age = profile.age || "-";
+        const profession = profile.profession || "-";
+        const location = profile.residence || "-";
+
+        const yourMatch = Math.round(m.seeker_to_candidate);
+        const theirMatch = Math.round(m.candidate_to_seeker);
+        const mutualMatch = Math.round((yourMatch + theirMatch) / 2);
+
+        const initials = "U";
+
+        const card = document.createElement("div");
+        card.className = "match-card";
+
+        card.innerHTML = `
+            <div class="card-content">
+                <div style="display:flex;gap:1rem;align-items:center;">
+                    <div class="avatar">${initials}</div>
+                    <div class="candidate-info">
+                        <h3>${profile.name || m.candidate_name}</h3>
+                        <p>${age} years • ${profession}</p>
+                        <p>📍 ${location}</p>
+                    </div>
+                </div>
+              
+                <div class="metrics-section">
+                    <div class="metric">
+                        <div class="metric-label">Your Match</div>
+                        <div class="metric-value">${yourMatch}/6</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Their Match</div>
+                        <div class="metric-value">${theirMatch}/6</div>
+                    </div>
+                    <div class="metric mutual">
+                        <div class="metric-label">Mutual</div>
+                        <div class="metric-value">${mutualMatch}/6</div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:0.75rem; flex-wrap:nowrap;">
+                    <button class="btn"
+                    onclick="openModal('${m.candidate_id}','${(profile.name || "").replace(/'/g, "")}')">
+                    Show Details →
+                    </button>
+                  
+                    <button class="btn btn-predict"
+                    onclick="predictOutcome('${userId}','${m.candidate_id}')">
+                    Predict Long-Term Outcome
+                    </button>
+                </div>
+            </div>
+            `;
+
+        container.appendChild(card);
+      }
+    }
+    fetchMatches();
+    /* UPDATED MODAL CONTENT */
+    async function openModal(candidateId, name) {
+
+      const modal = document.getElementById("detailsModal");
+      modal.classList.add("active");
+      document.getElementById("modalTitle").textContent = `${name}'s Profile`;
+
+      document.getElementById("profileDetails").innerHTML = "Loading...";
+      document.getElementById("preferenceDetails").innerHTML = "Loading...";
+
+      const [profileRes, prefRes] = await Promise.all([
+        fetch(`/user/profile/${candidateId}`),
+        fetch(`/preference/preferences/json/${candidateId}`)
+      ]);
+
+      const profile = await profileRes.json();
+      const pref = await prefRes.json();
+      document.getElementById("modalTitle").textContent = `User${profile.user_id}'s Profile`;
+
+      document.getElementById("profileDetails").innerHTML = `
+<div class="profile-item"><label>Name</label><p>${profile.name || profile.user_id}</p></div>
+<div class="profile-item"><label>Age</label><p>${profile.age || "N/A"} years</p></div>
+<div class="profile-item"><label>Profession</label><p>${profile.profession || "N/A"}</p></div>
+<div class="profile-item"><label>Education</label><p>${profile.education || "N/A"}</p></div>
+<div class="profile-item"><label>Religion</label><p>${profile.religion || "N/A"}</p></div>
+<div class="profile-item"><label>Residence</label><p>${profile.residence || "N/A"}</p></div>
+`;
+
+      document.getElementById("preferenceDetails").innerHTML = `
+<div class="profile-item"><label>Age Preference</label><p>${pref.age || "N/A"}</p></div>
+<div class="profile-item"><label>Education</label><p>${pref.education || "N/A"}</p></div>
+<div class="profile-item"><label>Profession</label><p>${pref.profession || "N/A"}</p></div>
+<div class="profile-item"><label>Religion</label><p>${pref.religion || "N/A"}</p></div>
+<div class="profile-item"><label>Residence</label><p>${pref.residence || "N/A"}</p></div>
+`;
+    }
+
+    function closeModal() {
+      document.getElementById("detailsModal").classList.remove("active");
+    }
+
+    window.onclick = function (e) {
+      if (e.target === document.getElementById("detailsModal")) {
+        closeModal();
+      }
+    };
+    async function predictOutcome(maleId, femaleId) {
+
+      const modal = document.getElementById("predictionModal");
+      // Close details modal if open
+      document.getElementById("detailsModal").classList.remove("active");
+
+      modal.classList.add("active");
+
+      const resultBox = document.getElementById("predictionResult");
+      resultBox.innerHTML = "Predicting compatibility...";
+
       try {
-        const res = await fetch(`/user/flat-match/${userId}`);
+        const res = await fetch("/user/predict-match", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            male_id: maleId,
+            female_id: femaleId
+          })
+        });
+
         const data = await res.json();
 
-        const container = document.getElementById("results-container");
-        const noMatches = document.getElementById("no-matches");
-
-        if (!data.matches || data.matches.length === 0) {
-          noMatches.innerHTML = '<div class="no-matches-icon">😔</div><p>No matches found right now</p>';
+        if (data.error) {
+          resultBox.innerHTML = `<p>${data.error}</p>`;
           return;
         }
 
-        noMatches.remove();
-
-        data.matches.forEach(m => {
-          const card = document.createElement("div");
-          card.className = "match-card";
-          
-          const yourMatch = Math.round(m.seeker_to_candidate);
-          const theirMatch = Math.round(m.candidate_to_seeker);
-          const mutualPercent = Math.round(m.mutual_match_percent);
-
-          // Generate feature dots for visual representation
-          const yourDots = Array.from({ length: 6 }, (_, i) => 
-            `<div class="feature-dot ${i < yourMatch ? 'matched' : ''}"></div>`
-          ).join('');
-          
-          const theirDots = Array.from({ length: 6 }, (_, i) => 
-            `<div class="feature-dot ${i < theirMatch ? 'matched' : ''}"></div>`
-          ).join('');
-
-          card.innerHTML = `
-            <h3 class="candidate-name">${m.candidate_name}</h3>
-            
-            <div class="match-metrics">
-              <div class="metric-row">
-                <div class="metric-label">
-                  <div class="metric-label-main">You → Candidate</div>
-                  <div class="metric-label-sub">Your compatibility</div>
-                </div>
-                <div class="metric-value">
-                  <span class="metric-number">${yourMatch}</span>
-                  <span class="metric-unit">/6</span>
-                </div>
-              </div>
-
-              <div class="metric-row">
-                <div class="metric-label">
-                  <div class="metric-label-main">Candidate → You</div>
-                  <div class="metric-label-sub">Their compatibility</div>
-                </div>
-                <div class="metric-value">
-                  <span class="metric-number">${theirMatch}</span>
-                  <span class="metric-unit">/6</span>
-                </div>
-              </div>
+        resultBox.innerHTML = `
+            <div class="profile-item">
+                <label>Male</label>
+                <p>${data.male_profile}</p>
             </div>
-          `;
-          
-          card.addEventListener("click", () => openProfile(m.candidate_id));
-          container.appendChild(card);
-        });
-      } catch (err) {
-        console.error(err);
-        document.getElementById("no-matches").innerHTML = '<div class="no-matches-icon">⚠️</div><p>Error fetching matches.</p>';
-      }
-    }
 
-    // === Open Profile + Preferences Side by Side ===
-    async function openProfile(candidateId) {
-      overlay.classList.add("show");
-      profilePopup.classList.add("show");
+            <div class="profile-item">
+                <label>Female</label>
+                <p>${data.female_profile}</p>
+            </div>
 
-      profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Loading profile...</p>`;
-      preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Loading preferences...</p>`;
+            <div class="profile-item">
+                <label>Prediction Result</label>
+                <p><strong>${data.prediction_result}</strong></p>
+            </div>
 
-      try {
-        const [profileRes, prefRes] = await Promise.all([
-          fetch(`/user/profile/${candidateId}`),
-          fetch(`/preference/preferences/json/${candidateId}`)
-        ]);
+            <div class="profile-item">
+                <label>Stability Probability</label>
+                <p>${data.stability_probability}</p>
+            </div>
 
-        const profileData = await profileRes.json();
-        const prefHTML = await prefRes.text();
-
-        // === PROFILE DATA ===
-        if (!profileData || Object.keys(profileData).length === 0) {
-          profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">No profile details.</p>`;
-        } else {
-          profileDetails.innerHTML = `
-            <div class="profile-item"><label>Name</label><p>${profileData.name || "N/A"}</p></div>
-            <div class="profile-item"><label>Age</label><p>${profileData.age || "N/A"}</p></div>
-            <div class="profile-item"><label>Gender</label><p>${profileData.gender || "N/A"}</p></div>
-            <div class="profile-item"><label>Education</label><p>${profileData.education || "N/A"}</p></div>
-            <div class="profile-item"><label>Profession</label><p>${profileData.profession || "N/A"}</p></div>
-            <div class="profile-item"><label>Caste</label><p>${profileData.caste || "N/A"}</p></div>
-            <div class="profile-item"><label>Religion</label><p>${profileData.religion || "N/A"}</p></div>
-            <div class="profile-item"><label>Residence</label><p>${profileData.residence || "N/A"}</p></div>
-            <div class="profile-item"><label>Height</label><p>${profileData.height_cm ? profileData.height_cm + " cm" : "N/A"}</p></div>
-          `;
-        }
-
-        // === PREFERENCE DATA ===
-        try {
-          const prefJSON = JSON.parse(prefHTML);
-          if (!prefJSON || Object.keys(prefJSON).length === 0) {
-            preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">No preferences set.</p>`;
-          } else {
-            preferenceDetails.innerHTML = `
-              <div class="profile-item"><label>Age Preference</label><p>${prefJSON.age || "N/A"}</p></div>
-              <div class="profile-item"><label>Gender</label><p>${prefJSON.gender || "N/A"}</p></div>
-              <div class="profile-item"><label>Education</label><p>${prefJSON.education || "N/A"}</p></div>
-              <div class="profile-item"><label>Profession</label><p>${prefJSON.profession || "N/A"}</p></div>
-              <div class="profile-item"><label>Caste</label><p>${prefJSON.caste || "N/A"}</p></div>
-              <div class="profile-item"><label>Religion</label><p>${prefJSON.religion || "N/A"}</p></div>
-              <div class="profile-item"><label>Residence</label><p>${prefJSON.residence || "N/A"}</p></div>
-              <div class="profile-item"><label>Height</label><p>${prefJSON.height_cm ? prefJSON.height_cm + " cm" : "N/A"}</p></div>
-            `;
-          }
-        } catch {
-          preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">No preferences found.</p>`;
-        }
+            <div class="profile-item">
+                <label>Risk Probability</label>
+                <p>${data.risk_probability}</p>
+            </div>
+        `;
 
       } catch (error) {
+        resultBox.innerHTML = "Prediction failed. Please try again.";
         console.error(error);
-        profileDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Error loading data.</p>`;
-        preferenceDetails.innerHTML = `<p style="grid-column: span 2; text-align:center;">Error loading preferences.</p>`;
       }
     }
 
-    function closeProfile() {
-      overlay.classList.remove("show");
-      profilePopup.classList.remove("show");
+    function closePredictionModal() {
+      document.getElementById("predictionModal").classList.remove("active");
     }
-
-    fetchMatches();
+    if (e.target === document.getElementById("predictionModal")) {
+      closePredictionModal();
+    }
   </script>
+
 </body>
+
 </html>

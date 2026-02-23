@@ -223,15 +223,28 @@ def get_user():
 
     return jsonify(user_data)
 
-@user_bp.route('/predict_match', methods=['GET'])
+@user_bp.route('/predict-match', methods=['POST'])
 def predict_match_route():
-    """API endpoint to predict match between two users."""
-    user1 = request.args.get('user1')
-    user2 = request.args.get('user2')
+    """
+    Predict compatibility between two users.
+    Expects JSON:
+    {
+        "male_id": 1,
+        "female_id": 2
+    }
+    """
 
-    if not user1 or not user2:
-        return jsonify({"error": "Please provide both user1 and user2 identifiers"}), 400
+    data = request.get_json()
 
-    return predict_match(user1, user2)
+    if not data:
+        return jsonify({"error": "Request body must be JSON"}), 400
 
+    male_id = data.get("male_id")
+    female_id = data.get("female_id")
+
+    if not male_id or not female_id:
+        return jsonify({"error": "Please provide both male_id and female_id"}), 400
+
+    # Call your ML function
+    return predict_match(str(male_id), str(female_id))
 
