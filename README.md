@@ -3,7 +3,7 @@
 **An intelligent system that connects individuals by analyzing profiles and partner preferences using rule-based matching and machine learning for enhanced matchmaking.**
 
 ---
-
+##What's Unique from Bharat Matrimony, Shaadi.com, ABP etc existing sites: Focus on Long term marriage outcome + Not ignoring user satisfaction 
 ## 🚀 Features
 
 ### 👤 User Profile
