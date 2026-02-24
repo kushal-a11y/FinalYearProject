@@ -17,7 +17,11 @@ HOST = os.getenv('DB_HOST')
 PORT = os.getenv('DB_PORT')
 NAME = os.getenv('DB_NAME')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+mysqlconnector://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}"
+MAIL_USERNAME='matrimonialmatchmaker996@gmail.com'
+MAIL_PASSWORD='hcavuoutjejscvuq'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'mysql+pymysql://matriuser:1234@localhost/matrimony_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Mail configuration FIRST, before importing routes

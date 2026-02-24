@@ -8,8 +8,8 @@ from models.user_profile import UserProfile # Assuming this is your DB model
 # 1. LOAD MODEL ARTIFACTS
 # =====================================================================
 # Load the trained XGBoost model and the exact list of feature columns
-MODEL_PATH = r"C:\Users\Administrator\OneDrive\Desktop\FYP_Resources\X_GBOOST\Clustering + rule based(69.35%)\final_xgboost_deterministic_model.pkl"
-COLS_PATH = r"C:\Users\Administrator\OneDrive\Desktop\FYP_Resources\Encoders\model_feature_columns.pkl"
+MODEL_PATH = r"/workspaces/FinalYearProject/resources/final_xgboost_deterministic_model.pkl"
+COLS_PATH = r"/workspaces/FinalYearProject/resources/model_feature_columns.pkl"
 
 model = joblib.load(MODEL_PATH)
 model_features = joblib.load(COLS_PATH) # This contains all the "State_West Bengal", etc. columns

@@ -1,19 +1,25 @@
 # Flask core
-Flask==3.0.3
-Flask-SQLAlchemy==3.1.1
+Flask
+Flask-SQLAlchemy
 
 # Database drivers
-mysql-connector-python==9.0.0          # For MySQL
-SQLAlchemy==2.0.35                     # ORM core
+mysql-connector-python          # For MySQL
+SQLAlchemy 
+pymysql                    # ORM core
 
 # Data handling
-pandas==2.2.3                          # For reading Excel files
-openpyxl==3.1.5                        # Excel file engine for pandas
+pandas                         # For reading Excel files
+openpyxl                        # Excel file engine for pandas
 
 # Utility libraries
-python-dotenv==1.0.1                   # For environment variable management (optional but good practice)
+python-dotenv                  # For environment variable management (optional but good practice)
 
 
-Flask-Migrate==4.0.7
-Flask-CORS==5.0.0
-marshmallow==3.22.0
+Flask-Migrate
+Flask-CORS
+marshmallow
+
+flask_mail
+joblib
+xgboost
+cryptography
