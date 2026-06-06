@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages · Shubh Vivah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--maroon:#8e1f3d;--maroon-dk:#6f1530;--rose:#d4526e;--rose-soft:#f7dde2;--gold:#c8a04a;
+      --ink:#2c2126;--muted:#8a7a80;--cream:#fbf6ef;--card:#fffdfa;--line:#ecdfd4;--tr:.25s ease}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--ink);height:100vh;overflow:hidden}
+    header{display:flex;align-items:center;gap:14px;padding:13px 22px;color:#fff;
+      background:linear-gradient(120deg,var(--maroon),var(--maroon-dk));box-shadow:0 6px 22px -10px rgba(110,21,48,.7);height:58px}
+    header .back{font-size:21px;cursor:pointer;text-decoration:none;color:#fff;padding:4px 8px;border-radius:8px}
+    header .back:hover{background:rgba(255,255,255,.14)}
+    header h1{font-family:'Playfair Display',serif;font-size:21px;font-weight:700}
+    .app{display:flex;height:calc(100vh - 58px)}
+    /* conversation list */
+    .list{width:330px;background:var(--card);border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0}
+    .list h2{font-family:'Playfair Display',serif;color:var(--maroon);font-size:18px;padding:18px 20px 12px}
+    .convs{flex:1;overflow-y:auto;padding:0 8px 10px}
+    .conv{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;cursor:pointer;transition:var(--tr)}
+    .conv:hover{background:var(--rose-soft)}
+    .conv.active{background:var(--rose-soft)}
+    .ava{width:48px;height:48px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--rose),var(--maroon));
+      color:#fff;display:grid;place-items:center;font-weight:600;font-size:18px;overflow:hidden}
+    .ava img{width:100%;height:100%;object-fit:cover}
+    .conv .meta{flex:1;min-width:0}
+    .conv .meta .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .conv .meta .nm{font-weight:600;font-size:15px;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .conv .meta .vt{color:#1d7a3a;font-size:12px}
+    .conv .meta .lm{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .conv .unread{background:var(--gold);color:#3a2a00;font-size:11px;font-weight:700;border-radius:99px;min-width:19px;height:19px;display:grid;place-items:center;padding:0 5px}
+    .empty{padding:40px 24px;text-align:center;color:var(--muted);font-size:14px}
+    /* thread */
+    .thread{flex:1;display:flex;flex-direction:column;background:
+      radial-gradient(700px 400px at 100% 0%,rgba(200,160,74,.08),transparent 55%),
+      linear-gradient(160deg,#fbf6ef,#f7ece6)}
+    .t-head{display:flex;align-items:center;gap:13px;padding:13px 22px;background:var(--card);border-bottom:1px solid var(--line);min-height:64px}
+    .t-head .nm{font-weight:600;font-size:16px;display:flex;align-items:center;gap:6px}
+    .t-head .vt{color:#1d7a3a;font-size:13px}
+    .t-head .sub{font-size:12px;color:var(--muted)}
+    .msgs{flex:1;overflow-y:auto;padding:24px 22px;display:flex;flex-direction:column;gap:10px}
+    .bubble{max-width:68%;padding:11px 15px;border-radius:18px;font-size:14.5px;line-height:1.5;position:relative;animation:pop .25s ease both;word-wrap:break-word}
+    @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .bubble.me{align-self:flex-end;background:linear-gradient(135deg,var(--rose),var(--maroon));color:#fff;border-bottom-right-radius:6px}
+    .bubble.them{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:6px}
+    .bubble .time{font-size:10.5px;opacity:.7;margin-top:4px;display:block;text-align:right}
+    .day{align-self:center;font-size:11.5px;color:var(--muted);background:#fff;border:1px solid var(--line);padding:3px 12px;border-radius:99px;margin:6px 0}
+    .composer{display:flex;gap:10px;padding:14px 18px;background:var(--card);border-top:1px solid var(--line)}
+    .composer input{flex:1;padding:13px 16px;border:1.5px solid var(--line);border-radius:99px;font-family:'Jost';font-size:14.5px;background:#fffdfb}
+    .composer input:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 4px rgba(212,82,110,.12)}
+    .composer button{width:48px;height:48px;border:none;border-radius:50%;cursor:pointer;color:#fff;font-size:18px;
+      background:linear-gradient(135deg,var(--rose),var(--maroon));box-shadow:0 8px 18px -8px rgba(142,31,61,.8);transition:var(--tr)}
+    .composer button:hover{transform:scale(1.07)} .composer button:disabled{opacity:.5;cursor:default}
+    .placeholder{flex:1;display:grid;place-items:center;text-align:center;color:var(--muted)}
+    .placeholder .big{font-size:56px;color:rgba(142,31,61,.18);font-family:'Playfair Display',serif}
+    .hidden{display:none!important}
+    @media(max-width:760px){
+      .list{width:100%;position:absolute;inset:58px 0 0 0;z-index:5}
+      .list.hide{display:none}
+      .thread{position:absolute;inset:58px 0 0 0}
+      .thread.hide{display:none}
+      .bubble{max-width:80%}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="back" href="/user/dashboard/{{ user.user_id }}">←</a>
+    <h1>Messages</h1>
+  </header>
+  <div class="app">
+    <aside class="list" id="listPane">
+      <h2>Conversations</h2>
+      <div class="convs" id="convs"><div class="empty">Loading…</div></div>
+    </aside>
+
+    <section class="thread hide" id="threadPane">
+      <div class="placeholder" id="placeholder">
+        <div>
+          <div class="big">❦</div>
+          <p style="margin-top:8px">Select a conversation to start chatting</p>
+        </div>
+      </div>
+      <div class="t-head hidden" id="tHead">
+        <span class="back hidden" id="mBack" style="color:var(--maroon);font-size:22px;cursor:pointer">←</span>
+        <div class="ava" id="tAva"></div>
+        <div><div class="nm" id="tName"></div><div class="sub" id="tSub"></div></div>
+      </div>
+      <div class="msgs hidden" id="msgs"></div>
+      <div class="composer hidden" id="composer">
+        <input id="msgInput" placeholder="Type a message…" maxlength="2000" autocomplete="off">
+        <button id="sendBtn" onclick="send()">➤</button>
+      </div>
+    </section>
+  </div>
+
+<script>
+  const ME=Number("{{ user.user_id }}");
+  let peerId={{ peer_id if peer_id else 'null' }};
+  let lastId=0, pollTimer=null, convTimer=null;
+  const isMobile=()=>window.matchMedia('(max-width:760px)').matches;
+
+  function initials(name){return (name||'U').trim().charAt(0).toUpperCase();}
+  function avaHTML(c){return c.image_url?`<img src="${c.image_url}">`:initials(c.name);}
+  function fmtTime(iso){if(!iso)return'';const d=new Date(iso+(iso.endsWith('Z')?'':'Z'));return d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+  function fmtDay(iso){const d=new Date(iso+(iso.endsWith('Z')?'':'Z'));return d.toLocaleDateString([],{weekday:'long',day:'numeric',month:'short'});}
+
+  async function loadConversations(){
+    try{
+      const res=await fetch(`/messages/chat/api/conversations/${ME}`);
+      const r=await res.json(); const box=document.getElementById('convs');
+      if(!r.conversations.length){box.innerHTML='<div class="empty">No conversations yet.<br>Open a match and tap “Chat”.</div>';}
+      else{
+        box.innerHTML=r.conversations.map(c=>`
+          <div class="conv ${c.user_id===peerId?'active':''}" onclick="openChat(${c.user_id})">
+            <div class="ava">${avaHTML(c)}</div>
+            <div class="meta">
+              <div class="top">
+                <span class="nm">${c.name}${c.verified?'<span class="vt">🛡️</span>':''}</span>
+                ${c.unread?`<span class="unread">${c.unread}</span>`:''}
+              </div>
+              <div class="lm">${(c.last_message||'').replace(/</g,'&lt;')}</div>
+            </div>
+          </div>`).join('');
+      }
+    }catch(e){}
+  }
+
+  async function openChat(pid){
+    peerId=pid; lastId=0;
+    document.getElementById('placeholder').classList.add('hidden');
+    document.getElementById('tHead').classList.remove('hidden');
+    document.getElementById('msgs').classList.remove('hidden');
+    document.getElementById('composer').classList.remove('hidden');
+    document.getElementById('msgs').innerHTML='';
+    if(isMobile()){document.getElementById('listPane').classList.add('hide');document.getElementById('threadPane').classList.remove('hide');document.getElementById('mBack').classList.remove('hidden');}
+    document.querySelectorAll('.conv').forEach(c=>c.classList.remove('active'));
+    await loadMessages(true);
+    if(pollTimer)clearInterval(pollTimer);
+    pollTimer=setInterval(()=>loadMessages(false),3000);
+    document.getElementById('msgInput').focus();
+    loadConversations();
+  }
+
+  function backToList(){
+    document.getElementById('listPane').classList.remove('hide');
+    document.getElementById('threadPane').classList.add('hide');
+  }
+  document.getElementById('mBack').onclick=backToList;
+
+  let lastDay='';
+  async function loadMessages(reset){
+    if(!peerId)return;
+    try{
+      const url=`/messages/chat/api/messages/${ME}/${peerId}`+(lastId?`?after=${lastId}`:'');
+      const res=await fetch(url); const r=await res.json();
+      if(reset&&r.peer){
+        document.getElementById('tAva').innerHTML=avaHTML(r.peer);
+        document.getElementById('tName').innerHTML=r.peer.name+(r.peer.verified?' <span class="vt">🛡️ Verified</span>':'');
+        document.getElementById('tSub').textContent='Active conversation';
+        lastDay='';
+      }
+      const box=document.getElementById('msgs'); const atBottom=box.scrollHeight-box.scrollTop-box.clientHeight<80;
+      r.messages.forEach(m=>{
+        const day=fmtDay(m.timestamp);
+        if(day!==lastDay){const d=document.createElement('div');d.className='day';d.textContent=day;box.appendChild(d);lastDay=day;}
+        const b=document.createElement('div');
+        b.className='bubble '+(m.sender_id===ME?'me':'them');
+        b.innerHTML=`${(m.content||'').replace(/</g,'&lt;')}<span class="time">${fmtTime(m.timestamp)}</span>`;
+        box.appendChild(b); lastId=Math.max(lastId,m.id);
+      });
+      if(reset||atBottom||r.messages.some(m=>m.sender_id===ME))box.scrollTop=box.scrollHeight;
+    }catch(e){}
+  }
+
+  async function send(){
+    const inp=document.getElementById('msgInput'),btn=document.getElementById('sendBtn');
+    const content=inp.value.trim(); if(!content||!peerId)return;
+    inp.value=''; btn.disabled=true;
+    try{
+      await fetch('/messages/chat/api/send',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({sender_id:ME,receiver_id:peerId,content})});
+      await loadMessages(false); loadConversations();
+    }catch(e){}
+    btn.disabled=false; inp.focus();
+  }
+  document.getElementById('msgInput').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+
+  loadConversations();
+  convTimer=setInterval(loadConversations,7000);
+  if(peerId){ if(isMobile()){} openChat(peerId); }
+</script>
+</body>
+</html>

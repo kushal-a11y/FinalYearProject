@@ -1,0 +1,31 @@
+# Flask core
+Flask
+Flask-SQLAlchemy
+
+# Database drivers
+mysql-connector-python          # For MySQL
+SQLAlchemy 
+pymysql                    # ORM core
+
+# Data handling
+pandas                         # For reading Excel files
+openpyxl                        # Excel file engine for pandas
+
+# Utility libraries
+python-dotenv                  # For environment variable management (optional but good practice)
+
+
+Flask-Migrate
+Flask-CORS
+marshmallow
+
+flask_mail
+joblib
+xgboost
+cryptography
+
+# Werkzeug ships with Flask; pinned explicitly for secure_filename + file uploads
+Werkzeug
+
+# Used by the optional live PAN / KYC verification API hook (services/pan_verification.py)
+requests

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard · Shubh Vivah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--maroon:#8e1f3d;--maroon-dk:#6f1530;--rose:#d4526e;--rose-soft:#f7dde2;--gold:#c8a04a;
+      --ink:#2c2126;--muted:#8a7a80;--cream:#fbf6ef;--card:#fffdfa;--line:#ecdfd4;--tr:.3s cubic-bezier(.4,0,.2,1)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6}
+    header{position:fixed;top:0;width:100%;z-index:1100;display:flex;align-items:center;justify-content:space-between;
+      padding:15px 26px;color:#fff;background:linear-gradient(120deg,var(--maroon),var(--maroon-dk));
+      box-shadow:0 6px 22px -10px rgba(110,21,48,.7)}
+    header .left{display:flex;align-items:center;gap:14px}
+    .menu{font-size:22px;cursor:pointer;padding:6px 9px;border-radius:9px;transition:var(--tr)}
+    .menu:hover{background:rgba(255,255,255,.14)}
+    header h1{font-family:'Playfair Display',serif;font-size:23px;font-weight:700;letter-spacing:.3px}
+    .bell{position:relative;cursor:pointer;font-size:21px;padding:6px 9px;border-radius:9px;transition:var(--tr)}
+    .bell:hover{background:rgba(255,255,255,.14)}
+    .bell .badge{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;border-radius:99px;background:var(--gold);
+      color:#3a2a00;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 5px}
+    .container{display:flex;padding-top:62px}
+    .sidebar{position:fixed;top:62px;left:-280px;width:280px;height:calc(100vh - 62px);background:var(--card);z-index:1000;
+      padding:26px 16px;display:flex;flex-direction:column;border-right:1px solid var(--line);
+      box-shadow:6px 0 26px -16px rgba(0,0,0,.25);transition:left var(--tr);overflow-y:auto}
+    .sidebar.open{left:0}
+    .side-id{text-align:center;padding:8px 6px 18px;border-bottom:1px solid var(--line);margin-bottom:14px}
+    .side-id .nm{font-family:'Playfair Display',serif;color:var(--maroon);font-size:18px;font-weight:700}
+    .side-id .em{font-size:12px;color:var(--muted);margin-top:2px;word-break:break-all}
+    .menu-list{display:flex;flex-direction:column;gap:5px;flex-grow:1}
+    .sidebar button{display:flex;align-items:center;gap:13px;width:100%;padding:12px 14px;border:none;border-radius:12px;
+      background:transparent;font-family:'Jost',sans-serif;font-size:14.5px;font-weight:500;color:var(--ink);cursor:pointer;transition:var(--tr)}
+    .sidebar button:hover{background:var(--rose-soft);color:var(--maroon-dk);transform:translateX(4px)}
+    .sidebar button .ic{font-size:18px;width:22px;text-align:center}
+    .sidebar button .pill{margin-left:auto;background:var(--gold);color:#3a2a00;font-size:11px;font-weight:700;border-radius:99px;padding:1px 8px;display:none}
+    .logout{margin-top:auto;color:var(--maroon-dk)!important;font-weight:600;justify-content:center;border-top:1px solid var(--line);border-radius:0!important;margin:8px -16px -26px;padding:16px!important}
+    .logout:hover{background:var(--rose-soft)!important;transform:none!important}
+    .content{flex:1;padding:44px 6vw;transition:margin-left var(--tr);min-height:100vh}
+    .sidebar.open~.content{margin-left:280px}
+    .hero{display:flex;align-items:center;gap:28px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);
+      border-radius:24px;padding:34px;box-shadow:0 24px 60px -38px rgba(110,21,48,.5);
+      position:relative;overflow:hidden;animation:rise .7s both}
+    .hero::before{content:"❦";position:absolute;right:-10px;top:-30px;font-size:160px;color:rgba(142,31,61,.05);font-family:'Playfair Display',serif}
+    @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+    .avatar{width:118px;height:118px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--rose),var(--maroon));
+      display:grid;place-items:center;color:#fff;font-family:'Playfair Display',serif;font-size:46px;overflow:hidden;
+      box-shadow:0 10px 26px -12px rgba(142,31,61,.7);border:3px solid #fff;position:relative}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .avatar .cam{position:absolute;bottom:4px;right:4px;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--maroon);
+      display:grid;place-items:center;font-size:14px;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+    .hero-info h2{font-family:'Playfair Display',serif;font-size:30px;color:var(--ink);font-weight:700}
+    .hero-meta{color:var(--muted);font-size:14.5px;margin-top:4px}
+    .chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+    .chip{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:99px;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff}
+    .chip.verified{background:#eafaf0;color:#1d7a3a;border-color:#b6e6c5}
+    .chip.unverified{background:#fff6ea;color:#9a6a14;border-color:#f0dcb5;cursor:pointer}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:30px}
+    .tile{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;cursor:pointer;transition:var(--tr);
+      animation:rise .7s both;position:relative;overflow:hidden}
+    .tile:nth-child(1){animation-delay:.05s}.tile:nth-child(2){animation-delay:.12s}.tile:nth-child(3){animation-delay:.19s}.tile:nth-child(4){animation-delay:.26s}
+    .tile:hover{transform:translateY(-5px);box-shadow:0 22px 44px -26px rgba(110,21,48,.5);border-color:var(--rose-soft)}
+    .tile .ti{font-size:30px;margin-bottom:12px}
+    .tile h4{font-family:'Playfair Display',serif;font-size:19px;color:var(--maroon);font-weight:700}
+    .tile p{font-size:13.5px;color:var(--muted);margin-top:5px}
+    .tile .pill{position:absolute;top:18px;right:18px;background:var(--gold);color:#3a2a00;font-size:11px;font-weight:700;border-radius:99px;padding:2px 9px;display:none}
+    /* overlays */
+    .overlay{position:fixed;inset:0;background:rgba(44,33,38,.5);backdrop-filter:blur(5px);opacity:0;visibility:hidden;transition:var(--tr);z-index:1500}
+    .overlay.show{opacity:1;visibility:visible}
+    .popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%) scale(.96);background:#fff;border-radius:22px;padding:38px;
+      width:92%;max-width:540px;z-index:2000;opacity:0;pointer-events:none;transition:var(--tr);box-shadow:0 30px 80px -30px rgba(0,0,0,.4)}
+    .popup.show{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
+    .popup h3{font-family:'Playfair Display',serif;color:var(--maroon);text-align:center;font-size:26px;margin-bottom:26px}
+    .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .pitem label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block;margin-bottom:5px}
+    .pitem p{font-size:15px;font-weight:500}
+    .close{position:absolute;top:14px;right:16px;font-size:26px;background:none;border:none;color:var(--muted);cursor:pointer;line-height:1}
+    .close:hover{color:var(--maroon)}
+    /* pan modal form */
+    .pan-input{text-transform:uppercase;letter-spacing:.26em;text-align:center;font-weight:600;width:100%;padding:14px;border:1.5px solid var(--line);border-radius:12px;font-family:'Jost';font-size:16px;margin-bottom:10px}
+    .pan-input:focus{outline:none;border-color:var(--rose);box-shadow:0 0 0 4px rgba(212,82,110,.14)}
+    .btn-full{width:100%;padding:14px;border:none;border-radius:12px;color:#fff;font-family:'Jost';font-weight:600;font-size:15px;cursor:pointer;
+      background:linear-gradient(135deg,var(--rose),var(--maroon))}
+    .fb{font-size:14px;margin-top:10px;text-align:center;min-height:1.2em}.ok{color:#1d7a3a}.bad{color:#a8243b}
+    @media(max-width:768px){.sidebar.open~.content{margin-left:0}.pgrid{grid-template-columns:1fr}.hero{padding:26px}.content{padding:34px 22px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="left"><span class="menu" onclick="toggleSidebar()">☰</span><h1>Shubh Vivah</h1></div>
+    <div class="bell" onclick="goMessages()">💬<span class="badge" id="bell">0</span></div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-id">
+        <div class="nm">{{ user.name or 'Welcome' }}</div>
+        <div class="em">{{ user.email }}</div>
+      </div>
+      <nav class="menu-list">
+        <button onclick="openProfile()"><span class="ic">👤</span> View Profile</button>
+        <button onclick="findMatches()"><span class="ic">💞</span> Find Matches</button>
+        <button onclick="goMessages()"><span class="ic">💬</span> Messages <span class="pill" id="sidePill">0</span></button>
+        <button onclick="document.getElementById('photoFile').click()"><span class="ic">📷</span> Change Photo</button>
+        {% if not user.pan_verified %}<button onclick="openPan()"><span class="ic">🛡️</span> Verify Identity</button>{% endif %}
+      </nav>
+      <button class="logout" onclick="logout()">Sign Out</button>
+    </aside>
+
+    <main class="content">
+      <section class="hero">
+        <div class="avatar" id="avatar">
+          {% if user.image_filename %}<img src="/user/profile-image/{{ user.user_id }}" alt="">{% else %}{{ (user.name or 'U')[0]|upper }}{% endif %}
+          <span class="cam" onclick="document.getElementById('photoFile').click()" title="Change photo">📷</span>
+        </div>
+        <div class="hero-info">
+          <h2>{{ user.name or user.email.split('@')[0] }}</h2>
+          <div class="hero-meta">
+            {% if user.age %}{{ user.age }} yrs · {% endif %}{{ user.profession or 'Profile in progress' }}{% if user.residence %} · 📍 {{ user.residence }}{% endif %}
+          </div>
+          <div class="chips">
+            {% if user.pan_verified %}
+              <span class="chip verified">🛡️ Identity Verified</span>
+            {% else %}
+              <span class="chip unverified" onclick="openPan()">⚠️ Verify Identity</span>
+            {% endif %}
+            {% if user.phone %}<span class="chip">📞 {{ user.phone }}</span>{% endif %}
+            <span class="chip">✉️ {{ user.email }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="tile" onclick="findMatches()"><div class="ti">💞</div><h4>Find Matches</h4><p>Discover compatible profiles tailored to your preferences.</p></div>
+        <div class="tile" onclick="goMessages()"><span class="pill" id="tilePill">0</span><div class="ti">💬</div><h4>Messages</h4><p>Chat with people you've connected with.</p></div>
+        <div class="tile" onclick="openProfile()"><div class="ti">👤</div><h4>My Profile</h4><p>Review the details others will see about you.</p></div>
+        <div class="tile" onclick="setPreferences()"><div class="ti">⚙️</div><h4>Preferences</h4><p>Set what matters most in your ideal partner.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <input type="file" id="photoFile" accept="image/*" style="display:none" onchange="uploadPhoto(event)">
+
+  <!-- profile popup -->
+  <div class="overlay" id="overlay" onclick="closeAll()"></div>
+  <div class="popup" id="profilePopup">
+    <button class="close" onclick="closeAll()">&times;</button>
+    <h3>My Profile</h3>
+    <div class="pgrid">
+      <div class="pitem"><label>Name</label><p>{{ user.name or '—' }}</p></div>
+      <div class="pitem"><label>Age</label><p>{{ user.age or '—' }}</p></div>
+      <div class="pitem"><label>Gender</label><p>{{ user.gender or '—' }}</p></div>
+      <div class="pitem"><label>Phone</label><p>{{ user.phone or '—' }}</p></div>
+      <div class="pitem"><label>Email</label><p>{{ user.email or '—' }}</p></div>
+      <div class="pitem"><label>Education</label><p>{{ user.education or '—' }}</p></div>
+      <div class="pitem"><label>Profession</label><p>{{ user.profession or '—' }}</p></div>
+      <div class="pitem"><label>Caste</label><p>{{ user.caste or '—' }}</p></div>
+      <div class="pitem"><label>Religion</label><p>{{ user.religion or '—' }}</p></div>
+      <div class="pitem"><label>Residence</label><p>{{ user.residence or '—' }}</p></div>
+      <div class="pitem"><label>Height</label><p>{% if user.height_cm %}{{ user.height_cm }} cm{% else %}—{% endif %}</p></div>
+      <div class="pitem"><label>Identity</label><p>{% if user.pan_verified %}🛡️ Verified{% else %}Not verified{% endif %}</p></div>
+    </div>
+  </div>
+
+  <!-- pan popup -->
+  <div class="popup" id="panPopup">
+    <button class="close" onclick="closeAll()">&times;</button>
+    <h3>Verify Your Identity</h3>
+    <p style="text-align:center;color:var(--muted);font-size:13.5px;margin:-14px 0 20px">Enter your PAN. It's validated against the official structure &amp; ownership rules and kept private.</p>
+    <input class="pan-input" id="panField" maxlength="10" placeholder="ABCDE1234F" oninput="this.value=this.value.toUpperCase()">
+    <button class="btn-full" id="panBtn" onclick="verifyPan()">Verify PAN</button>
+    <div class="fb" id="panFb"></div>
+  </div>
+
+<script>
+  const userId="{{ user.user_id }}", userName="{{ user.name or '' }}";
+  const sidebar=document.getElementById('sidebar');
+  function toggleSidebar(){sidebar.classList.toggle('open');}
+  function findMatches(){window.location.href=`/preference/preferences/${userId}`;}
+  function setPreferences(){window.location.href=`/preference/preferences/${userId}`;}
+  function goMessages(){window.location.href=`/messages/chat/${userId}`;}
+  function openProfile(){document.getElementById('profilePopup').classList.add('show');document.getElementById('overlay').classList.add('show');}
+  function openPan(){document.getElementById('panPopup').classList.add('show');document.getElementById('overlay').classList.add('show');}
+  function closeAll(){document.querySelectorAll('.popup').forEach(p=>p.classList.remove('show'));document.getElementById('overlay').classList.remove('show');}
+  function logout(){if(confirm('Sign out of your account?'))window.location.href='/user/loginPage';}
+
+  async function uploadPhoto(e){
+    const file=e.target.files[0]; if(!file)return;
+    const fd=new FormData(); fd.append('image',file);
+    try{
+      const res=await fetch(`/user/upload-image/${userId}`,{method:'POST',body:fd});
+      const r=await res.json();
+      if(res.ok){const av=document.getElementById('avatar');av.innerHTML=`<img src="${r.image_url}?t=${Date.now()}"><span class="cam" onclick="document.getElementById('photoFile').click()">📷</span>`;}
+      else alert(r.error||'Upload failed');
+    }catch(e){alert('Server error while uploading.');}
+  }
+
+  async function verifyPan(){
+    const pan=document.getElementById('panField').value.trim();
+    const fb=document.getElementById('panFb'),btn=document.getElementById('panBtn');
+    if(!pan){fb.innerHTML='<span class="bad">Please enter your PAN.</span>';return;}
+    btn.disabled=true;btn.textContent='Verifying…';
+    try{
+      const res=await fetch(`/user/verify-pan/${userId}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pan,full_name:userName})});
+      const r=await res.json();
+      if(res.ok&&r.verified){fb.innerHTML=`<span class="ok">🛡️ Verified · ${r.entity_type} (${r.pan_masked})</span>`;setTimeout(()=>location.reload(),1300);}
+      else{btn.disabled=false;btn.textContent='Verify PAN';fb.innerHTML=`<span class="bad">${r.error||'Verification failed.'}</span>`;}
+    }catch(e){btn.disabled=false;btn.textContent='Verify PAN';fb.innerHTML='<span class="bad">Server error.</span>';}
+  }
+
+  async function refreshUnread(){
+    try{
+      const res=await fetch(`/messages/chat/api/unread/${userId}`); const r=await res.json();
+      const n=r.unread||0;
+      [['bell','badge'],['sidePill','pill'],['tilePill','pill']].forEach(([id])=>{
+        const el=document.getElementById(id); if(!el)return;
+        el.textContent=n; el.style.display=n>0?'inline-flex':'none';
+      });
+      const b=document.getElementById('bell'); if(b)b.style.display=n>0?'flex':'none';
+    }catch(e){}
+  }
+  refreshUnread(); setInterval(refreshUnread,8000);
+</script>
+</body>
+</html>

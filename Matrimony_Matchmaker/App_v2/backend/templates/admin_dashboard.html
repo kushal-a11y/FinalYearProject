@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard · Shubh Vivah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+      --cream: #fbf6ef;
+      --card: #fffdfa;
+      --maroon: #8e1f3d;
+      --maroon-dk: #6f1530;
+      --rose: #d4526e;
+      --rose-soft: #f7dde2;
+      --gold: #c8a04a;
+      --ink: #2c2126;
+      --muted: #8a7077;
+      --line: #efdde2;
+      --green: #2e8b57;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Jost', sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 12%, rgba(212, 82, 110, 0.10), transparent 42%),
+          radial-gradient(circle at 88% 88%, rgba(200, 160, 74, 0.12), transparent 45%),
+          linear-gradient(135deg, #fbf6ef 0%, #f7ece1 100%);
+        min-height: 100vh;
+        padding: 36px 24px;
+        position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .admin-head {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--maroon);
+      letter-spacing: 0.5px;
+    }
+    .brand .orn { color: var(--gold); margin: 0 6px; }
+
+    h1 {
+        font-family: 'Playfair Display', serif;
+        color: var(--maroon-dk);
+        margin-top: 6px;
+        font-size: 2em;
+        font-weight: 700;
+    }
+
+    .admin-head .count {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--rose-soft);
+      color: var(--maroon-dk);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 5px 16px;
+      border-radius: 20px;
+    }
+
+    .dashboard-container {
+        max-width: 1240px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 22px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .profile-card {
+        background: var(--card);
+        border-radius: 18px;
+        box-shadow: 0 14px 36px rgba(142, 31, 61, 0.10);
+        padding: 22px;
+        border: 1px solid var(--line);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .profile-card::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--maroon), var(--rose), var(--gold));
+    }
+
+    .profile-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 44px rgba(142, 31, 61, 0.18);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 16px;
+        border-bottom: 1px dashed var(--line);
+        padding-bottom: 14px;
+    }
+
+    .avatar {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 2px solid var(--rose-soft);
+        background: linear-gradient(135deg, var(--maroon), var(--rose));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .profile-header .hmeta { flex: 1; min-width: 0; }
+
+    .profile-header h2 {
+        margin: 0;
+        color: var(--maroon-dk);
+        font-family: 'Playfair Display', serif;
+        font-size: 1.25em;
+        font-weight: 600;
+    }
+
+    .user-id {
+        font-size: 0.78em;
+        color: var(--muted);
+        background: #f6ecef;
+        padding: 3px 9px;
+        border-radius: 6px;
+        display: inline-block;
+        margin-top: 4px;
+    }
+
+    .badge {
+        font-size: 0.72em;
+        font-weight: 600;
+        padding: 3px 9px;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+    .badge.verified { background: #e3f3ea; color: var(--green); }
+    .badge.unverified { background: #fdeaea; color: #c0392b; }
+
+    .profile-details p {
+        margin: 7px 0;
+        font-size: 0.92em;
+        color: var(--muted);
+        display: grid;
+        grid-template-columns: 92px 1fr;
+        align-items: center;
+    }
+
+    .profile-details span {
+        font-weight: 600;
+        color: var(--ink);
+    }
+
+    .contact-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0 4px;
+    }
+    .chip {
+        font-size: 0.78em;
+        background: #f8eef1;
+        color: var(--maroon-dk);
+        padding: 5px 11px;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+    }
+
+    .toggle-btn {
+        display: block;
+        width: 100%;
+        padding: 11px;
+        margin-top: 16px;
+        border: none;
+        border-radius: 11px;
+        background: linear-gradient(135deg, var(--maroon), var(--rose));
+        color: white;
+        font-family: 'Jost', sans-serif;
+        font-size: 0.95em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s ease;
+    }
+
+    .toggle-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 22px rgba(142, 31, 61, 0.26);
+    }
+
+    /* Modal Styling */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+        overflow: auto;
+        background-color: rgba(44, 33, 38, 0.55);
+        backdrop-filter: blur(4px);
+        animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+        background-color: var(--card);
+        margin: 9% auto;
+        padding: 28px;
+        border-radius: 18px;
+        max-width: 500px;
+        position: relative;
+        border: 1px solid var(--line);
+        box-shadow: 0 24px 60px rgba(142, 31, 61, 0.30);
+        animation: slideIn 0.3s;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 14px;
+        right: 18px;
+        font-size: 1.6em;
+        font-weight: bold;
+        color: var(--rose);
+        cursor: pointer;
+        transition: color 0.2s;
+        line-height: 1;
+    }
+
+    .close-btn:hover { color: var(--maroon-dk); }
+
+    .modal h3 {
+        margin-top: 0;
+        color: var(--maroon-dk);
+        font-family: 'Playfair Display', serif;
+        font-size: 1.3em;
+        border-bottom: 2px solid var(--rose-soft);
+        padding-bottom: 8px;
+        margin-bottom: 16px;
+    }
+
+    .modal p {
+        font-size: 0.92em;
+        color: var(--muted);
+        margin: 7px 0;
+        display: grid;
+        grid-template-columns: 130px 1fr;
+    }
+
+    .modal p span {
+        font-weight: 600;
+        color: var(--ink);
+    }
+
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    @keyframes slideIn { from {transform: translateY(-40px); opacity:0;} to {transform: translateY(0); opacity:1;} }
+</style>
+</head>
+<body>
+
+<div class="admin-head">
+    <div class="brand"><span class="orn">❦</span>Shubh Vivah<span class="orn">❦</span></div>
+    <h1>Admin Dashboard</h1>
+    <span class="count">{{ users|length }} registered profile{{ '' if users|length == 1 else 's' }}</span>
+</div>
+
+<div class="dashboard-container">
+    {% for user in users %}
+    <div class="profile-card">
+        <div class="profile-header">
+            {% if user.image_url %}
+              <img class="avatar" src="{{ user.image_url }}" alt="avatar">
+            {% else %}
+              <div class="avatar">{{ (user.name[0]|upper) if user.name else (user.gender[0]|upper if user.gender else '?') }}</div>
+            {% endif %}
+            <div class="hmeta">
+                <h2>{{ user.name or user.gender or 'N/A' }}{% if user.age %} <span style="font-weight:400;color:var(--muted);font-size:0.8em;">· {{ user.age }}</span>{% endif %}</h2>
+                <span class="user-id">ID: {{ user.user_id }}</span>
+            </div>
+            {% if user.is_verified %}
+              <span class="badge verified">🛡️ Verified</span>
+            {% else %}
+              <span class="badge unverified">Unverified</span>
+            {% endif %}
+        </div>
+        <div class="profile-details">
+            <p>Gender: <span>{{ user.gender or 'N/A' }}</span></p>
+            <p>Caste: <span>{{ user.caste or 'N/A' }}</span></p>
+            <p>Religion: <span>{{ user.religion or 'N/A' }}</span></p>
+            <p>Profession: <span>{{ user.profession or 'N/A' }}</span></p>
+            <p>Residence: <span>{{ user.residence or 'N/A' }}</span></p>
+            <p>Height: <span>{{ "%.1f"|format(user.height_cm) if user.height_cm is not none else 'N/A' }} cm</span></p>
+        </div>
+        <div class="contact-row">
+            {% if user.email %}<span class="chip">✉ {{ user.email }}</span>{% endif %}
+            {% if user.phone %}<span class="chip">☎ {{ user.phone }}</span>{% endif %}
+        </div>
+        <button class="toggle-btn" onclick="openModal('{{ user.user_id }}')">View Preferences</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal-{{ user.user_id }}">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('{{ user.user_id }}')">&times;</span>
+            <h3>Partner Preferences</h3>
+            {% if user.preference %}
+                <p>Age: <span>{{ user.preference.age or 'N/A' }}</span></p>
+                <p>Gender: <span>{{ user.preference.gender or 'N/A' }}</span></p>
+                <p>Education: <span>{{ user.preference.education or 'N/A' }}</span></p>
+                <p>Caste: <span>{{ user.preference.caste or 'N/A' }}</span></p>
+                <p>Profession: <span>{{ user.preference.profession or 'N/A' }}</span></p>
+                <p>Residence: <span>{{ user.preference.residence or 'N/A' }}</span></p>
+                <p>Height: <span>{{ "%.1f"|format(user.preference.height_cm|float) if user.preference.height_cm else 'N/A' }} cm</span></p>
+            {% else %}
+                <p>No preference data available for this user.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+function openModal(userId) {
+    document.getElementById(`modal-${userId}`).style.display = 'block';
+}
+
+function closeModal(userId) {
+    document.getElementById(`modal-${userId}`).style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+}
+</script>
+
+</body>
+</html>

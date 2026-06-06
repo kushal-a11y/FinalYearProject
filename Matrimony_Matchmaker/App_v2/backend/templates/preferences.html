@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Set Your Preferences · Shubh Vivah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fbf6ef;
+      --card: #fffdfa;
+      --maroon: #8e1f3d;
+      --maroon-dk: #6f1530;
+      --rose: #d4526e;
+      --rose-soft: #f7dde2;
+      --gold: #c8a04a;
+      --ink: #2c2126;
+      --muted: #8a7077;
+      --line: #efdde2;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(212, 82, 110, 0.10), transparent 42%),
+        radial-gradient(circle at 88% 82%, rgba(200, 160, 74, 0.12), transparent 45%),
+        linear-gradient(135deg, #fbf6ef 0%, #f7ece1 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 36px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+      position: relative;
+      z-index: 1;
+      animation: rise 0.7s cubic-bezier(.2, .7, .2, 1) both;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-head {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--maroon);
+      letter-spacing: 0.5px;
+    }
+
+    .brand .orn { color: var(--gold); margin: 0 6px; }
+
+    .page-head p {
+      color: var(--muted);
+      font-size: 13.5px;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 32px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 48px rgba(142, 31, 61, 0.10);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--maroon), var(--rose), var(--gold));
+    }
+
+    .card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--maroon-dk);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.55;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      color: var(--maroon);
+      margin-bottom: 7px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      background: #fffdfb;
+      font-family: 'Jost', sans-serif;
+      font-size: 14.5px;
+      color: var(--ink);
+      transition: 0.25s ease;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--rose);
+      box-shadow: 0 0 0 4px var(--rose-soft);
+      background: #fff;
+    }
+
+    input::placeholder { color: #c4a9b0; }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23d4526e' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      padding-right: 38px;
+    }
+
+    button {
+      padding: 13px 26px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--maroon), var(--rose));
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(142, 31, 61, 0.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(142, 31, 61, 0.30);
+    }
+
+    .btn-muted {
+      background: var(--rose-soft);
+      color: var(--maroon-dk);
+    }
+
+    .btn-muted:hover {
+      background: #f1cdd5;
+      transform: translateY(-1px);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 22px;
+    }
+
+    #existingCard { display: none; }
+
+    /* Priority Panel */
+    #priorityOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(44, 33, 38, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 200;
+    }
+
+    #priorityPanel {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 60px rgba(142, 31, 61, 0.30);
+      width: 95%;
+      max-width: 820px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      position: relative;
+      animation: rise 0.4s ease both;
+    }
+
+    .priority-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px 24px;
+    }
+
+    .priority-item {
+      background: linear-gradient(135deg, #fff8f5, #fdeef0);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 16px 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .priority-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--maroon-dk);
+      margin-bottom: 14px;
+    }
+
+    .slider-wrapper { position: relative; padding-top: 8px; }
+
+    .slider-wrapper span {
+      position: absolute;
+      top: -16px;
+      font-weight: 700;
+      font-size: 13px;
+      color: #fff;
+      background: var(--maroon);
+      padding: 1px 8px;
+      border-radius: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: left 0.1s ease;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 3px;
+      background: linear-gradient(90deg, var(--rose), var(--gold));
+      border-radius: 3px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--maroon);
+      border: 3px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(142, 31, 61, 0.40);
+      margin-top: -9px;
+      transition: 0.2s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: var(--rose);
+      transform: scale(1.15);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 3px;
+      background: linear-gradient(90deg, var(--rose), var(--gold));
+      border-radius: 3px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--maroon);
+      border: 3px solid #fff;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(142, 31, 61, 0.40);
+      transition: 0.2s ease;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      background: var(--rose);
+      transform: scale(1.15);
+    }
+
+    #loadingOverlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      background: rgba(44, 33, 38, 0.45);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+
+    #loadingBox {
+      background: var(--card);
+      padding: 32px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 48px rgba(142, 31, 61, 0.25);
+    }
+
+    .spin {
+      width: 46px; height: 46px;
+      border: 4px solid var(--rose-soft);
+      border-top-color: var(--maroon);
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media(max-width:600px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .priority-grid { grid-template-columns: 1fr; }
+      .card { padding: 22px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-head">
+      <div class="brand"><span class="orn">❦</span>Shubh Vivah<span class="orn">❦</span></div>
+      <p>Tell us who you're looking for — we'll find the rest</p>
+    </div>
+
+    <div class="card">
+      <h2>Set Your Preferences</h2>
+      <div class="subtitle">Fill partner preferences in one page. After saving, you can assign importance values (1–10).
+      </div>
+      <form id="preferencesForm" onsubmit="event.preventDefault(); submitPreferences();">
+        <div class="grid-2">
+          <div><label for="preferred_age_min">Minimum Age</label><input type="number" id="preferred_age_min" min="18">
+          </div>
+          <div><label for="preferred_age_max">Maximum Age</label><input type="number" id="preferred_age_max" min="18">
+          </div>
+          <div><label for="preferred_gender">Preferred Gender</label>
+            <select id="preferred_gender">
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div><label for="preferred_height_cm">Preferred Height (cm)</label><input type="number"
+              id="preferred_height_cm" min="100"></div>
+          <div><label for="preferred_education">Preferred Education</label><input list="degreeOptions"
+              id="preferred_education"><datalist id="degreeOptions"></datalist></div>
+          <div><label for="preferred_profession">Preferred Profession</label><input list="professionOptions"
+              id="preferred_profession"><datalist id="professionOptions"></datalist></div>
+          <div><label for="preferred_caste">Preferred Caste</label><input list="casteOptions"
+              id="preferred_caste"><datalist id="casteOptions"></datalist></div>
+          <div><label for="preferred_religion">Preferred Religion</label><input type="text" id="preferred_religion">
+          </div>
+          <div style="grid-column:1/-1;"><label for="preferred_residence">Preferred Residence</label><input type="text"
+              id="preferred_residence"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn-muted" onclick="resetForm()">Reset</button>
+          <button type="submit" class="btn-primary">Save Preferences</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card" id="existingCard">
+      <h2>Saved Preferences Found</h2>
+      <div class="subtitle">Load or use your already saved preferences.</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn-primary" onclick="useExistingPreferences()">Use Saved</button>
+        <button class="btn-muted" onclick="fillFormFromExisting()">Load into Form</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="priorityOverlay">
+    <div id="priorityPanel">
+      <h2>Set Feature Priorities</h2>
+      <div class="subtitle">Set importance from 1 to 10 for each preference feature.</div>
+      <form id="priorityForm" onsubmit="event.preventDefault(); submitPriorities();">
+        <div class="priority-grid" id="priorityGrid"></div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:24px;">
+          <button type="button" class="btn-muted" onclick="closePriorityPanel()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Priorities & Calculate Matches</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="loadingOverlay">
+    <div id="loadingBox">
+      <div class="spin"></div>
+      <h2 id="loadingTitle" style="font-family:'Playfair Display',serif; color:var(--maroon-dk); font-size:22px;">Loading...</h2>
+      <p style="color:var(--muted); margin-top:4px;">Please wait...</p>
+    </div>
+  </div>
+
+  <script>
+    const userId = "{{ user_id }}";
+    const existingPreferences = {{ preferences| tojson | safe }};
+    const casteList = {{ castes | tojson | safe }};
+    const degreeList = {{ degrees | tojson | safe }};
+    const professionList = {{ professions | tojson | safe }};
+
+    const preferenceKeys = ["preferred_age_min", "preferred_age_max", "preferred_gender", "preferred_education", "preferred_profession", "preferred_caste", "preferred_religion", "preferred_residence", "preferred_height_cm"];
+    const priorityFeatures = [
+      { key: "age", label: "Age" }, { key: "religion", label: "Religion" },
+      { key: "caste", label: "Caste" }, { key: "education", label: "Education" }, { key: "profession", label: "Profession" },
+      { key: "height", label: "Height" }, { key: "residence", label: "Residence" }
+    ];
+    function resetForm(){
+      document.getElementById("preferencesForm").reset();  // clear form
+    }
+    function populateDataLists() {
+      document.getElementById("casteOptions").innerHTML = casteList.map(x => `<option value="${x}">`).join('');
+      document.getElementById("degreeOptions").innerHTML = degreeList.map(x => `<option value="${x}">`).join('');
+      document.getElementById("professionOptions").innerHTML = professionList.map(x => `<option value="${x}">`).join('');
+    }
+    function fillFormFromExisting() {
+      if (!existingPreferences || Object.keys(existingPreferences).length === 0) {
+        alert("No saved preferences found.");
+        return;
+      }
+
+      // --- FIX FOR AGE: split "28 - 29" ---
+      if (existingPreferences.age) {
+        const parts = existingPreferences.age.split("-").map(x => x.trim());
+        document.getElementById("preferred_age_min").value = parts[0] ?? "";
+        document.getElementById("preferred_age_max").value = parts[1] ?? "";
+      }
+
+      // --- Fill the rest normally ---
+      preferenceKeys.forEach(id => {
+        if (id.startsWith("preferred_age")) return; // skip age, already handled
+
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        const key = id.replace("preferred_", "");
+
+        el.value = existingPreferences[id] ?? existingPreferences[key] ?? "";
+      });
+    }
+    function resetToExisting() { fillFormFromExisting(); }
+    function useExistingPreferences() { showLoading("Applying saved preferences..."); setTimeout(() => { hideLoading(); showPriorityChoiceOverlay(); }, 700); }
+    function showPriorityChoiceOverlay() {
+      const box = document.createElement("div"); box.className = "card"; box.style.maxWidth = "420px";
+      box.innerHTML = `<h2>Set Priority?</h2><div class="subtitle">Do you want to assign importance values now?</div><div style="display:flex; gap:10px; justify-content:center;"><button class="btn-primary" id="yes">Yes</button><button class="btn-muted" id="no">Skip</button></div>`;
+      const overlay = document.createElement("div"); overlay.style.position = "fixed"; overlay.style.inset = "0"; overlay.style.background = "rgba(44,33,38,0.55)"; overlay.style.backdropFilter = "blur(4px)"; overlay.style.display = "flex"; overlay.style.justifyContent = "center"; overlay.style.alignItems = "center"; overlay.style.zIndex = "300"; overlay.style.padding = "20px"; overlay.appendChild(box); document.body.appendChild(overlay);
+      box.querySelector("#yes").onclick = () => { overlay.remove(); openPriorityPanel(); };
+      box.querySelector("#no").onclick = () => { overlay.remove(); goNonWeighted(); };
+    }
+    async function submitPreferences() {
+      const formData = {};
+    
+      // ALWAYS include all fields, even if empty
+      preferenceKeys.forEach(id => {
+        const el = document.getElementById(id);
+        formData[id] = (el && el.value !== undefined) ? el.value : "";
+      });
+    
+      showLoading("Saving preferences...");
+    
+      try {
+        await fetch(`/preference/preferences/${userId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+      
+        hideLoading();
+        showPriorityChoiceOverlay();
+      } catch (err) {
+        hideLoading();
+        alert("Error saving preferences");
+      }
+    }
+    function openPriorityPanel() {
+      const g = document.getElementById("priorityGrid"); g.innerHTML = "";
+      priorityFeatures.forEach(f => {
+        const id = `prio_${f.key}`;
+        const item = document.createElement("div"); item.className = "priority-item";
+        item.innerHTML = `
+          <div class="priority-label">${f.label}</div>
+          <div class="slider-wrapper">
+            <span id="${id}_val">5</span>
+            <input type="range" id="${id}" min="1" max="10" value="5">
+          </div>
+          <div class="slider-labels"><span>1</span><span>10</span></div>`;
+        g.appendChild(item);
+        const slider = item.querySelector(`#${id}`);
+        const val = item.querySelector(`#${id}_val`);
+        function updateValue() { val.textContent = slider.value; val.style.left = `calc(${(slider.value - 1) / 9 * 100}% )`; }
+        slider.addEventListener("input", updateValue);
+        updateValue();
+      });
+      document.getElementById("priorityOverlay").style.display = "flex";
+    }
+
+    function closePriorityPanel() { document.getElementById("priorityOverlay").style.display = "none"; }
+    async function submitPriorities() {
+      const p = {}; priorityFeatures.forEach(f => { const el = document.getElementById(`prio_${f.key}`); if (el) p[`${f.key}_priority`] = parseInt(el.value); });
+      closePriorityPanel(); showLoading("Saving priorities...");
+      try {
+        await fetch(`/priority/set-priority/${userId}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) });
+        showLoading("Calculating weighted matches..."); setTimeout(() => window.location.href = `/user/flatmatch-results/${userId}`, 900);
+      } catch { hideLoading(); alert("Error saving priorities"); }
+    }
+
+    function goNonWeighted() { showLoading("Fetching matches..."); setTimeout(() => window.location.href = `/user/flatmatch-results/${userId}`, 700); }
+    function showLoading(msg) { document.getElementById("loadingTitle").textContent = msg; document.getElementById("loadingOverlay").style.display = "flex"; }
+    function hideLoading() { document.getElementById("loadingOverlay").style.display = "none"; }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      populateDataLists();
+      if (existingPreferences && Object.keys(existingPreferences).length > 0) { document.getElementById("existingCard").style.display = "block"; }
+      fillFormFromExisting();
+    });
+  </script>
+</body>
+
+</html>

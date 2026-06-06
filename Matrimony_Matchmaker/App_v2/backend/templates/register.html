@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shubh Vivah · Create Account</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon:#8e1f3d; --maroon-dk:#6f1530; --rose:#d4526e; --rose-soft:#f4c9d2;
+    --gold:#c8a04a; --gold-soft:#e8d9b0; --ink:#2c2126; --muted:#8a7a80;
+    --cream:#fbf6ef; --card:#fffdfa; --line:#ecdfd4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Jost',sans-serif; color:var(--ink); min-height:100vh;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+    background:
+      radial-gradient(1200px 600px at 8% -10%, rgba(212,82,110,.20), transparent 55%),
+      radial-gradient(900px 500px at 110% 10%, rgba(200,160,74,.22), transparent 50%),
+      linear-gradient(160deg,#fbf6ef 0%, #f6e9e0 50%, #f3dfe4 100%);
+    position:relative; overflow:hidden;
+  }
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");}
+  .deco{position:fixed;font-family:'Playfair Display',serif;color:rgba(142,31,61,.07);
+    font-size:24vw;line-height:1;top:50%;left:50%;transform:translate(-50%,-50%);user-select:none;z-index:0}
+  .card{
+    position:relative;z-index:2;width:100%;max-width:430px;background:var(--card);
+    border-radius:22px;padding:46px 40px 38px;border:1px solid var(--line);
+    box-shadow:0 30px 70px -30px rgba(110,21,48,.45), 0 2px 0 rgba(255,255,255,.6) inset;
+    animation:rise .8s cubic-bezier(.2,.7,.2,1) both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  .brandmark{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
+  .brandmark .ring{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 30% 30%,var(--rose),var(--maroon));color:#fff;font-size:20px;
+    box-shadow:0 6px 18px -6px rgba(142,31,61,.7)}
+  h1{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;text-align:center;
+    color:var(--maroon);letter-spacing:.3px}
+  .tag{text-align:center;color:var(--muted);font-size:14px;margin:8px 0 28px;font-weight:300}
+  .field{margin-bottom:16px;animation:rise .8s both}
+  .field:nth-child(1){animation-delay:.08s}.field:nth-child(2){animation-delay:.16s}.field:nth-child(3){animation-delay:.24s}
+  label{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--maroon);
+    font-weight:600;margin-bottom:7px}
+  .ip{position:relative}
+  input{width:100%;padding:14px 15px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;
+    font-family:'Jost',sans-serif;background:#fffdfb;color:var(--ink);transition:.25s}
+  input::placeholder{color:#c3b3ab}
+  input:focus{outline:none;border-color:var(--rose);background:#fff;
+    box-shadow:0 0 0 4px rgba(212,82,110,.14)}
+  button.submit{width:100%;margin-top:10px;padding:15px;border:none;border-radius:12px;cursor:pointer;
+    font-family:'Jost',sans-serif;font-weight:600;font-size:15px;letter-spacing:.05em;color:#fff;
+    background:linear-gradient(135deg,var(--rose),var(--maroon));position:relative;overflow:hidden;
+    box-shadow:0 14px 30px -12px rgba(142,31,61,.8);transition:.25s}
+  button.submit:hover{transform:translateY(-2px);box-shadow:0 20px 38px -14px rgba(142,31,61,.85)}
+  button.submit:active{transform:translateY(0)}
+  button.submit:disabled{opacity:.6;cursor:wait}
+  .rule{display:flex;align-items:center;gap:12px;margin:24px 0 6px;color:#cdbdb4;font-size:12px}
+  .rule::before,.rule::after{content:"";height:1px;flex:1;background:var(--line)}
+  .note{text-align:center;font-size:14px;color:var(--muted);margin-top:14px}
+  .note a{color:var(--maroon);font-weight:600;text-decoration:none}
+  .note a:hover{color:var(--rose)}
+  .msg{margin-top:18px;padding:13px 15px;border-radius:12px;font-size:14px;display:none;line-height:1.5}
+  .msg.success{background:#eefaf0;color:#1d7a3a;border:1px solid #b8e6c4}
+  .msg.error{background:#fdeef0;color:#a8243b;border:1px solid #f3c5cd}
+  .loading{display:none;text-align:center;color:var(--muted);font-size:14px;margin-top:14px}
+  .dots{display:inline-block;width:16px;text-align:left}
+</style>
+</head>
+<body>
+  <div class="deco">॥</div>
+  <div class="card">
+    <div class="brandmark"><span class="ring">❦</span></div>
+    <h1>Shubh Vivah</h1>
+    <p class="tag">Begin a journey toward your perfect match</p>
+
+    <form id="registerForm" autocomplete="on">
+      <div class="field">
+        <label for="email">Email Address</label>
+        <div class="ip"><input type="email" id="email" placeholder="you@example.com" required></div>
+      </div>
+      <div class="field">
+        <label for="phone">Phone Number</label>
+        <div class="ip"><input type="tel" id="phone" placeholder="+91 98765 43210" pattern="[0-9+\- ]{7,20}"></div>
+      </div>
+      <div class="field">
+        <label for="password">Create Password</label>
+        <div class="ip"><input type="password" id="password" placeholder="Minimum 6 characters" minlength="6" required></div>
+      </div>
+      <button type="submit" class="submit" id="btn">Create My Account</button>
+    </form>
+
+    <div class="loading" id="loading">Creating your account<span class="dots"></span></div>
+    <div class="msg" id="msg"></div>
+
+    <div class="rule">already with us?</div>
+    <p class="note">Have an account? <a href="{{ url_for('user.loginPage') }}">Sign in</a></p>
+  </div>
+
+<script>
+  const form=document.getElementById('registerForm'),loading=document.getElementById('loading'),
+        msg=document.getElementById('msg'),btn=document.getElementById('btn');
+  let di=0; setInterval(()=>{di=(di+1)%4;document.querySelectorAll('.dots').forEach(d=>d.textContent='.'.repeat(di))},350);
+
+  form.addEventListener('submit',async e=>{
+    e.preventDefault(); msg.style.display='none'; loading.style.display='block'; btn.disabled=true;
+    const email=document.getElementById('email').value.trim();
+    const phone=document.getElementById('phone').value.trim();
+    const password=document.getElementById('password').value.trim();
+    try{
+      const res=await fetch('/user/register',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({email,phone,password})});
+      const r=await res.json(); loading.style.display='none'; btn.disabled=false; msg.style.display='block';
+      if(res.status===201){
+        msg.className='msg success';
+        msg.innerHTML=`✅ ${r.message}<br><br><b>Your User ID:</b> ${r.user_id}<br>Redirecting to sign in…`;
+        form.reset();
+        setTimeout(()=>window.location.href="{{ url_for('user.loginPage') }}",1800);
+      }else{ msg.className='msg error'; msg.textContent=r.error||'Something went wrong.'; }
+    }catch(err){ loading.style.display='none'; btn.disabled=false; msg.style.display='block';
+      msg.className='msg error'; msg.textContent='Server error. Please try again later.'; }
+  });
+</script>
+</body>
+</html>

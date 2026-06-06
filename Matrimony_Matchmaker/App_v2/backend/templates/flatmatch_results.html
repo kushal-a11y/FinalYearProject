@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Matches · Shubh Vivah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--maroon:#8e1f3d;--maroon-dk:#6f1530;--rose:#d4526e;--rose-soft:#f7dde2;--gold:#c8a04a;
+      --ink:#2c2126;--muted:#8a7a80;--cream:#fbf6ef;--card:#fffdfa;--line:#ecdfd4;--success:#1d7a3a;--tr:.25s ease}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Jost',sans-serif;background:
+      radial-gradient(900px 500px at 100% -5%,rgba(200,160,74,.14),transparent 55%),
+      linear-gradient(160deg,#fbf6ef,#f6ece6);color:var(--ink);min-height:100vh}
+    header{position:sticky;top:0;z-index:10;color:#fff;padding:22px 0;
+      background:linear-gradient(120deg,var(--maroon),var(--maroon-dk));box-shadow:0 8px 26px -12px rgba(110,21,48,.7)}
+    .hc{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center}
+    .ht{display:flex;align-items:center;gap:12px}
+    .ht h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:700}
+    .ht .em{font-size:26px}
+    .ui{font-size:14px;opacity:.95}
+    .ui a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.4);padding:7px 14px;border-radius:99px;margin-left:12px;transition:var(--tr)}
+    .ui a:hover{background:rgba(255,255,255,.16)}
+    .container{max-width:1180px;margin:0 auto;padding:38px 24px 60px}
+    .section-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--maroon);margin-bottom:22px;text-align:center}
+    .matches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+    .match-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;
+      box-shadow:0 18px 44px -32px rgba(110,21,48,.5);transition:var(--tr);animation:rise .6s both}
+    .match-card:hover{transform:translateY(-5px);box-shadow:0 26px 54px -30px rgba(110,21,48,.55);border-color:var(--rose-soft)}
+    @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    .card-content{padding:22px}
+    .avatar{width:60px;height:60px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--rose),var(--maroon));
+      color:#fff;display:grid;place-items:center;font-family:'Playfair Display',serif;font-size:24px;overflow:hidden;
+      box-shadow:0 8px 18px -10px rgba(142,31,61,.7)}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .candidate-info h3{font-family:'Playfair Display',serif;font-size:19px;color:var(--ink);display:flex;align-items:center;gap:6px}
+    .candidate-info .vt{color:var(--success);font-size:14px}
+    .candidate-info p{font-size:13.5px;color:var(--muted);margin-top:2px}
+    .metrics-section{display:flex;gap:10px;margin:18px 0}
+    .metric{flex:1;text-align:center;background:#fff7f3;border:1px solid var(--line);border-radius:14px;padding:12px 4px}
+    .metric.mutual{background:linear-gradient(135deg,#fdeef1,#f9e2d6);border-color:var(--rose-soft)}
+    .metric-label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+    .metric-value{font-family:'Playfair Display',serif;font-size:20px;color:var(--maroon);margin-top:3px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{flex:1;min-width:0;padding:11px 8px;border:none;border-radius:11px;cursor:pointer;font-family:'Jost';font-weight:600;font-size:13px;transition:var(--tr);white-space:nowrap}
+    .btn-outline{background:#fff;border:1.5px solid var(--line);color:var(--maroon)}
+    .btn-outline:hover{border-color:var(--rose);background:#fff7f3}
+    .btn-predict{background:linear-gradient(135deg,var(--gold),#a9842f);color:#fff}
+    .btn-chat{background:linear-gradient(135deg,var(--rose),var(--maroon));color:#fff;flex:0 0 auto;padding:11px 16px}
+    .btn:hover{transform:translateY(-1px)}
+    .loading-state{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 0;font-size:15px}
+    /* modal */
+    .modal{display:none;position:fixed;inset:0;background:rgba(44,33,38,.55);backdrop-filter:blur(5px);z-index:1000;
+      align-items:center;justify-content:center;padding:20px}
+    .modal.active{display:flex}
+    .modal-content{background:#fff;border-radius:22px;width:100%;max-width:560px;max-height:86vh;overflow-y:auto;
+      box-shadow:0 30px 80px -30px rgba(0,0,0,.45);animation:rise .35s both}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;padding:22px 26px;border-bottom:1px solid var(--line)}
+    .modal-header h2{font-family:'Playfair Display',serif;color:var(--maroon);font-size:22px}
+    .modal-close{background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer}
+    .modal-close:hover{color:var(--maroon)}
+    .modal-body{padding:24px 26px;display:grid;gap:18px}
+    .profile-card{background:#fdf8f4;border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+    .profile-card h3{font-family:'Playfair Display',serif;font-size:16px;color:var(--maroon);margin-bottom:12px}
+    .profile-item{margin-bottom:10px}
+    .profile-item label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;display:block}
+    .profile-item p{font-size:14.5px;margin-top:2px}
+    @media(max-width:560px){.hc{flex-direction:column;gap:10px}.ui a{margin:0 4px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hc">
+      <div class="ht"><span class="em">❦</span><h1>Your Matches</h1></div>
+      <div class="ui">Welcome back, <strong id="currentUserName">User</strong>
+        <a href="/messages/chat/{{ user_id }}">💬 Messages</a>
+        <a href="/user/dashboard/{{ user_id }}">Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="section-title">Top Compatible Profiles</div>
+    <div class="matches-grid" id="matchesContainer"><div class="loading-state">Finding your best matches…</div></div>
+  </div>
+
+  <div class="modal" id="detailsModal">
+    <div class="modal-content">
+      <div class="modal-header"><h2 id="modalTitle">Profile</h2><button class="modal-close" onclick="closeModal()">✕</button></div>
+      <div class="modal-body">
+        <div class="profile-card"><h3>Profile Information</h3><div id="profileDetails"></div></div>
+        <div class="profile-card"><h3>Their Preferences</h3><div id="preferenceDetails"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="predictionModal">
+    <div class="modal-content">
+      <div class="modal-header"><h2>Long-Term Compatibility</h2><button class="modal-close" onclick="closePredictionModal()">✕</button></div>
+      <div class="modal-body"><div class="profile-card" id="predictionResult">Loading prediction…</div></div>
+    </div>
+  </div>
+
+<script>
+  const userId="{{ user_id }}";
+  async function loadCurrentUser(){
+    try{const res=await fetch(`/user/profile/${userId}`);const d=await res.json();
+      document.getElementById("currentUserName").textContent=d.name||"User";}catch(e){}
+  }
+  loadCurrentUser();
+
+  function avatarHTML(p){return p.image_url?`<img src="${p.image_url}">`:((p.name||'U').charAt(0).toUpperCase());}
+
+  async function fetchMatches(){
+    const container=document.getElementById("matchesContainer");
+    let data;
+    try{const res=await fetch(`/user/flat-match/${userId}`);data=await res.json();}
+    catch(e){container.innerHTML='<div class="loading-state">Could not load matches.</div>';return;}
+    if(!data.matches||!data.matches.length){container.innerHTML='<div class="loading-state">No matches yet — try adjusting your preferences.</div>';return;}
+    container.innerHTML="";
+    for(const m of data.matches){
+      let profile={};
+      try{profile=await (await fetch(`/user/profile/${m.candidate_id}`)).json();}catch(e){}
+      const age=profile.age||"-",profession=profile.profession||"-",location=profile.residence||"-";
+      const yourMatch=Math.round(m.seeker_to_candidate),theirMatch=Math.round(m.candidate_to_seeker);
+      const mutualMatch=Math.round((yourMatch+theirMatch)/2);
+      const nm=(profile.name||m.candidate_name||`User ${m.candidate_id}`);
+      const card=document.createElement("div");card.className="match-card";
+      card.innerHTML=`
+        <div class="card-content">
+          <div style="display:flex;gap:14px;align-items:center">
+            <div class="avatar">${avatarHTML(profile)}</div>
+            <div class="candidate-info">
+              <h3>${nm}${profile.verified?'<span class="vt" title="Verified">🛡️</span>':''}</h3>
+              <p>${age} yrs &middot; ${profession}</p>
+              <p>📍 ${location}</p>
+            </div>
+          </div>
+          <div class="metrics-section">
+            <div class="metric"><div class="metric-label">Your Match</div><div class="metric-value">${yourMatch}/6</div></div>
+            <div class="metric"><div class="metric-label">Their Match</div><div class="metric-value">${theirMatch}/6</div></div>
+            <div class="metric mutual"><div class="metric-label">Mutual</div><div class="metric-value">${mutualMatch}/6</div></div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-outline" onclick="openModal('${m.candidate_id}','${nm.replace(/'/g,'')}')">Details</button>
+            <button class="btn btn-predict" onclick="predictOutcome('${userId}','${m.candidate_id}')">Predict</button>
+            <button class="btn btn-chat" onclick="chatWith('${m.candidate_id}')">💬 Chat</button>
+          </div>
+        </div>`;
+      container.appendChild(card);
+    }
+  }
+  fetchMatches();
+
+  function chatWith(pid){window.location.href=`/messages/chat/${userId}?with=${pid}`;}
+
+  async function openModal(candidateId,name){
+    const modal=document.getElementById("detailsModal");modal.classList.add("active");
+    document.getElementById("modalTitle").textContent=`${name}'s Profile`;
+    document.getElementById("profileDetails").innerHTML="Loading…";
+    document.getElementById("preferenceDetails").innerHTML="Loading…";
+    const [pr,prefr]=await Promise.all([fetch(`/user/profile/${candidateId}`),fetch(`/preference/preferences/json/${candidateId}`)]);
+    const profile=await pr.json();const pref=await prefr.json();
+    document.getElementById("modalTitle").textContent=`${profile.name||('User '+profile.user_id)}'s Profile`;
+    document.getElementById("profileDetails").innerHTML=`
+      <div class="profile-item"><label>Name</label><p>${profile.name||profile.user_id}${profile.verified?' 🛡️':''}</p></div>
+      <div class="profile-item"><label>Age</label><p>${profile.age||"N/A"} years</p></div>
+      <div class="profile-item"><label>Profession</label><p>${profile.profession||"N/A"}</p></div>
+      <div class="profile-item"><label>Education</label><p>${profile.education||"N/A"}</p></div>
+      <div class="profile-item"><label>Religion</label><p>${profile.religion||"N/A"}</p></div>
+      <div class="profile-item"><label>Residence</label><p>${profile.residence||"N/A"}</p></div>`;
+    document.getElementById("preferenceDetails").innerHTML=`
+      <div class="profile-item"><label>Age Preference</label><p>${pref.age||"N/A"}</p></div>
+      <div class="profile-item"><label>Education</label><p>${pref.education||"N/A"}</p></div>
+      <div class="profile-item"><label>Profession</label><p>${pref.profession||"N/A"}</p></div>
+      <div class="profile-item"><label>Religion</label><p>${pref.religion||"N/A"}</p></div>
+      <div class="profile-item"><label>Residence</label><p>${pref.residence||"N/A"}</p></div>`;
+  }
+  function closeModal(){document.getElementById("detailsModal").classList.remove("active");}
+
+  async function predictOutcome(maleId,femaleId){
+    const modal=document.getElementById("predictionModal");
+    document.getElementById("detailsModal").classList.remove("active");
+    modal.classList.add("active");
+    const box=document.getElementById("predictionResult");box.innerHTML="Predicting compatibility…";
+    try{
+      const res=await fetch("/user/predict-match",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({male_id:maleId,female_id:femaleId})});
+      const data=await res.json();
+      if(data.error){box.innerHTML=`<p>${data.error}</p>`;return;}
+      box.innerHTML=`
+        <div class="profile-item"><label>Male</label><p>${data.male_profile}</p></div>
+        <div class="profile-item"><label>Female</label><p>${data.female_profile}</p></div>
+        <div class="profile-item"><label>Prediction</label><p><strong>${data.prediction_result}</strong></p></div>
+        <div class="profile-item"><label>Stability Probability</label><p>${data.stability_probability}</p></div>
+        <div class="profile-item"><label>Risk Probability</label><p>${data.risk_probability}</p></div>`;
+    }catch(e){box.innerHTML="Prediction failed. Please try again.";}
+  }
+  function closePredictionModal(){document.getElementById("predictionModal").classList.remove("active");}
+
+  window.onclick=function(e){
+    if(e.target===document.getElementById("detailsModal"))closeModal();
+    if(e.target===document.getElementById("predictionModal"))closePredictionModal();
+  };
+</script>
+</body>
+</html>
