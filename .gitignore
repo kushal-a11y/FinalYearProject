@@ -1,5 +1,4 @@
 # Ignore model files
-*.pkl
 *.cbm
 *.joblib
 *.h5
