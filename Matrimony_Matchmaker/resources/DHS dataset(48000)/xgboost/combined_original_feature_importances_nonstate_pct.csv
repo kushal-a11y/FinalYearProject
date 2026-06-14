@@ -1,0 +1,13 @@
+Original_Feature,Total_Importance,importance_pct
+Wife's Religion,0.0707467,20.308
+Husband Religion,0.053950913,15.486
+Wife's_occupation_(grouped),0.05111494,14.672
+Husband Occupation_(grouped),0.050261997,14.428
+Husband's Education Level,0.027417552,7.87
+Wife's Education Level,0.025714919,7.381
+Husband Ethnicity,0.02306294,6.62
+Wife's Ethnicity,0.019355007,5.556
+residence,0.007209661,2.07
+Wife's_current_age,0.006676792,1.917
+Wife's height(centimeters),0.0066178753,1.9
+Husband_age,0.0062457,1.793

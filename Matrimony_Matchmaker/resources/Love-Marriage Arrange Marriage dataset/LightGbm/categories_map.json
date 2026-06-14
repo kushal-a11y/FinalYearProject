@@ -1,0 +1,1 @@
+{"Gender": ["Female", "Male"], "Education_Level": ["Graduate", "PhD", "Postgraduate", "School"], "Caste_Match": ["Different", "Same"], "Religion": ["Christian", "Hindu", "Muslim", "Others", "Sikh"], "Urban_Rural": ["Rural", "Urban"], "Income_Level": ["High", "Low", "Middle"], "Spouse_Working": ["No", "Yes"], "Inter-Caste": ["No", "Yes"], "Inter-Religion": ["No", "Yes"]}
