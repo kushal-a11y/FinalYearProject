@@ -1,6 +1,3 @@
-# Ignore model files
-*.cbm
-*.joblib
 *.h5
 *.pt
 *.zip
