@@ -380,29 +380,9 @@
       <p>Tell us who you're looking for — we'll find the rest</p>
     </div>
 
-    <!-- ============ NEW: describe-in-words (NLP) option ============ -->
-    <div class="card" id="nlpCard">
-      <h2>Describe Your Ideal Partner</h2>
-      <div class="subtitle">
-        Prefer to just say it in words? Type a short description and we'll read it and
-        fill in the filters below for you. You can still edit anything before saving —
-        or skip this and use the filters directly.
-      </div>
-      <label for="nlpText">In your own words</label>
-      <textarea id="nlpText" rows="3"
-        placeholder="e.g. Looking for a Hindu girl between 25 and 29, a software engineer based in Kolkata, at least 160 cm tall."
-        style="width:100%; padding:13px 15px; border:1.5px solid var(--line); border-radius:12px; background:#fffdfb; font-family:'Jost',sans-serif; font-size:14.5px; color:var(--ink); resize:vertical;"></textarea>
-      <div id="nlpStatus" style="font-size:12.5px; color:var(--muted); margin-top:8px; min-height:16px;"></div>
-      <div class="actions">
-        <button type="button" class="btn-muted" onclick="document.getElementById('nlpText').value=''; document.getElementById('nlpStatus').textContent='';">Clear</button>
-        <button type="button" class="btn-primary" onclick="parseFromText()">✨ Auto-fill from description</button>
-      </div>
-    </div>
-    <!-- ============ /NEW ============ -->
-
     <div class="card">
       <h2>Set Your Preferences</h2>
-      <div class="subtitle">Fill partner preferences in one page, or auto-fill them from the description above. After saving, you can assign importance values (1–10).
+      <div class="subtitle">Fill partner preferences in one page. After saving, you can assign importance values (1–10).
       </div>
       <form id="preferencesForm" onsubmit="event.preventDefault(); submitPreferences();">
         <div class="grid-2">
@@ -486,48 +466,6 @@
     function resetForm(){
       document.getElementById("preferencesForm").reset();  // clear form
     }
-
-    // ---- NEW: parse a free-text description via the NLP module and fill the form ----
-    async function parseFromText() {
-      const text = (document.getElementById("nlpText").value || "").trim();
-      const status = document.getElementById("nlpStatus");
-      if (!text) { status.textContent = "Please type a short description first."; return; }
-
-      status.textContent = "Reading your description…";
-      try {
-        const res = await fetch(`/nlp/parse/${userId}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text })
-        });
-        const data = await res.json();
-        if (!res.ok) { status.textContent = data.error || "Could not analyse the text."; return; }
-
-        const meta = data._nlp || {};
-        const filled = [];
-        // fill only the fields the parser was confident about; leave the rest as-is
-        preferenceKeys.forEach(id => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          const val = data[id];
-          if (val !== undefined && val !== null && String(val).trim() !== "") {
-            el.value = val;
-            const lbl = id.replace("preferred_", "").replace("_", " ");
-            filled.push(lbl);
-          }
-        });
-
-        status.textContent = filled.length
-          ? `Filled: ${filled.join(", ")}  ·  engine: ${meta.engine || "regex"}. Review and edit, then Save.`
-          : "Couldn't confidently extract anything — please use the filters below.";
-
-        // bring the form into view so the user can review
-        document.getElementById("preferencesForm").scrollIntoView({ behavior: "smooth", block: "start" });
-      } catch (err) {
-        status.textContent = "Network error while analysing the text.";
-      }
-    }
-    // ---- /NEW ----
     function populateDataLists() {
       document.getElementById("casteOptions").innerHTML = casteList.map(x => `<option value="${x}">`).join('');
       document.getElementById("degreeOptions").innerHTML = degreeList.map(x => `<option value="${x}">`).join('');

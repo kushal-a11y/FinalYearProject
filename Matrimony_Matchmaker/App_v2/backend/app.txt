@@ -11,35 +11,11 @@ from services.data_insertion import insert_user_profiles, insert_preference_prof
 from routes.user_routes import user_bp, priority_bp
 from routes.preference_routes import preference_bp
 from routes.chat_routes import chat_bp
-from routes.nlp_routes import nlp_bp                     # <-- NEW (NLP module)
 
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(priority_bp, url_prefix="/priority")
 app.register_blueprint(preference_bp, url_prefix='/preference')
 app.register_blueprint(chat_bp, url_prefix='/messages')
-app.register_blueprint(nlp_bp, url_prefix='/nlp')        # <-- NEW (NLP module)
-
-
-# ---------------------------------------------------------------------------
-# NEW: inject the global modern light/dark theme into every HTML page.
-# This adds one <script> tag before </body> at response time, so NO template
-# file has to be edited and no page logic changes.  static/theme.js does the
-# rest (re-defines the shared CSS variables + adds a floating toggle button).
-# ---------------------------------------------------------------------------
-@app.after_request
-def inject_theme_assets(response):
-    try:
-        ctype = response.content_type or ""
-        if ctype.startswith("text/html") and response.direct_passthrough is False:
-            html = response.get_data(as_text=True)
-            if "</body>" in html and "/static/theme.js" not in html:
-                tag = '<script src="/static/theme.js"></script>'
-                html = html.replace("</body>", tag + "</body>", 1)
-                response.set_data(html)
-    except Exception:
-        # never let theming break a page
-        pass
-    return response
 
 
 @app.route('/')
